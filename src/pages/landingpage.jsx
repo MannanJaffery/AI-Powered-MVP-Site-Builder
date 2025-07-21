@@ -82,7 +82,7 @@ return (
 </span>
 
 
-<Button text='Get Started for Free' color = 'bg-purple-800'/>
+<Button text='Get Started for Free' color = 'bg-purple-800' bgcolor_border='bg-purple-100 border-purple-200'/>
 
     </div>
   </div>
