@@ -12,7 +12,7 @@ import Footer from '../components/footer';
 
 
 //animations
-import { animate_main_heading , animateImageEntrance } from '../animations/Landing_animations';
+import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2} from '../animations/Landing_animations';
 
 
 const faqs = [
@@ -72,7 +72,6 @@ const testimonials = [
 
 
 
-
 const LandingPage = () => {
 
 const [openIndex, setOpenIndex] = useState(null);
@@ -84,7 +83,9 @@ const imageref = useRef(null);
     setOpenIndex(openIndex === index ? null : index);
   };
 
+
 let index = 0;
+
 
 useEffect(()=>{
     
@@ -95,13 +96,13 @@ useEffect(()=>{
             changer.textContent = main_heading_words[index];
             animate_main_heading(changer);
         }
-
     },2000)
-return () => clearInterval(interval);   
+
+    animate_scroll_section1(".section1");
+    animate_scroll_section2(".section2");
+return () => clearInterval(interval); 
 
 },[])    
-
-
 
 
 
@@ -173,7 +174,7 @@ return (
 
 
   {/* More Content */}
-<section className="max-w-7xl mx-auto px-4 py-16 bg-[#F4F4F8]">
+<section className="section1 max-w-7xl mx-auto px-4 py-16 bg-[#F4F4F8]">
   <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
     Build Smarter. Launch Faster.
   </h2>
@@ -252,7 +253,7 @@ return (
 </section>
 
 
-    <section className="w-full bg-gray-50 py-16 px-6 md:px-20">
+    <section className="section2 w-full bg-gray-50 py-16 px-6 md:px-20 overflow-x-hidden">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
           Why Use MVP Builder?

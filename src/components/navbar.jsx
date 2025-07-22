@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; 
 
+import gsap from "gsap";
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -69,13 +71,7 @@ const Navbar = () => {
               </li>
             ))}
             <li>
-              <a
-                href="#start"
-                onClick={() => setMenuOpen(false)}
-                className="block mt-2 px-4 py-2 bg-blue-600 text-white text-center rounded-xl hover:bg-blue-700 transition"
-              >
-                Start Building
-              </a>
+            <a href="#login" className="font-bold text-black">Login</a>
             </li>
           </ul>
         </div>
