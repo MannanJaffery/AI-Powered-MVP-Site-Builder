@@ -7,12 +7,12 @@ import {LayoutDashboard,CreditCard,Paintbrush,Smartphone,Rocket,
   Hammer , UserCheck , Clock , TrendingUp} from "lucide-react";
 import Button from '../components/button';
 
-import { useEffect ,useState } from 'react';
+import { useEffect ,useState , useRef } from 'react';
 import Footer from '../components/footer';
 
 
 //animations
-import { animate_main_heading } from '../animations/Landing_animations';
+import { animate_main_heading , animateImageEntrance } from '../animations/Landing_animations';
 
 
 const faqs = [
@@ -77,7 +77,7 @@ const LandingPage = () => {
 
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
-
+const imageref = useRef(null);
 
 
   const toggle = (index) => {
@@ -85,6 +85,7 @@ const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
   };
 
 let index = 0;
+
 useEffect(()=>{
     
     const interval = setInterval(()=>{
@@ -99,6 +100,10 @@ useEffect(()=>{
 return () => clearInterval(interval);   
 
 },[])    
+
+
+
+
 
 
 return (
@@ -118,31 +123,37 @@ return (
   />
 
   {/* Landing Image */}
-  <img
-    src={landingImage}
-    alt="Landing"
-    className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[55%] sm:max-w-[65%]"
-  />
 
 
-<div className="flex flex-wrap gap-2 justify-center">
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md border border-green-200 bg-green-50 text-green-500 text-sm font-medium">
+<div className='flex flex-col'>  
+<img
+  src={landingImage}
+  ref={imageref}
+  onLoad={() => animateImageEntrance(imageref)}
+  alt="Landing"
+  className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[55%] sm:max-w-[65%]"
+/>
+<div className="flex flex-wrap gap-2 justify-center z-10">
+      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-green-200 bg-green-50 text-green-500 text-sm font-medium">
         <Smartphone size={14} />
         LandingPage
       </span>
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md border border-purple-200 bg-purple-50 text-purple-500 text-sm font-medium">
+      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-purple-200 bg-purple-50 text-purple-500 text-sm font-medium">
         <CreditCard size={14} />
         Stripe Integration
       </span>
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md border border-red-200 bg-red-50 text-red-500 text-sm font-medium">
+      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-red-200 bg-red-50 text-red-500 text-sm font-medium">
         <Paintbrush size={14} />
         Modern Design
       </span>
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md border border-cyan-200 bg-cyan-50 text-cyan-500 text-sm font-medium">
+      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-cyan-200 bg-cyan-50 text-cyan-500 text-sm font-medium">
         <LayoutDashboard size={14} />
         Dashboard
       </span>
-    </div>
+</div>
+
+</div>
+
 
 
     {/* Heading & Text */}
@@ -171,6 +182,7 @@ return (
   </p>
 
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
     {/* Feature 1 */}
     <div className="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-md transition">
       <div className="text-blue-600 mb-4">
