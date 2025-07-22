@@ -108,7 +108,27 @@ export const animate_scroll_section2 = (targetSelector)=>{
         start: "top 80%",
         end: "top 20%",
         toggleActions: "play none none reverse",
-        markers: false, // set to true for debug
+        markers: false,
+      },
+    }
+  );
+}
+
+export const animate_scroll_section3 = (targetSelector)=>{
+      gsap.fromTo(
+    targetSelector,
+    { opacity: 0, x: -100 },
+    {
+      opacity: 1,
+      x: 0,
+      duration: 3,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: targetSelector,
+        start: "top 80%",
+        end: "top 20%",
+        toggleActions: "play none none reverse",
+        markers: false,
       },
     }
   );
