@@ -272,7 +272,7 @@ return (
 </section>
 
 
-    <section className="section2 w-full bg-[#F4F4F8] py-16 px-6 md:px-20 overflow-x-hidden">
+    <section className="section2 w-full bg-[#F4F4F8] py-16 px-6 md:px-20 ">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
           Why Use MVP Builder?
