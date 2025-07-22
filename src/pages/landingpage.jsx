@@ -10,6 +10,11 @@ import Button from '../components/button';
 import { useEffect ,useState } from 'react';
 import Footer from '../components/footer';
 
+
+//animations
+import { animate_main_heading } from '../animations/Landing_animations';
+
+
 const faqs = [
   {
     question: "What is an MVP?",
@@ -87,6 +92,7 @@ useEffect(()=>{
         const changer = document.getElementById('changer');
         if(changer){
             changer.textContent = main_heading_words[index];
+            animate_main_heading(changer);
         }
 
     },2000)
@@ -98,26 +104,25 @@ return () => clearInterval(interval);
 return (
 <>
   {/* Navbar */}
-  <div className="z-10 relative w-full bg-white">
-    <Navbar />
-  </div>
+<div className="z-10 relative w-full bg-white">
+  <Navbar />
+</div>
 
-  {/* Hero Section with background */}
-  <div className="relative h-fit z-0">
-    {/* Background SVG */}
 
-    <img
-      className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0"
-      src="https://static.typecdn.com/df8f99cf-82fd-423b-b55b-ba08cb042d95/2TpEkhn3WnmoSQiUAYXU4B6b927_dot-grid.svg"
-      alt="background"
-    />
+  <div className="relative z-0 w-full pt-24"> {/* Use padding instead of margin! */}
+  {/* Background SVG */}
+  <img
+    className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0 bg-[#F4F4F8]"
+    src="https://static.typecdn.com/df8f99cf-82fd-423b-b55b-ba08cb042d95/2TpEkhn3WnmoSQiUAYXU4B6b927_dot-grid.svg"
+    alt="background"
+  />
 
-    {/* Landing Image */}
-<img
-  src={landingImage}
-  alt="Landing Image"
-  className="relative z-10 mx-auto mt-16 sm:mt-20 md:mt-24 lg:mt-12 max-w-[80%] h-auto md:max-w-[75%] sm:max-w-[55%]"
-/>
+  {/* Landing Image */}
+  <img
+    src={landingImage}
+    alt="Landing"
+    className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[55%] sm:max-w-[65%]"
+  />
 
 
 <div className="flex flex-wrap gap-2 justify-center">
@@ -142,7 +147,7 @@ return (
 
     {/* Heading & Text */}
     <div className="relative z-10 p-8 text-center">
-      <h1 className="text-5xl font-bold">Build your next <span id = 'changer' class=' text-purple-900'>MVP</span> today, not someday</h1> 
+      <h1 className="text-5xl font-bold relative">Build your next <span id = 'changer' className=' text-purple-900 relative inline-block will-change-transform'>MVP</span> today, not someday</h1> 
 <span className="text-2xl sm:text-3xl md:text-5xl font-semibold mt-6 block opacity-30 px-4 text-center">
 
 
@@ -157,7 +162,7 @@ return (
 
 
   {/* More Content */}
-<section className="max-w-7xl mx-auto px-4 py-16">
+<section className="max-w-7xl mx-auto px-4 py-16 bg-[#F4F4F8]">
   <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
     Build Smarter. Launch Faster.
   </h2>
@@ -235,7 +240,7 @@ return (
 </section>
 
 
-    <section className="w-full bg-white py-16 px-6 md:px-20">
+    <section className="w-full bg-gray-50 py-16 px-6 md:px-20">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
           Why Use MVP Builder?
@@ -289,7 +294,7 @@ return (
     </section>
 
 
-        <section className="w-full py-16 px-6 md:px-20">
+        <section className="w-full py-16 px-6 md:px-20 bg-slate-100">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12">
           Frequently Asked Questions
@@ -356,6 +361,95 @@ return (
         </div>
       </div>
     </section>
+
+
+
+<section id="payment" className="w-full bg-blue-50 py-24 px-6">
+  <div className="max-w-5xl mx-auto text-center">
+    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      Choose Your Plan
+    </h2>
+    <p className="text-gray-600 text-lg mb-12">
+      Get started for free — upgrade anytime. No hidden fees. Cancel anytime.
+    </p>
+
+    <div className="grid md:grid-cols-4 gap-6">
+      
+      {/* Free Demo Plan */}
+      <div className="border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+        <div>
+          <span className="text-sm font-semibold text-gray-500 uppercase">Free Demo</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">Free</h3>
+          <p className="text-gray-500 mb-6 text-sm">
+            Sign up once and explore the platform. No analytics collected.
+          </p>
+        </div>
+        <a
+          href="#"
+          className="block w-full mt-auto text-blue-600 font-semibold hover:underline"
+        >
+          Try the Demo →
+        </a>
+      </div>
+
+      {/* Free Forever Plan */}
+      <div className="border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+        <div>
+          <span className="text-sm font-semibold text-gray-500 uppercase">Free Tier</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$0</h3>
+          <p className="text-gray-500 mb-6 text-sm">
+            Limited features · No credit card required.
+          </p>
+        </div>
+        <a
+          href="#"
+          className="block w-full mt-auto text-blue-600 font-semibold hover:underline"
+        >
+          Start Free →
+        </a>
+      </div>
+
+      {/* Monthly Plan */}
+      <div className="border border-gray-200 rounded-2xl p-8 shadow-lg flex flex-col justify-between">
+        <div>
+          <span className="text-sm font-semibold text-blue-500 uppercase">Standard</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$10/mo</h3>
+          <p className="text-gray-500 mb-6 text-sm">
+            All core features + future updates.
+          </p>
+        </div>
+        <a
+          href="#"
+          className="block w-full mt-auto bg-blue-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-blue-700 transition"
+        >
+          Subscribe Monthly
+        </a>
+      </div>
+
+      {/* Lifetime Deal */}
+      <div className="relative border border-blue-200 rounded-2xl p-8 shadow-xl bg-blue-50 flex flex-col justify-between">
+        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-wide shadow-md">
+          Most Popular
+        </span>
+        <div>
+          <span className="text-sm font-semibold text-blue-500 uppercase">Lifetime Access</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$49</h3>
+          <p className="text-gray-500 mb-6 text-sm">
+            Pay once, access forever. Includes all future updates.
+          </p>
+        </div>
+        
+        <a
+          href="#"
+          className="block w-full mt-auto bg-blue-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-blue-700 transition"
+        >
+          Get Lifetime Deal
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
 
     <Footer />
 

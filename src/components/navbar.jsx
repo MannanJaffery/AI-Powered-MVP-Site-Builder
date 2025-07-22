@@ -16,7 +16,8 @@ const Navbar = () => {
 
   return (
 
-    <nav className="w-full z-50 fixed top-0 left-0 shadow-sm bg-white">
+    <nav className="w-full z-50 fixed top-0 left-0 bg-white/80 backdrop-blur-md border-b  shadow-sm">
+
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
         {/* Logo */}
         <a href="/" className="text-2xl font-bold">
@@ -36,12 +37,12 @@ const Navbar = () => {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <a
-            href="#start"
-            className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition"
-          >
-            Start Building
-          </a>
+<a
+  href="#start"
+  className="px-4 py-2 rounded-xl text-sm bg-gray-50 font-semibold text-gray-700 hover:bg-gray-100 transition-colors"
+>
+  Login
+</a>
         </div>
 
         {/* Mobile Menu Button */}
