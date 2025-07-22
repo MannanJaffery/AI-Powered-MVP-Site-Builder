@@ -1,10 +1,15 @@
 
+//https://mvp-go-seven.vercel.app/
+
+
+
+
 import landingImage from '../assets/images/landing.png';
 import Navbar from '../components/navbar';
 
 import {LayoutDashboard,CreditCard,Paintbrush,Smartphone,Rocket,
   Brush,ShieldCheck,ChevronDown,
-  Hammer , UserCheck , Clock , TrendingUp} from "lucide-react";
+  Hammer , UserCheck , Clock , TrendingUp , HelpCircle , Star} from "lucide-react";
 import Button from '../components/button';
 
 import { useEffect ,useState , useRef } from 'react';
@@ -12,45 +17,51 @@ import Footer from '../components/footer';
 
 
 //animations
-import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2} from '../animations/Landing_animations';
-
+import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
 
 const faqs = [
   {
-    question: "What is an MVP?",
+    question: "What exactly does this platform do?",
     answer:
-      "MVP stands for Minimum Viable Product — the simplest version of your product that helps validate your idea with real users before fully building it.",
+      "It helps you validate startup ideas by generating a clean, AI-powered landing page using Gemini. Users describe their idea, and the system creates tailored copy and visuals on a unique subpage with a waitlist signup at the bottom.",
   },
   {
-    question: "How long does it take to launch?",
+    question: "How do I know if my idea has real interest?",
     answer:
-      "You can launch in just a few hours. Our builder is optimized to help you set up landing pages, collect signups, and share your idea quickly.",
+      "Every landing page has a waitlist card that tracks signups. You’ll get access to a dashboard with names, emails, and total interest count — giving you clear data to assess user demand before investing in full development.",
   },
   {
-    question: "Do I need coding skills?",
+    question: "What can I edit on my landing page?",
     answer:
-      "Nope. MVP Builder is designed for founders, marketers, and creators. You don’t need any technical background to use it.",
+      "Free users can preview a demo page, while paid users get access to a simple editor to customize headings, subheadings, and content. This allows more control while keeping the layout clean and consistent.",
   },
   {
-    question: "Can I collect payments or signups?",
+    question: "Can I accept payments or early pre-orders?",
     answer:
-      "Yes! You can connect Stripe to accept pre-orders or just collect emails to measure interest.",
+      "Yes. You can connect Stripe to offer preorder pricing and charge before building the product. It’s a great way to validate demand and potentially fund early development.",
   },
   {
-    question: "What happens after I get users?",
+    question: "How is my page shared or accessed?",
     answer:
-      "Use their feedback to improve your product. Whether it’s refining the pitch or building the full version — you’ll be working with proof, not assumptions.",
+      "Each user receives a unique sublink from our domain (e.g. yourdomain.com/username), where they can view, share, and edit their AI-generated page based on their access level.",
+  },
+  {
+    question: "What’s included in the development process?",
+    answer:
+      "The project is delivered in four milestones: a responsive landing page, AI page generation using Gemini, a dashboard with waitlist analytics, and Stripe integration. Everything is built using React, Tailwind, Firebase, and deployed live on Vercel.",
   },
 ];
+
 
 const testimonials = [
   {
     name: "Sarah Malik",
-    role: "Indie Hacker",
+    role: "Developer",
     quote:
-      "I launched my MVP landing page in one night. The best part? People actually signed up before I even wrote a single line of backend code.",
+      "I launched my MVP landing page in minutes. The best part? People actually signed up before I even wrote a single line of backend code.",
     avatar:
       "https://randomuser.me/api/portraits/women/44.jpg",
+    stars:5
   },
   {
     name: "Ali Raza",
@@ -59,14 +70,16 @@ const testimonials = [
       "The MVP builder helped us validate our product idea without wasting months of development. We even got 30+ paying users just from the landing page.",
     avatar:
       "https://randomuser.me/api/portraits/men/32.jpg",
+    stars:4
   },
   {
     name: "Huda Khan",
-    role: "No-Code Maker",
+    role: "Co-Founder",
     quote:
-      "I’m not a developer, but I was able to build and share my idea. It felt like cheating — in a good way!",
+      "I am not a developer, but I was able to build and share my idea. It felt like cheating — in a good way! I did not do anything , almost everything was selected by AI",
     avatar:
       "https://randomuser.me/api/portraits/women/65.jpg",
+    stars:5
   },
 ];
 
@@ -100,6 +113,8 @@ useEffect(()=>{
 
     animate_scroll_section1(".section1");
     animate_scroll_section2(".section2");
+    animate_scroll_section3(".section3");
+
 return () => clearInterval(interval); 
 
 },[])    
@@ -173,8 +188,7 @@ return (
   </div>
 
 
-  {/* More Content */}
-<section className="section1 max-w-7xl mx-auto px-4 py-16 bg-[#F4F4F8]">
+<section className="section1 max-w-7xl mx-auto px-4 py-16 bg-gray-50">
   <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
     Build Smarter. Launch Faster.
   </h2>
@@ -253,7 +267,7 @@ return (
 </section>
 
 
-    <section className="section2 w-full bg-gray-50 py-16 px-6 md:px-20 overflow-x-hidden">
+    <section className="section2 w-full bg-[#F4F4F8] py-16 px-6 md:px-20 overflow-x-hidden">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
           Why Use MVP Builder?
@@ -307,73 +321,98 @@ return (
     </section>
 
 
-        <section className="w-full py-16 px-6 md:px-20 bg-slate-100">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12">
-          Frequently Asked Questions
-        </h2>
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-white border border-gray-200 rounded-xl shadow-sm"
-            >
-              <button
-                onClick={() => toggle(index)}
-                className="w-full flex justify-between items-center p-6 text-left"
-              >
-                <span className="text-lg font-medium text-gray-800">
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={`transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-6 text-gray-600">{faq.answer}</div>
-              )}
+
+
+
+<section className="section3 w-full py-16 px-6 md:px-20 bg-[#fafafc]">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12">
+      Frequently Asked Questions
+    </h2>
+    <div className="space-y-6">
+      {faqs.map((faq, index) => (
+        <div
+          key={index}
+          className="border border-gray-200 rounded-xl shadow-sm transition-all duration-300 bg-white"
+        >
+          <button
+            onClick={() => toggle(index)}
+            className="w-full flex justify-between items-center p-6 text-left group hover:bg-gray-50 rounded-t-xl"
+          >
+            <div className="flex items-center gap-3">
+              <HelpCircle className="w-5 h-5 text-indigo-500 group-hover:text-indigo-600 transition-colors" />
+              <span className="text-lg md:text-xl font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors">
+                {faq.question}
+              </span>
             </div>
-          ))}
+            <ChevronDown
+              className={`w-5 h-5 text-gray-400 group-hover:text-indigo-600 transition-transform duration-300 ${
+                openIndex === index ? "rotate-180 text-indigo-600" : ""
+              }`}
+            />
+          </button>
+          <div
+            className={`px-6 pt-0 overflow-hidden transition-all duration-300 text-gray-600 ${
+              openIndex === index ? "max-h-screen pb-6" : "max-h-0"
+            }`}
+          >
+            <p className="text-base leading-relaxed">{faq.answer}</p>
+          </div>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </div>
+</section>
 
 
 
-    <section className="bg-white py-20 px-6 md:px-20">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-          Trusted by Early Founders & Builders
-        </h2>
-        <p className="text-gray-600 mb-12">
-          Makers from all backgrounds are using MVP Builder to validate ideas faster than ever.
-        </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition duration-300"
-            >
-              <p className="text-gray-700 italic mb-4">“{t.quote}”</p>
-              <div className="flex items-center gap-4">
-                <img
-                  src={t.avatar}
-                  alt={t.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="text-left">
-                  <h4 className="font-semibold text-gray-900">{t.name}</h4>
-                  <p className="text-sm text-gray-500">{t.role}</p>
-                </div>
+
+<section className="section1 bg-white py-20 px-6 md:px-20">
+  <div className="max-w-5xl mx-auto text-center">
+    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+      Trusted by Early Founders & Builders
+    </h2>
+    <p className="text-gray-600 mb-12">
+      Makers from all backgrounds are using MVP Builder to validate ideas faster than ever.
+    </p>
+
+    <div className="grid md:grid-cols-3 gap-8">
+      {testimonials.map((t, i) => (
+        <div
+          key={i}
+          className="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition duration-300 flex flex-col justify-between h-full"
+        >
+            <div className="flex items-center justify-between mt-6">
+            <div className="flex items-center gap-4">
+              <img
+                src={t.avatar}
+                alt={t.name}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div className="text-left">
+                <h4 className="font-semibold text-gray-900">{t.name}</h4>
+                <p className="text-sm text-gray-500">{t.role}</p>
               </div>
             </div>
-          ))}
+            {/* Star rating (emoji or Lucide icons) */}
+            <div className="flex gap-1 text-yellow-400">
+              {[...Array(t.stars)].map((_, starIndex) => (
+                <Star key={starIndex} className="w-4 h-4 fill-yellow-400" />
+              ))}
+            </div>
+          </div>
+
+
+          <div>
+            <p className="text-gray-700 italic mt-4">“{t.quote}”</p>
+          </div>
+          
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </div>
+</section>
 
 
 
@@ -465,7 +504,6 @@ return (
 </section>
 
     <Footer />
-
 
 </>
 
