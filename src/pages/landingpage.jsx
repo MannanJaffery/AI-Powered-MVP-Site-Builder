@@ -19,6 +19,9 @@ import Footer from '../components/footer';
 //animations
 import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
 
+
+
+//this is mock data for now , while creating mvp
 const faqs = [
   {
     question: "What exactly does this platform do?",
@@ -82,6 +85,8 @@ const testimonials = [
     stars:5
   },
 ];
+
+
 
 
 
@@ -363,10 +368,6 @@ return (
     </div>
   </div>
 </section>
-
-
-
-
 
 <section className="section1 bg-white py-20 px-6 md:px-20">
   <div className="max-w-5xl mx-auto text-center">
