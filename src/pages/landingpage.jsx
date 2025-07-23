@@ -14,7 +14,6 @@ import Button from '../components/button';
 
 import { useEffect ,useState , useRef } from 'react';
 import Footer from '../components/footer';
-import Loader from '../components/loading';
 
 
 //animations
@@ -93,10 +92,6 @@ const testimonials = [
 
 const LandingPage = () => {
 
-
-const [isLoading, setIsLoading] = useState(true);
-
-
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
 const imageref = useRef(null);
@@ -130,22 +125,7 @@ return () => clearInterval(interval);
 },[])    
 
 
-  useEffect(() => {
-    const handleLoad = () => {
-      setIsLoading(false);
-    };
 
-    // wait until all assets (images etc.) are loaded
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-    }
-
-    return () => window.removeEventListener("load", handleLoad);
-  }, []);
-
-  if (isLoading) return <Loader onComplete={() => setIsLoading(false)} />;
 
 return (
 <>
