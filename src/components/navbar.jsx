@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; 
 
-import gsap from "gsap";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Features", href: "#features" },
-    { name: "Templates", href: "#templates" },
+    { name: "FAQ", href: "#faq" },
     { name: "Pricing", href: "#pricing" },
   ];
 

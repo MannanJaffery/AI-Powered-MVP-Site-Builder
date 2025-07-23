@@ -9,7 +9,7 @@ import Navbar from '../components/navbar';
 
 import {LayoutDashboard,CreditCard,Paintbrush,Smartphone,Rocket,
   Brush,ShieldCheck,ChevronDown,
-  Hammer , UserCheck , Clock , TrendingUp , HelpCircle , Star} from "lucide-react";
+  Hammer , UserCheck , Clock , TrendingUp , HelpCircle , Star , CheckCircle , XCircle , BadgeCheck} from "lucide-react";
 import Button from '../components/button';
 
 import { useEffect ,useState , useRef } from 'react';
@@ -193,7 +193,7 @@ return (
   </div>
 
 
-<section className="section1 max-w-7xl mx-auto px-4 py-16 bg-gray-50">
+<section id='features' className="section1 max-w-7xl mx-auto px-4 py-16 bg-gray-50">
   <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
     Build Smarter. Launch Faster.
   </h2>
@@ -329,7 +329,7 @@ return (
 
 
 
-<section className="section3 w-full py-16 px-6 md:px-20 bg-[#fafafc]">
+<section id='faq' className="section3 w-full py-16 px-6 md:px-20 bg-[#fafafc]">
   <div className="max-w-4xl mx-auto">
     <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12">
       Frequently Asked Questions
@@ -415,94 +415,87 @@ return (
   </div>
 </section>
 
-
-
-<section id="payment" className="w-full bg-blue-50 py-24 px-6">
-  <div className="max-w-5xl mx-auto text-center">
+<section id="pricing" className="section3 w-full bg-purple-100 py-28 px-6">
+  <div className="max-w-6xl mx-auto text-center">
     <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
       Choose Your Plan
     </h2>
-    <p className="text-gray-600 text-lg mb-12">
+    <p className="text-gray-600 text-lg mb-16">
       Get started for free — upgrade anytime. No hidden fees. Cancel anytime.
     </p>
 
-    <div className="grid md:grid-cols-4 gap-6">
-      
+    <div className="grid gap-8 md:grid-cols-3">
       {/* Free Demo Plan */}
-      <div className="border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+      <div className="relative border-2 border-purple-200 bg-gray-100 rounded-2xl p-10 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300 min-h-[400px]">
         <div>
           <span className="text-sm font-semibold text-gray-500 uppercase">Free Demo</span>
-          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">Free</h3>
-          <p className="text-gray-500 mb-6 text-sm">
-            Sign up once and explore the platform. No analytics collected.
-          </p>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">Free</h3>
+          <ul className="text-left text-sm text-gray-600 space-y-3">
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full platform access (limited)</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Generate 1 free website template</li>
+            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Dashboard or analytics</li>
+            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Custom domain</li>
+          </ul>
         </div>
-        <a
-          href="#"
-          className="block w-full mt-auto text-blue-600 font-semibold hover:underline"
-        >
-          Try the Demo →
-        </a>
-      </div>
-
-      {/* Free Forever Plan */}
-      <div className="border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
-        <div>
-          <span className="text-sm font-semibold text-gray-500 uppercase">Free Tier</span>
-          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$0</h3>
-          <p className="text-gray-500 mb-6 text-sm">
-            Limited features · No credit card required.
-          </p>
+        <div className="mt-6">
+          <Button
+            text="Free Demo"
+            color="bg-purple-800"
+            bgcolor_border="bg-purple-100 border-purple-200"
+          />
         </div>
-        <a
-          href="#"
-          className="block w-full mt-auto text-blue-600 font-semibold hover:underline"
-        >
-          Start Free →
-        </a>
       </div>
 
       {/* Monthly Plan */}
-      <div className="border border-gray-200 rounded-2xl p-8 shadow-lg flex flex-col justify-between">
+      <div className="relative border-2 border-purple-400 bg-gray-100 rounded-2xl p-10 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300 min-h-[400px]">
         <div>
-          <span className="text-sm font-semibold text-blue-500 uppercase">Standard</span>
-          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$10/mo</h3>
-          <p className="text-gray-500 mb-6 text-sm">
-            All core features + future updates.
-          </p>
+          <span className="text-sm font-semibold text-purple-600 uppercase">Standard</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">$10/mo</h3>
+          <ul className="text-left text-sm text-gray-600 space-y-3">
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full feature access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Unlimited site generations</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Priority support</li>
+          </ul>
         </div>
-        <a
-          href="#"
-          className="block w-full mt-auto bg-blue-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-blue-700 transition"
-        >
-          Subscribe Monthly
-        </a>
+        <div className="mt-6">
+          <Button
+            text="Subscribe Monthly"
+            color="bg-purple-800"
+            bgcolor_border="bg-purple-100 border-purple-200"
+          />
+        </div>
       </div>
 
       {/* Lifetime Deal */}
-      <div className="relative border border-blue-200 rounded-2xl p-8 shadow-xl bg-blue-50 flex flex-col justify-between">
-        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-wide shadow-md">
-          Most Popular
-        </span>
-        <div>
-          <span className="text-sm font-semibold text-blue-500 uppercase">Lifetime Access</span>
-          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-1">$49</h3>
-          <p className="text-gray-500 mb-6 text-sm">
-            Pay once, access forever. Includes all future updates.
-          </p>
+      <div className="relative border-4 border-purple-700 bg-gray-100 rounded-2xl p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all duration-300 min-h-[400px]">
+        {/* Ribbon */}
+        <div className="absolute -top-3 right-4 bg-purple-700 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+          <Star className="w-3.5 h-3.5" /> Most Popular
         </div>
-        
-        <a
-          href="#"
-          className="block w-full mt-auto bg-blue-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-blue-700 transition"
-        >
-          Get Lifetime Deal
-        </a>
-
+        <div>
+          <span className="text-sm font-semibold text-purple-700 uppercase">Lifetime Access</span>
+          <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">$49</h3>
+          <ul className="text-left text-sm text-gray-600 space-y-3">
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />One-time payment</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />All Standard plan features</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />Lifetime updates</li>
+            <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-purple-700" />Bonus templates + themes</li>
+          </ul>
+        </div>
+        <div className="mt-6">
+          <Button
+            text="Get Lifetime Deal"
+            color="bg-purple-800"
+            bgcolor_border="bg-purple-100 border-purple-200"
+          />
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+
 
     <Footer />
 

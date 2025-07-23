@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
 
 
 
@@ -77,6 +78,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 
+
 export const animate_scroll_section1 = (targetSelector) => {
   gsap.utils.toArray(targetSelector).forEach((el) => {
     gsap.fromTo(
@@ -120,22 +122,31 @@ export const animate_scroll_section2 = (targetSelector)=>{
   );
 }
 
-export const animate_scroll_section3 = (targetSelector)=>{
-      gsap.fromTo(
-    targetSelector,
-    { opacity: 0, x: -100 },
-    {
-      opacity: 1,
-      x: 0,
-      duration: 3,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: targetSelector,
-        start: "top 80%",
-        end: "top 20%",
-        toggleActions: "play none none reverse",
-        markers: false,
-      },
-    }
-  );
-}
+
+
+export const animate_scroll_section3 = (targetSelector) => {
+  gsap.utils.toArray(targetSelector).forEach((el) => {
+    gsap.fromTo(
+      el,
+      { opacity: 0, x: -100 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 3,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          end: "top 20%",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
+      }
+    );
+  });
+};
+
+
+
+
+
