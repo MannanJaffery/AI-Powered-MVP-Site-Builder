@@ -191,7 +191,7 @@ return (
     <div className="relative z-10 p-8 text-center">
 
 
-<span className="text-2xl sm:text-3xl md:text-4xl font-semibold mt-6 block opacity-30 px-4 text-center">
+<span className="text-2xl sm:text-3xl md:text-4xl font-semibold block opacity-30 px-4 text-center">
 
 
   <strong>Showcase your ideas...</strong>
