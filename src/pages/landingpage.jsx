@@ -130,12 +130,13 @@ return () => clearInterval(interval);
 return (
 <>
   {/* Navbar */}
+
 <div className="z-10 relative w-full bg-white">
   <Navbar />
 </div>
 
 
-  <div className="relative z-0 w-full pt-24"> {/* Use padding instead of margin! */}
+  <div className="relative z-0 w-full pt-24"> 
   {/* Background SVG */}
   <img
     className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0 bg-[#F4F4F8]"
@@ -145,45 +146,55 @@ return (
 
   {/* Landing Image */}
 
+<div className='flex flex-col items-center justify-center px-4'> 
+<h1 className="flex flex-wrap justify-center mb-4 p-4 text-5xl font-bold text-center relative">
+  Validate your next 
+  <span id='changer' className='text-purple-900 relative inline-block will-change-transform ml-2'>MVP</span>&nbsp;today
+</h1>
 
-<div className='flex flex-col'>  
-<img
-  src={landingImage}
-  ref={imageref}
-  onLoad={() => animateImageEntrance(imageref)}
-  alt="Landing"
-  className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[55%] sm:max-w-[65%]"
-/>
-<div className="flex flex-wrap gap-2 justify-center z-10">
-      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-green-200 bg-green-50 text-green-500 text-sm font-medium">
-        <Smartphone size={14} />
-        LandingPage
-      </span>
-      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-purple-200 bg-purple-50 text-purple-500 text-sm font-medium">
-        <CreditCard size={14} />
-        Stripe Integration
-      </span>
-      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-red-200 bg-red-50 text-red-500 text-sm font-medium">
-        <Paintbrush size={14} />
-        Modern Design
-      </span>
-      <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-cyan-200 bg-cyan-50 text-cyan-500 text-sm font-medium">
-        <LayoutDashboard size={14} />
-        Dashboard
-      </span>
+{/* I had to add the space manually here */}
+
+  <img
+    src={landingImage}
+    ref={imageref}
+    onLoad={() => animateImageEntrance(imageref)}
+    alt="Landing"
+    className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[40%] sm:max-w-[65%]"
+  />
+
+{/* spans for the image dessign below */}
+
+  <div className="flex flex-wrap gap-2 justify-center z-10 mt-4 px-2">
+    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-green-200 bg-green-50 text-green-500 text-sm font-medium">
+      <Smartphone size={14} />
+      LandingPage
+    </span>
+    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-purple-200 bg-purple-50 text-purple-500 text-sm font-medium">
+      <CreditCard size={14} />
+      Stripe Integration
+    </span>
+    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-red-200 bg-red-50 text-red-500 text-sm font-medium">
+      <Paintbrush size={14} />
+      Modern Design
+    </span>
+    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-cyan-200 bg-cyan-50 text-cyan-500 text-sm font-medium">
+      <LayoutDashboard size={14} />
+      Dashboard
+    </span>
+  </div>
 </div>
 
-</div>
 
 
 
     {/* Heading & Text */}
     <div className="relative z-10 p-8 text-center">
-      <h1 className="text-5xl font-bold relative">Build your next <span id = 'changer' className=' text-purple-900 relative inline-block will-change-transform'>MVP</span> today, not someday</h1> 
-<span className="text-2xl sm:text-3xl md:text-5xl font-semibold mt-6 block opacity-30 px-4 text-center">
 
 
-  <strong>Validate your idea fast with <br /> one no-code tool</strong>
+<span className="text-2xl sm:text-3xl md:text-4xl font-semibold mt-6 block opacity-30 px-4 text-center">
+
+
+  <strong>Showcase your ideas...</strong>
 </span>
 
 
