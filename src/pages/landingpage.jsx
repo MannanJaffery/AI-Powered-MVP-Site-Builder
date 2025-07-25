@@ -224,7 +224,7 @@ return (
     Build Smarter. Launch Faster.
   </h2>
   <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-    Don’t build the MVP — sell it first.Let AI make your landing page, waitlist, and Stripe setup in one go
+    Don’t build the MVP — sell it first. Let AI make your landing page, waitlist, and Stripe setup in one go
   </p>
 
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
