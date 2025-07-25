@@ -24,34 +24,39 @@ import { animate_main_heading , animateImageEntrance , animate_scroll_section1, 
 //this is mock data for now , while creating mvp
 const faqs = [
   {
-    question: "What exactly does this platform do?",
+    question: "Why do I need MVP Builder?",
     answer:
-      "It helps you validate startup ideas by generating a clean, AI-powered landing page using Gemini. Users describe their idea, and the system creates tailored copy and visuals on a unique subpage with a waitlist signup at the bottom.",
+      "Before spending months building a SaaS, MVP Builder helps you validate your idea quickly. It generates a landing page using AI, collects waitlist signups, and even lets you test pricing with early payments — so you launch smarter and avoid building products no one wants.",
   },
   {
-    question: "How do I know if my idea has real interest?",
+    question: "How does this help validate my idea?",
     answer:
-      "Every landing page has a waitlist card that tracks signups. You’ll get access to a dashboard with names, emails, and total interest count — giving you clear data to assess user demand before investing in full development.",
+      "We generate an AI-powered landing page tailored to your startup concept, complete with compelling copy, visuals, and a built-in waitlist form. You can drive traffic to this page and measure interest through signups and payments to know if your idea has real traction.",
   },
   {
-    question: "What can I edit on my landing page?",
+    question: "Can I accept payments before building?",
     answer:
-      "Free users can preview a demo page, while paid users get access to a simple editor to customize headings, subheadings, and content. This allows more control while keeping the layout clean and consistent.",
+      "Yes. With built-in Stripe integration, you can collect pre-orders or deposits to test pricing models. This shows real commitment from users — turning curiosity into capital — even before development begins.",
   },
   {
-    question: "Can I accept payments or early pre-orders?",
+    question: "What can I customize on the landing page?",
     answer:
-      "Yes. You can connect Stripe to offer preorder pricing and charge before building the product. It’s a great way to validate demand and potentially fund early development.",
+      "Once your page is generated, you can edit key content such as the headline, subheading, features, and call-to-action using our easy editor. This gives you control while preserving design consistency across devices.",
   },
   {
-    question: "How is my page shared or accessed?",
+    question: "Do I get analytics or user data?",
     answer:
-      "Each user receives a unique sublink from our domain (e.g. yourdomain.com/username), where they can view, share, and edit their AI-generated page based on their access level.",
+      "Yes. Every landing page includes a dashboard where you can track total signups, view user details (name + email), and monitor engagement. This lets you gauge demand with real metrics, not just guesses.",
   },
   {
-    question: "What’s included in the development process?",
+    question: "How do I share my page?",
     answer:
-      "The project is delivered in four milestones: a responsive landing page, AI page generation using Gemini, a dashboard with waitlist analytics, and Stripe integration. Everything is built using React, Tailwind, Firebase, and deployed live on Vercel.",
+      "You'll get a unique URL like `yourdomain.com/yourname` to share anywhere — Twitter, Reddit, emails, or ads. Anyone who visits can view your idea, join the waitlist, or make a payment if enabled.",
+  },
+  {
+    question: "Is this a complete MVP or full product builder?",
+    answer:
+      "No , MVP Builder is focused on validation — helping you test the waters before committing to code. You’re not building the full SaaS here, but you are getting everything you need to validate with speed: AI landing pages, Stripe payments, waitlist forms, and analytics.",
   },
 ];
 
@@ -148,9 +153,19 @@ return (
 
 <div className='flex flex-col items-center justify-center px-4'> 
 <h1 className="flex flex-wrap justify-center mb-4 p-4 text-5xl font-bold text-center relative">
-  Validate your next 
-  <span id='changer' className='text-purple-900 relative inline-block will-change-transform ml-2'>MVP</span>&nbsp;today
+  Validate and Monetize Your 
+  <span id="changer" className="text-purple-900 relative inline-block will-change-transform ml-2">
+    MVP
+  </span>
+  {/* forthe larger screens , this is giving line break */}
+  <span className="hidden lg:inline-block w-full"></span>
+  
+  <span className="ml-[0.25rem] lg:ml-0">
+    in Record Time
+  </span>
 </h1>
+
+
 
 {/* I had to add the space manually here */}
 
@@ -194,7 +209,7 @@ return (
 <span className="text-2xl sm:text-3xl md:text-4xl font-semibold block opacity-30 px-4 text-center">
 
 
-  <strong>Showcase your ideas...</strong>
+  <strong>Validate Smarter, Launch Faster,  Earn Sooner</strong>
 </span>
 
 
@@ -209,7 +224,7 @@ return (
     Build Smarter. Launch Faster.
   </h2>
   <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-    Everything you need to turn your SaaS idea into a working MVP — no fluff, just speed and precision.
+    Don’t build the MVP — sell it first.Let AI make your landing page, waitlist, and Stripe setup in one go
   </p>
 
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -232,7 +247,7 @@ return (
       </div>
       <h3 className="font-semibold text-lg mb-2">Stripe Integration</h3>
       <p className="text-sm text-gray-600">
-        Accept payments seamlessly with built-in Stripe setup, so you can monetize from day one.
+        Accept payments seamlessly with built-in Stripe setup, so you can test pricing and gauge true interest
       </p>
     </div>
 
@@ -445,7 +460,7 @@ return (
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full platform access (limited)</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Generate 1 free website template</li>
             <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Dashboard or analytics</li>
-            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Custom domain</li>
+            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />No unlimited Sited Generation</li>
           </ul>
         </div>
         <div className="mt-6">
@@ -464,7 +479,7 @@ return (
           <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">$10/mo</h3>
           <ul className="text-left text-sm text-gray-600 space-y-3">
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full feature access</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Unlimited site generations</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Unlimited site generations monthly</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Priority support</li>
           </ul>
@@ -490,8 +505,9 @@ return (
           <ul className="text-left text-sm text-gray-600 space-y-3">
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />One-time payment</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />All Standard plan features</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />Lifetime updates</li>
-            <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-purple-700" />Bonus templates + themes</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />Unlimited Site Generations</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
+            <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-purple-700" />Priority Support</li>
           </ul>
         </div>
         <div className="mt-6">
@@ -505,8 +521,6 @@ return (
     </div>
   </div>
 </section>
-
-
 
     <Footer />
 
