@@ -8,6 +8,7 @@ import Register from "./pages/authentication/register";
 
 import { BrowserRouter , Routes , Route } from "react-router-dom";
 import LoginGoogle from "./pages/authentication/login";
+import ForgetPassword from "./pages/authentication/forgetpassword";
 
 function App() {
  return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/register" element={<Register/>}/>
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginGoogle />}></Route>
+            <Route path="/forgetpassword" element={<ForgetPassword />}></Route>
         </Routes>
     </BrowserRouter>
   </>
