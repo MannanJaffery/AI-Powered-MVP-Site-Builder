@@ -1,122 +1,109 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { auth, googleprovider, db } from "../../firebase";
+import {createUserWithEmailAndPassword,  signInWithPopup} from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { fetchSignInMethodsForEmail } from "firebase/auth";
 
-import { auth ,db } from "../../firebase";
 
-import { useNavigate } from "react-router-dom";
-import { doc  ,setDoc } from "firebase/firestore";
-
-import { serverTimestamp } from "firebase/firestore";
 const Register = () => {
-  const navigate= useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [checkverified , setCheckVerified] = useState(false);
 
-  const handleRegister = async (e)=>{
+  // Email/Password Sign Up
+  const handleEmailRegister = async (e) => {
     e.preventDefault();
-    try{
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await sendEmailVerification(user);
-    
-      setCheckVerified(true);
-      alert("Email Verification Sent , Kindly check");
-      
-      
-      try{
-        await setDoc(doc(db,"User" ,user.uid ),{
-          name,
-          email,
-          photourl:`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`,
-          uid:user.uid,
-          createdAt: serverTimestamp(),
-        })
+    try {
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCred.user;
 
-      }catch(err){
-        console.log(err + "in nested try-catch");
-      }
+      // Save user to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+        provider: "email",
+      });
+
+      alert("Registered successfully!");
+    } catch (err) {
+      alert(err.message);
     }
-    catch(err){
-        if(err.code==='auth/email-already-in-use'){
-            alert("This email is alreadt in use , Login");
-        }
-        console.log(err);
-        navigate("/");
-        
+  };
+
+  // Google Sign In
+
+const handleGoogleSignIn = async () => {
+  try {
+    // First, open Google sign-in popup
+    const result = await signInWithPopup(auth, googleprovider);
+    const user = result.user;
+
+    // Then check what sign-in methods are available for this email
+    const methods = await fetchSignInMethodsForEmail(auth, user.email);
+
+    // If user signed in with Google, but this email exists for another provider
+    if (methods.length > 0 && !methods.includes("google.com")) {
+      alert("This email is already registered with a different method. Please use that to log in.");
+      return;
     }
+
+    // Save user to Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      name: user.displayName,
+      email: user.email,
+      createdAt: new Date(),
+      provider: "google",
+    });
+
+    alert("Signed in with Google!");
+  } catch (error) {
+    console.error("Google Sign-in Error:", error);
+    alert("Error: " + error.message);
   }
-
-
-
-  useEffect(()=>{
-    if(!checkverified){
-        return;
-    }
-
-    const interval = setInterval(async()=>{
-        const user = auth.currentUser;
-        if(user){
-            await user.reload();
-            if(user.emailVerified){
-                clearInterval(interval);
-                alert("Email Verified , redirecting ...");
-                navigate('/');
-            }
-        }
-    },3000);
-    return ()=>clearInterval(interval);
-  },[checkverified])
+};
 
 
   return (
-    <>
-<div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleRegister} className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-4">
-        <h2 className="text-2xl font-bold text-center text-gray-800">Register</h2>
+    <div style={{ maxWidth: "400px", margin: "auto", padding: "2rem" }}>
+      <h2>Register</h2>
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full border border-gray-300 p-2 rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        
+      <form onSubmit={handleEmailRegister}>
         <input
           type="email"
           placeholder="Email"
-          className="w-full border border-gray-300 p-2 rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          style={{ display: "block", margin: "1rem 0", width: "100%" }}
         />
 
         <input
           type="password"
-          placeholder="Password"
-          className="w-full border border-gray-300 p-2 rounded"
+          placeholder="Password (min 6 chars)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          style={{ display: "block", margin: "1rem 0", width: "100%" }}
         />
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Sign Up
+        <button type="submit" style={{ width: "100%", padding: "0.5rem" }}>
+          Register with Email
         </button>
-
-            <span className="p-4 flex justify-center cursor-pointer text-blue-800 hover:text-blue-700"
-            onClick={()=>{navigate("/login")}}>Already have an account , Login</span>
       </form>
-    </div>
 
-    </>
-  )
-}
+      <hr style={{ margin: "2rem 0" }} />
+
+      <button
+        onClick={handleGoogleSignIn}
+        style={{ width: "100%", padding: "0.5rem" }}
+      >
+        Continue with Google
+      </button>
+    </div>
+  );
+};
 
 export default Register;

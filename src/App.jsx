@@ -5,10 +5,9 @@ import LandingPage from "./pages/landingpage";
 import NotFoundPage from "./pages/notfound";
 import PreviewAndEdit from "./pages/preview+edit";
 import Register from "./pages/authentication/register";
-
+import Login from "./pages/authentication/login";
 import { BrowserRouter , Routes , Route } from "react-router-dom";
-import LoginGoogle from "./pages/authentication/login";
-import ForgetPassword from "./pages/authentication/forgetpassword";
+
 
 function App() {
  return (
@@ -21,9 +20,8 @@ function App() {
             <Route path = "/previewandedit" element = {<PreviewAndEdit />}/>
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/login" element={<Login/>}/>
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/login" element={<LoginGoogle />}></Route>
-            <Route path="/forgetpassword" element={<ForgetPassword />}></Route>
         </Routes>
     </BrowserRouter>
   </>
