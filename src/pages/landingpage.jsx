@@ -16,10 +16,8 @@ import { useEffect ,useState , useRef } from 'react';
 import Footer from '../components/footer';
 
 
-//animations
+//animations of landing page
 import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
-
-
 
 //this is mock data for now , while creating mvp
 const faqs = [
@@ -204,7 +202,6 @@ return (
 
     {/* Heading & Text */}
     <div className="relative z-10 p-8 text-center">
-
 
 <span className="text-2xl sm:text-3xl md:text-4xl font-semibold block opacity-30 px-4 text-center">
 
