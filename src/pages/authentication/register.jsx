@@ -4,14 +4,24 @@ import {createUserWithEmailAndPassword,sendEmailVerification,signInWithPopup} fr
 import { setDoc, doc } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
+import { Check } from "lucide-react";
+import { Loader } from "lucide-react";
+
+
+
+
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showverificationmsg, setShowverificationMsg] = useState(false);
+  const [isloading , setisloading] = useState(false);
+  const [googleloading, setgoogleloading] = useState(false);
 
 const handleEmailRegister = async (e) => {
   e.preventDefault();
+  setisloading(true);
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -30,15 +40,22 @@ const handleEmailRegister = async (e) => {
       emailVerified: false,  // I will updarte it later , based on the verification
     });
 
-    alert("Registration successful! Please check your email to verify your account.");
+    setShowverificationMsg(true)
+
+    // alert("Registration successful! Please check your email to verify your account.");
   } catch (error) {
     console.error(error.message);
-    alert(error.message);
+  }
+  finally{
+    setisloading(false);
   }
 };
 
   const handleGoogleRegister = async () => {
+
+    setgoogleloading(true);
     try {
+        
       const result = await signInWithPopup(auth, googleprovider);
       const user = result.user;
 
@@ -49,26 +66,48 @@ const handleEmailRegister = async (e) => {
 
       alert("Google sign-in successful!");
     } catch (error) {
-      console.error(error.message);
-      alert(error.message);
+      console.log(error.message);
+    }finally{
+        setgoogleloading(false);
     }
   };
 
   return (
 <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-  <div className="w-[430px] h-[540px] bg-white rounded-2xl shadow-xl p-8 flex flex-col justify-between">
+  <div className="w-[430px] h-[560px] bg-white rounded-2xl shadow-xl p-8 flex flex-col justify-between">
     <div className="space-y-6">
       <div className="text-center space-y-1">
         <h2 className="text-2xl font-bold text-gray-800">Create your account</h2>
         <p className="text-gray-500 text-sm">Welcome! Please fill in the details to get started.</p>
       </div>
 
+
+
+{showverificationmsg && (
+  <div className="mt-4 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800 shadow-sm transition-all duration-200">
+    <Check className="h-4 w-4 text-green-500 mt-0.5" />
+    <span className="leading-snug">
+      We've sent a verification email — check your inbox or spam folder.
+    </span>
+  </div>
+)}
+
       <button
         onClick={handleGoogleRegister}
-        className="w-full flex items-center justify-center gap-3 border border-gray-300 hover:border-gray-400 py-3 rounded-md transition duration-300 bg-white hover:bg-gray-50"
+        className={`w-full flex items-center justify-center gap-3 py-3 rounded-md transition duration-300
+    ${googleloading ? "bg-gray-100 text-gray-500 cursor-not-allowed" : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 hover:border-gray-400"}`}
       >
-        <FcGoogle size={20} />
-        <span className="text-sm font-medium text-gray-700">Continue with Google</span>
+          {googleloading ? (
+    <>
+      <Loader className="h-4 w-4 animate-spin" />
+      <span className="text-sm font-medium">Signing in...</span>
+    </>
+  ) : (
+    <>
+      <FcGoogle size={20} />
+      <span className="text-sm font-medium">Continue with Google</span>
+    </>
+  )}
       </button>
 
       <div className="flex items-center text-gray-400 text-sm">
@@ -100,12 +139,26 @@ const handleEmailRegister = async (e) => {
       />
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Continue
-        </button>
+
+
+            <button
+            type="submit"
+            disabled={isloading}
+            className={`w-full py-2 rounded-lg font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed
+                ${isloading ? "bg-purple-300 text-white" : "bg-purple-800 text-white hover:bg-purple-700"}
+            `}
+            >
+            {isloading ? (
+                <div className="flex items-center justify-center gap-2">
+                <Loader className="h-4 w-4 animate-spin" />
+                <span>Processing...</span>
+                </div>
+            ) : (
+                "Continue"
+            )}
+            </button>
+
+
       </form>
     </div>
 

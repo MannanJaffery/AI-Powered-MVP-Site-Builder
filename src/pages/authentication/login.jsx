@@ -29,11 +29,14 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+        setLoading(true);
       const result = await signInWithPopup(auth, googleprovider);
       const user = result.user;
       console.log("Signed in with Google:", user.email);
     } catch (error) {
       console.error("Google sign-in error:", error.message);
+    }finally{
+        setLoading(false);
     }
   };
 
@@ -95,7 +98,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800 font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Logging in..." : "Continue"}
           </button>
