@@ -1,107 +1,116 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { auth, googleprovider, db } from "../../firebase";
-import {createUserWithEmailAndPassword,  signInWithPopup} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
-
+import { FcGoogle } from "react-icons/fc";
+import { Mail, Lock } from "lucide-react";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Email/Password Sign Up
   const handleEmailRegister = async (e) => {
     e.preventDefault();
     try {
-      const userCred = await createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const user = userCred.user;
+      const user = userCredential.user;
 
-      // Save user to Firestore
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         createdAt: new Date(),
-        provider: "email",
       });
 
-      alert("Registered successfully!");
-    } catch (err) {
-      alert(err.message);
+      alert("Registration successful!");
+    } catch (error) {
+      console.error(error.message);
+      alert(error.message);
     }
   };
 
-  // Google Sign In
+  const handleGoogleRegister = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleprovider);
+      const user = result.user;
 
-const handleGoogleSignIn = async () => {
-  try {
-    // First, open Google sign-in popup
-    const result = await signInWithPopup(auth, googleprovider);
-    const user = result.user;
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+      });
 
-    // Then check what sign-in methods are available for this email
-    const methods = await fetchSignInMethodsForEmail(auth, user.email);
-
-    // If user signed in with Google, but this email exists for another provider
-    if (methods.length > 0 && !methods.includes("google.com")) {
-      alert("This email is already registered with a different method. Please use that to log in.");
-      return;
+      alert("Google sign-in successful!");
+    } catch (error) {
+      console.error(error.message);
+      alert(error.message);
     }
-
-    // Save user to Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      name: user.displayName,
-      email: user.email,
-      createdAt: new Date(),
-      provider: "google",
-    });
-
-    alert("Signed in with Google!");
-  } catch (error) {
-    console.error("Google Sign-in Error:", error);
-    alert("Error: " + error.message);
-  }
-};
-
+  };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "2rem" }}>
-      <h2>Register</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+        <h2 className="text-2xl font-bold text-center text-gray-800">Create Account</h2>
+        <form onSubmit={handleEmailRegister} className="space-y-4">
+          <div className="relative">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <Mail className="absolute top-3 left-3 text-gray-400" size={20} />
+          </div>
+          <div className="relative">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <Lock className="absolute top-3 left-3 text-gray-400" size={20} />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+          >
+            Register with Email
+          </button>
+        </form>
 
-      <form onSubmit={handleEmailRegister}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ display: "block", margin: "1rem 0", width: "100%" }}
-        />
+        <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">
+          <hr className="w-full border-gray-300" />
+          or
+          <hr className="w-full border-gray-300" />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password (min 6 chars)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ display: "block", margin: "1rem 0", width: "100%" }}
-        />
-
-        <button type="submit" style={{ width: "100%", padding: "0.5rem" }}>
-          Register with Email
+        <button
+          onClick={handleGoogleRegister}
+          className="w-full flex items-center justify-center gap-3 border border-gray-300 hover:border-gray-400 py-3 rounded-lg transition duration-300 bg-white hover:bg-gray-50"
+        >
+          <FcGoogle size={24} />
+          <span className="text-sm font-medium text-gray-700">Register with Google</span>
         </button>
-      </form>
+              <div className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <a
+                href="/login"
+                className="text-blue-600 hover:underline font-medium"
+            >
+                Login
+            </a>
+            </div>
+      </div>
 
-      <hr style={{ margin: "2rem 0" }} />
 
-      <button
-        onClick={handleGoogleSignIn}
-        style={{ width: "100%", padding: "0.5rem" }}
-      >
-        Continue with Google
-      </button>
     </div>
   );
 };
