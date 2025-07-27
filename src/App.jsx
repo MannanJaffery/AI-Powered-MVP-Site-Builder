@@ -2,6 +2,7 @@ import Dashboard from "./pages/dashboard";
 import InputIdea from "./pages/inputidea";
 import LandingPage from "./pages/landingpage";
 
+
 import NotFoundPage from "./pages/notfound";
 import PreviewAndEdit from "./pages/preview+edit";
 import Register from "./pages/authentication/register";
@@ -21,6 +22,7 @@ function App() {
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/input-idea" element={<InputIdea/>}/>
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     </BrowserRouter>
