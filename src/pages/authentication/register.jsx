@@ -6,12 +6,14 @@ import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
 import { Check } from "lucide-react";
 import { Loader } from "lucide-react";
-
-
-
-
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
+
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,7 +42,8 @@ const handleEmailRegister = async (e) => {
       emailVerified: false,  // I will updarte it later , based on the verification
     });
 
-    setShowverificationMsg(true)
+    setShowverificationMsg(true);
+
 
     // alert("Registration successful! Please check your email to verify your account.");
   } catch (error) {
@@ -65,6 +68,7 @@ const handleEmailRegister = async (e) => {
       });
 
       alert("Google sign-in successful!");
+      navigate('/');
     } catch (error) {
       console.log(error.message);
     }finally{

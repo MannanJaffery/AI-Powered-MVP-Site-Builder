@@ -8,11 +8,15 @@ import PreviewAndEdit from "./pages/preview+edit";
 import Register from "./pages/authentication/register";
 import Login from "./pages/authentication/login";
 import { BrowserRouter , Routes , Route } from "react-router-dom";
+import { AuthProvider } from "./context/authContext";
+import ProtectedRoute from "./components/protectedRoute";
+
 
 
 function App() {
  return (
   <>
+  <AuthProvider>
     <BrowserRouter>
         <Routes>
             <Route path="/" element = {<LandingPage />} />
@@ -22,10 +26,16 @@ function App() {
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/input-idea" element={<InputIdea/>}/>
+
+            <Route path="/input-idea" element={
+              <ProtectedRoute>
+              <InputIdea/>
+              </ProtectedRoute>
+              }/>
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     </BrowserRouter>
+    </AuthProvider>
   </>
  )
 }

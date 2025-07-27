@@ -6,8 +6,18 @@ import {
 } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 const Login = () => {
+
+
+
+
+    const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,6 +29,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Logged in successfully!");
+      navigate('/');
     } catch (err) {
       console.error("Email login error:", err);
       alert(err.message);
@@ -33,6 +44,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, googleprovider);
       const user = result.user;
       console.log("Signed in with Google:", user.email);
+      navigate('/');
     } catch (error) {
       console.error("Google sign-in error:", error.message);
     }finally{
