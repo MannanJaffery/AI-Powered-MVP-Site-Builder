@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import  { useState , useEffect } from "react";
 import { auth, googleprovider, db } from "../../firebase";
 import {createUserWithEmailAndPassword,sendEmailVerification,signInWithPopup} from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
@@ -16,12 +16,49 @@ const Register = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showverificationmsg, setShowverificationMsg] = useState(false);
   const [isloading , setisloading] = useState(false);
   const [googleloading, setgoogleloading] = useState(false);
 
+  const [alreadyuseemail,setAlreadyuseemail] = useState(false);
+
+
+
+
+
+
+
+
+useEffect(() => {
+  let interval;
+
+  if (showverificationmsg) {
+    interval = setInterval(async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await user.reload(); 
+        if (user.emailVerified) {
+          console.log("Email is now verified!");
+          await setDoc(doc(db, "users", user.uid), {
+            emailVerified: true,
+          }, { merge: true });
+
+          setShowverificationMsg("");
+          setEmail("");
+          setPassword("");
+
+          navigate("/"); 
+        }
+      }
+    }, 5000); 
+  }
+
+  return () => clearInterval(interval); 
+}, [showverificationmsg]);
+
+
 const handleEmailRegister = async (e) => {
+
   e.preventDefault();
   setisloading(true);
   try {
@@ -39,7 +76,7 @@ const handleEmailRegister = async (e) => {
     await setDoc(doc(db, "users", user.uid), {
       email: user.email,
       createdAt: new Date(),
-      emailVerified: false,  // I will updarte it later , based on the verification
+      emailVerified: false, 
     });
 
     setShowverificationMsg(true);
@@ -47,6 +84,10 @@ const handleEmailRegister = async (e) => {
 
     // alert("Registration successful! Please check your email to verify your account.");
   } catch (error) {
+
+      if (error.code === "auth/email-already-in-use") {
+        setAlreadyuseemail(true);
+     }
     console.error(error.message);
   }
   finally{
@@ -96,6 +137,17 @@ const handleEmailRegister = async (e) => {
   </div>
 )}
 
+
+{alreadyuseemail && (
+<div className="mt-4 flex justify-center">
+  <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800 shadow-sm transition-all duration-200">
+    <span className="leading-snug text-center">
+      This email is already registered, kindly Login.
+    </span>
+  </div>
+</div>
+)}
+
       <button
         onClick={handleGoogleRegister}
         className={`w-full flex items-center justify-center gap-3 py-3 rounded-md transition duration-300
@@ -127,7 +179,9 @@ const handleEmailRegister = async (e) => {
             type="email"
             placeholder="Enter your email address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {setEmail(e.target.value)
+              setAlreadyuseemail(false);
+            }}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 pr-10"
             

@@ -12,12 +12,18 @@ import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./components/protectedRoute";
 
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
  return (
   <>
   <AuthProvider>
     <BrowserRouter>
+
+
+    <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
             <Route path="/" element = {<LandingPage />} />
             

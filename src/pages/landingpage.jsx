@@ -1,9 +1,6 @@
 
 //https://mvp-go-seven.vercel.app/
 
-
-
-
 import landingImage from '../assets/images/landing.png';
 import Navbar from '../components/navbar';
 
@@ -14,10 +11,13 @@ import Button from '../components/button';
 
 import { useEffect ,useState , useRef } from 'react';
 import Footer from '../components/footer';
-
-
 //animations of landing page
 import { animate_main_heading , animateImageEntrance , animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
+
+import { useAuth } from '../context/authContext';
+import { sendEmailVerification } from 'firebase/auth';
+import { toast } from 'react-toastify';
+
 
 //this is mock data for now , while creating mvp
 const faqs = [
@@ -58,7 +58,6 @@ const faqs = [
   },
 ];
 
-
 const testimonials = [
   {
     name: "Sarah Malik",
@@ -91,14 +90,12 @@ const testimonials = [
 
 
 
-
-
 const LandingPage = () => {
 
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
 const imageref = useRef(null);
-
+  const [showNotice, setShowNotice] = useState(true);
 
   const toggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -130,13 +127,62 @@ return () => clearInterval(interval);
 
 
 
+const { currentUser } = useAuth();
+
+const handleResendVerification = async () => {
+  if (currentUser) {
+    try {
+      await sendEmailVerification(currentUser);
+      toast.success("email verified");
+    } catch (error) {
+      console.error("Error sending email verification:", error);
+    }
+  }
+};
+
+
+
+console.log("currentUser:",currentUser);
+console.log("Email Verified:", currentUser?.emailVerified);
+
+
+
+
 return (
 <>
-  {/* Navbar */}
 
+{
+  currentUser &&
+  !currentUser.emailVerified &&
+  showNotice && (
+    <div className="fixed top-6 right-6 z-50 bg-white border border-gray-200 text-gray-800 px-6 py-4 rounded-md shadow-md flex flex-col gap-2 w-[320px]">
+      <div className="flex justify-between items-start gap-2">
+        <div className="text-sm font-medium">
+          Email not verified. Check inbox or spam.
+        </div>
+        <button
+          onClick={() => setShowNotice(false)}
+          className="text-gray-500 hover:text-gray-700 text-lg leading-none font-bold"
+        >
+          ×
+        </button>
+      </div>
+      <button
+        onClick={handleResendVerification}
+        className="text-sm text-blue-600 hover:underline self-start"
+      >
+        Resend verification email
+      </button>
+    </div>
+  )
+}
+
+
+  {/* Navbar */}
 <div className="z-10 relative w-full bg-white">
   <Navbar />
 </div>
+
 
 
   <div className="relative z-0 w-full pt-24"> 

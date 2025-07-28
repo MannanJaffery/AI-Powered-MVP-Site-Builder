@@ -3,9 +3,13 @@ import { Menu, X } from "lucide-react";
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+
+
+
 
   const navLinks = [
     { name: "Features", href: "#features" },
@@ -48,6 +52,10 @@ const Navbar = () => {
               </a>
             </li>
           ))}
+
+          {user && (
+            <a href="/input-idea">New Project</a>
+          )}
         </ul>
 
         {/* Auth Button */}
