@@ -5,6 +5,9 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
+import { db } from "../../firebase";
+
+import { doc , getDoc , setDoc  } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
 import { useNavigate } from "react-router-dom";
@@ -77,11 +80,11 @@ const handleGoogleSignIn = async () => {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists() || !userSnap.data().username) {
-      const encodedUsername = encodeURIComponent(user.displayName || "user");
+      const name = user.displayName;
 
       await setDoc(userRef, {
         email: user.email,
-        username: encodedUsername,
+        username: name,
         createdAt: new Date(),
       });
     }
@@ -196,15 +199,24 @@ const handleGoogleSignIn = async () => {
   </button>
 </form>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Don’t have an account?{" "}
-          <a
-            href="/register"
-            className="text-blue-600 hover:underline font-medium"
-          >
-            Sign up
-          </a>
-        </div>
+<div className="mt-6 flex justify-between text-sm text-gray-600">
+  <div>
+    No account ? {" "}
+    <a
+      href="/register"
+      className="text-purple-600 hover:underline font-medium"
+    >
+      Sign up
+    </a>
+  </div>
+  <a
+    href="/forget-password"
+    className="text-purple-600 hover:underline font-medium"
+  >
+    Forgot password?
+  </a>
+</div>
+
       </div>
     </div>
   );

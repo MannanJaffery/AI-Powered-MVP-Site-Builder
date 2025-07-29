@@ -10,6 +10,7 @@ import Login from "./pages/authentication/login";
 import { BrowserRouter , Routes , Route } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./components/protectedRoute";
+import ForgetPassword from "./pages/authentication/forgetpassword";
 
 
 import { ToastContainer } from 'react-toastify';
@@ -32,6 +33,8 @@ function App() {
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
+            
+            <Route path="/forget-password" element={<ForgetPassword/>}/>
 
             <Route path="/input-idea" element={
               <ProtectedRoute>

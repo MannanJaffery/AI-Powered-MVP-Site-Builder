@@ -26,7 +26,6 @@ const Register = () => {
   //username
 
   const [username, setUsername] = useState('');
-  const [showusernamepop , setShowUsernamePop] = useState(null);
 
 
 
@@ -78,7 +77,7 @@ const handleEmailRegister = async (e) => {
     // Save user info in Firestore
     await setDoc(doc(db, "users", user.uid), {
       email: user.email,
-      uname:username,
+      username:username,
       createdAt: new Date(),
       emailVerified: false, 
     });
@@ -112,11 +111,11 @@ const handleEmailRegister = async (e) => {
 
       if(!userSnap.exists() || !userSnap.data().username){
 
-        const encodedusername = encodeURIComponent(user.displayName);
+        const name =user.displayName;
 
         await setDoc(userRef,{
         email: user.email,
-        username:encodedusername,
+        username:name,
         createdAt: new Date(),
         })
         
