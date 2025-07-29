@@ -22,9 +22,9 @@ import { toast } from 'react-toastify';
 //this is mock data for now , while creating mvp
 const faqs = [
   {
-    question: "Why do I need MVP Builder?",
+    question: "Why do I need BloomQueue?",
     answer:
-      "Before spending months building a SaaS, MVP Builder helps you validate your idea quickly. It generates a landing page using AI, collects waitlist signups, and even lets you test pricing with early payments — so you launch smarter and avoid building products no one wants.",
+      "Before spending months building a SaaS, BloomQueue helps you validate your idea quickly. It generates a landing page using AI, collects waitlist signups, and even lets you test pricing with early payments — so you launch smarter and avoid building products no one wants.",
   },
   {
     question: "How does this help validate my idea?",
@@ -54,7 +54,7 @@ const faqs = [
   {
     question: "Is this a complete MVP or full product builder?",
     answer:
-      "No , MVP Builder is focused on validation — helping you test the waters before committing to code. You’re not building the full SaaS here, but you are getting everything you need to validate with speed: AI landing pages, Stripe payments, waitlist forms, and analytics.",
+      "No , BloomQueue is focused on validation — helping you test the waters before committing to code. You’re not building the full SaaS here, but you are getting everything you need to validate with speed: AI landing pages, Stripe payments, waitlist forms, and analytics.",
   },
 ];
 
@@ -344,7 +344,7 @@ return (
     <section className="section2 w-full bg-[#F4F4F8] py-16 px-6 md:px-20 ">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-          Why Use MVP Builder?
+          Why Use BloomQueue?
         </h2>
         <p className="text-gray-600 text-lg md:text-xl mb-12">
           Validate ideas fast, test with users, and launch with confidence — all without writing a single line of backend code.
@@ -444,7 +444,7 @@ return (
       Trusted by Early Founders & Builders
     </h2>
     <p className="text-gray-600 mb-12">
-      Makers from all backgrounds are using MVP Builder to validate ideas faster than ever.
+      Makers from all backgrounds are using BloomQueue to validate ideas faster than ever.
     </p>
 
     <div className="grid md:grid-cols-3 gap-8">

@@ -40,7 +40,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
         {/* Logo */}
         <a href="/" className="text-2xl font-bold">
-          MVP<span className="text-blue-600">Builder</span>
+          Bloom<span className="text-blue-600">Queue</span>
         </a>
 
         {/* Desktop Menu */}

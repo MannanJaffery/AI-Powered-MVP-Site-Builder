@@ -66,19 +66,35 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-        setLoading(true);
-      const result = await signInWithPopup(auth, googleprovider);
-      const user = result.user;
-      console.log("Signed in with Google:", user.email);
-      navigate('/');
-    } catch (error) {
-      console.error("Google sign-in error:", error.message);
-    }finally{
-        setLoading(false);
+
+const handleGoogleSignIn = async () => {
+  try {
+    setLoading(true);
+    const result = await signInWithPopup(auth, googleprovider);
+    const user = result.user;
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists() || !userSnap.data().username) {
+      const encodedUsername = encodeURIComponent(user.displayName || "user");
+
+      await setDoc(userRef, {
+        email: user.email,
+        username: encodedUsername,
+        createdAt: new Date(),
+      });
     }
-  };
+
+    console.log("Signed in with Google:", user.email);
+    navigate('/');
+  } catch (error) {
+    console.error("Google sign-in error:", error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -171,8 +187,6 @@ const Login = () => {
   </div>
 )}
 
-
-
   <button
     type="submit"
     disabled={loading}
@@ -181,7 +195,6 @@ const Login = () => {
     {loading ? "Logging in..." : "Continue"}
   </button>
 </form>
-
 
         <div className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
