@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PreviewAndEdit = () => {
+const ProductPage = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const PreviewAndEdit = () => {
   )
 }
 
-export default PreviewAndEdit
+export default ProductPage
