@@ -27,15 +27,14 @@ export default function IdeaInputAssistant() {
 
 
 
-
   const [loading, setLoading] = useState(false);
 
 const prompt = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:
 {
- "heading": "(Describe what the product actually is, not just the name , 5 to 6 words only)",
- "subheading": "(Provide a bit more detail explaining the heading)",
+ "heading": "(Describe what the product actually is, not just the name , 5 to 6 words only , unique )",
+ "subheading": "(Provide a bit more detail explaining the heading , 10 to 15 words)",
  "why_use": {
-   "line": "(A one-line summary of the main benefit 10 to 15 words)",
+   "line": "(A one-line summary of the main benefit , atleast 15 words )",
    "points": [
      "(First reason , at least 20 words)",
      "(Second reason , at least 20 words)",
@@ -114,117 +113,135 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
     });
   };
 
-  return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-purple-50 font-sans overflow-x-hidden">
-      {/* Header */}
-      <header className="bg-white border-b border-purple-100 shadow-sm w-full">
-        <div className="px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight">
-            Content Strategy Assistant
-          </h1>
+  return (<div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-purple-50 font-sans overflow-x-hidden">
+  {/* Animated Header */}
+  <header className="bg-white/90 backdrop-blur-sm border-b border-purple-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+    <div className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight flex items-center">
+          <span className="text-purple-500 mr-2 animate-pulse">✨</span>
+          Content Strategy Assistant
+        </h1>
+        <div className="hidden sm:block">
+          <span className="text-xs font-medium bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
+            BETA
+          </span>
         </div>
-      </header>
+      </div>
+    </div>
+  </header>
 
+  <main className="w-full animate-fadeIn">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="max-w-3xl mx-auto transition-all duration-300 hover:scale-[1.005]">
+        {/* Card with subtle effects */}
+        <div className="bg-white rounded-xl shadow-sm border border-purple-100/50 overflow-hidden transition-all duration-300 hover:shadow-md">
+          {/* Card header */}
+          <div className="bg-gradient-to-r from-purple-50 to-white p-6 border-b border-purple-100/50">
+            <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 flex items-center">
+              <span className="text-purple-500 mr-2">🖋️</span>
+              Content Strategy Generator
+            </h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Create a comprehensive content strategy for your product
+            </p>
+          </div>
 
-{loading && (
-  <p className="text-blue-500 mt-4 animate-pulse">Thinking... please wait ⏳</p>
-)}
+          {/* Form content */}
+          <div className="p-6 sm:p-8">
+            {/* Product Name */}
+            <div className="mb-6 animate-fadeInLeft">
+              <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center">
+                <span>Product Name</span>
+                <span className="text-purple-500 ml-1">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm placeholder-slate-400 hover:border-purple-300"
+                placeholder="Enter product name"
+                value={inputData.name}
+                onChange={(e) => setInputData({ ...inputData, name: e.target.value })}
+              />
+            </div>
 
-      {/* Input Form */}
-      <main className="w-full">
-        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-white rounded-lg shadow-sm border border-purple-100 p-6 sm:p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Product Name*
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm"
-                    placeholder="Enter product name"
-                    value={inputData.name}
-                    onChange={(e) => setInputData({ ...inputData, name: e.target.value })}
-                  />
-                </div>
+            {/* Product Description */}
+            <div className="mb-8 animate-fadeInLeft">
+              <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center">
+                <span>Product Description</span>
+                <span className="text-purple-500 ml-1">*</span>
+              </label>
+              <textarea
+                required
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm resize-none placeholder-slate-400 hover:border-purple-300"
+                rows={5}
+                placeholder="Describe key features, benefits, and unique value proposition..."
+                value={inputData.description}
+                onChange={(e) => setInputData({ ...inputData, description: e.target.value })}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                Minimum 50 characters required
+              </p>
+            </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Visual Keywords
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm"
-                    placeholder="modern, minimal, premium"
-                    value={inputData.imageKeywords}
-                    onChange={(e) => setInputData({ ...inputData, imageKeywords: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Brand Tone
-                  </label>
-                  <select
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm bg-white"
-                    value={inputData.tone}
-                    onChange={(e) => setInputData({ ...inputData, tone: e.target.value })}
-                  >
-                    <option value="">Select tone</option>
-                    <option value="professional">Professional</option>
-                    <option value="casual">Casual</option>
-                    <option value="premium">Premium</option>
-                    <option value="innovative">Innovative</option>
-                    <option value="trustworthy">Trustworthy</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Target Market
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm"
-                    placeholder="professionals, entrepreneurs, consumers"
-                    value={inputData.targetAudience}
-                    onChange={(e) => setInputData({ ...inputData, targetAudience: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Product Overview*
-                </label>
-                <textarea
-                  required
-                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm resize-none"
-                  rows={4}
-                  placeholder="Describe key features, benefits, and unique value proposition..."
-                  value={inputData.description}
-                  onChange={(e) => setInputData({ ...inputData, description: e.target.value })}
-                />
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  disabled={!inputData.name || !inputData.description}
-                  className="bg-purple-600 hover:bg-purple-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-6 sm:px-8 py-3 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm w-full sm:w-auto"
-                  onClick={handleSubmit}
-                >
-
-                  Generate Strategy
-
-                </button>
-              </div>
+            {/* Generate Button */}
+            <div className="flex justify-end animate-fadeInUp">
+              <button
+                type="submit"
+                disabled={loading || !inputData.name || !inputData.description}
+                className={`relative overflow-hidden px-6 sm:px-8 py-3.5 rounded-lg font-medium text-sm w-full sm:w-auto transition-all duration-200 shadow-sm flex items-center justify-center gap-2
+                  ${loading ? "bg-slate-100 text-slate-500 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-purple-200 hover:shadow-md hover:-translate-y-0.5"}`}
+                onClick={handleSubmit}
+              >
+                {loading ? (
+                  <>
+                    <span className="animate-spin">🔄</span>
+                    <span>Generating Strategy...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Generate Strategy</span>
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                  </>
+                )}
+                {/* Button hover effect */}
+                {!loading && (
+                  <span className="absolute inset-0 bg-gradient-to-r from-purple-700/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
+                )}
+              </button>
             </div>
           </div>
         </div>
-      </main>
+
+        {/* Help text */}
+        <div className="mt-6 text-center animate-fadeIn">
+          <p className="text-xs text-slate-500 flex items-center justify-center">
+            <span className="mr-1">❓</span>
+            Need help? Our AI will analyze your product and generate a complete strategy
+          </p>
+        </div>
+      </div>
     </div>
+  </main>
+
+  {/* Custom animations */}
+  <style jsx>{`
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+    .animate-fadeInLeft { animation: fadeInLeft 0.5s ease-out; }
+    .animate-fadeInUp { animation: fadeInUp 0.5s ease-out; }
+  `}</style>
+</div>
   );
 }
