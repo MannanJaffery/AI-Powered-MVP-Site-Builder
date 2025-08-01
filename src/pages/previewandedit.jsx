@@ -288,33 +288,63 @@ return (
  </div>
 </section>
 
-<section className="w-full bg-white py-16 px-4 sm:px-6">
-  <div className="max-w-3xl mx-auto text-center">
-    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-      Ready to Get Started?
-    </h2>
-    <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-      Join now and unlock exclusive benefits for early adopters.
-    </p>
-    
-    <div className="relative group max-w-md mx-auto">
-      <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-75 blur-sm group-hover:opacity-100 transition-all duration-300"></div>
-      <button className="relative w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
-        <div className="flex items-center justify-center gap-2">
-          <span className="text-lg">Reserve Your Spot Now</span>
-          <ArrowRight className="w-5 h-5" />
-        </div>
-      </button>
+<section className="w-full bg-white py-20 px-4 sm:px-6 section3">
+  <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-12 border border-gray-200/50 shadow-sm">
+    <div className="text-center mb-10">
+      <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Secure Your Advantage
+        </span>
+      </h2>
+      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        Early adopters get <span className="font-semibold text-blue-600">exclusive pricing</span> and <span className="font-semibold text-purple-600">priority access</span>
+      </p>
     </div>
 
-    <div className="flex justify-center gap-6 mt-8 text-sm text-gray-500">
-      <div className="flex items-center">
-        <ShieldCheck className="w-4 h-4 text-green-500 mr-2" />
-        <span>Early benefits</span>
+    <div className="max-w-md mx-auto space-y-6">
+    
+      {/* Google Early Access Sign-In */}
+      <div className="text-center">
+        <p className="text-sm text-gray-500 mb-3">Get early access updates</p>
+        <button 
+          onClick={handleGoogleSignup}
+          className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition-all duration-200"
+        >
+          <FcGoogle className="w-5 h-5" />
+          <span>Sign up for early access</span>
+        </button>
       </div>
+
       <div className="flex items-center">
-        <Clock className="w-4 h-4 text-blue-500 mr-2" />
-        <span>Limited availability</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="mx-4 text-sm text-gray-500">OR</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+      </div>
+        {/* Main Reserve Now Button */}
+      <div className="relative group">
+        <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-75 blur-sm group-hover:opacity-100 transition-all duration-300 animate-pulse"></div>
+        <button className="relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-lg">Reserve Now - Limited Spots</span>
+            <ArrowRight className="w-5 h-5" />
+          </div>
+        </button>
+      </div>
+
+
+      <div className="grid grid-cols-3 gap-4 mt-8 text-center">
+        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
+          <div className="text-xl font-bold text-blue-600">50%</div>
+          <div className="text-xs text-gray-600">Discount</div>
+        </div>
+        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
+          <div className="text-xl font-bold text-blue-600">VIP</div>
+          <div className="text-xs text-gray-600">Priority</div>
+        </div>
+        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
+          <div className="text-xl font-bold text-blue-600">+1 mon</div>
+          <div className="text-xs text-gray-600">Free Trial</div>
+        </div>
       </div>
     </div>
   </div>

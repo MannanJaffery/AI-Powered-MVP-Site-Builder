@@ -25,7 +25,6 @@ export default function IdeaInputAssistant() {
     description: ""
   });
 
-
   const [loading, setLoading] = useState(false);
 
 const prompt = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:
