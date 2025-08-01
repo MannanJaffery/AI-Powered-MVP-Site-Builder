@@ -26,13 +26,12 @@ export default function IdeaInputAssistant() {
   });
 
 
-
   const [loading, setLoading] = useState(false);
 
 const prompt = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:
 {
  "heading": "(Describe what the product actually is, not just the name , 5 to 6 words only , unique )",
- "subheading": "(Provide a bit more detail explaining the heading , 10 to 15 words)",
+ "subheading": "(Provide a bit more detail explaining the heading ,at least 15 words )",
  "why_use": {
    "line": "(A one-line summary of the main benefit , atleast 15 words )",
    "points": [
