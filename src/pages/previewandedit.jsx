@@ -112,7 +112,7 @@ return (
             className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <FcGoogle className="w-5 h-5" />
-            <span>Sign up for early access</span>
+            <span>Join the Free Waitlist</span>
           </button>
         </div>
 
@@ -128,7 +128,7 @@ return (
           <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-50 blur-sm group-hover:opacity-75 transition-all duration-300"></div>
           <button className="relative w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
             <div className="flex items-center justify-center gap-2">
-              <span className="text-lg">Reserve Now - Limited Spots</span>
+              <span className="text-lg">Become an Early Supporter for $5</span>
               <ArrowRight className="w-5 h-5" />
             </div>
           </button>
@@ -311,7 +311,7 @@ return (
           className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition-all duration-200"
         >
           <FcGoogle className="w-5 h-5" />
-          <span>Sign up for early access</span>
+          <span>Join the Free Waitlist</span>
         </button>
       </div>
 
@@ -325,7 +325,7 @@ return (
         <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-75 blur-sm group-hover:opacity-100 transition-all duration-300 animate-pulse"></div>
         <button className="relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
           <div className="flex items-center justify-center gap-2">
-            <span className="text-lg">Reserve Now - Limited Spots</span>
+            <span className="text-lg">Become an Early Supporter for $5</span>
             <ArrowRight className="w-5 h-5" />
           </div>
         </button>
