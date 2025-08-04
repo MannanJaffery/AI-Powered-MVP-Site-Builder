@@ -4,11 +4,16 @@ import { ArrowRight ,ShieldCheck, Clock , Zap , CreditCard , Brush, LayoutGrid ,
 
 import { FcGoogle } from 'react-icons/fc';
 import { animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
+import Sidebar from '../components/edit_sidebar';
+
 const PreviewandEdit = () => {
 
 
 
+  const [editmaintitle , seteditmaintitle] = useState('');
+  const [editsubtitle , seteditsubtitle] = useState('');
+  
 
   const handleGoogleSignup = () => {
     // Google signup functionality will go here
@@ -34,6 +39,7 @@ const PreviewandEdit = () => {
           .trim();
         parsedResponse = JSON.parse(cleanedResponse);
       }
+
     } catch (error) {
       console.error("Failed to parse AI response:", error);
       console.log("Raw AI response:", aiResponse);
@@ -48,29 +54,23 @@ const PreviewandEdit = () => {
 
 
 
+
   useEffect(()=>{
       
-      const interval = setInterval(()=>{
-          index = (index +1) % main_heading_words.length;
-          const changer = document.getElementById('changer');
-          if(changer){
-              changer.textContent = main_heading_words[index];
-              animate_main_heading(changer);
-          }
-      },2000)
-  
       animate_scroll_section1(".section1");
       animate_scroll_section2(".section2");
       animate_scroll_section3(".section3");
   
-  return () => clearInterval(interval); 
-  
-  },[])    
+  },[]);
 
 
 return (
 
     <>
+
+
+
+
 
 
 
@@ -177,10 +177,6 @@ return (
 
   <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
 </section>
-
-
-
-
 
 
 
@@ -349,6 +345,7 @@ return (
     </div>
   </div>
 </section>
+
 
     </>
 

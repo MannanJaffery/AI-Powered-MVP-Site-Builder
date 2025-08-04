@@ -2,8 +2,6 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 
-
-
 export const animate_main_heading = (element) =>{
 gsap.fromTo(
     element,
@@ -46,8 +44,8 @@ export const animateImageEntrance = (imageRef) => {
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-
+const scrollContainer = document.querySelector('#main');
+const useWindow = !scrollContainer || scrollContainer === document.documentElement;
 
 export const animate_scroll_section1 = (targetSelector) => {
   gsap.utils.toArray(targetSelector).forEach((el) => {
@@ -61,6 +59,7 @@ export const animate_scroll_section1 = (targetSelector) => {
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
+            scroller: useWindow ? undefined : scrollContainer,
           start: "top 80%",
           end: "top 20%",
           toggleActions: "play none none reverse",
@@ -70,7 +69,6 @@ export const animate_scroll_section1 = (targetSelector) => {
     );
   });
 };
-
 
 export const animate_scroll_section2 = (targetSelector)=>{
       gsap.fromTo(
@@ -83,6 +81,7 @@ export const animate_scroll_section2 = (targetSelector)=>{
       ease: "power3.out",
       scrollTrigger: {
         trigger: targetSelector,
+  scroller: useWindow ? undefined : scrollContainer,
         start: "top 80%",
         end: "top 20%",
         toggleActions: "play none none reverse",
@@ -91,7 +90,6 @@ export const animate_scroll_section2 = (targetSelector)=>{
     }
   );
 }
-
 
 
 export const animate_scroll_section3 = (targetSelector) => {
@@ -106,6 +104,7 @@ export const animate_scroll_section3 = (targetSelector) => {
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
+           scroller: useWindow ? undefined : scrollContainer,
           start: "top 80%",
           end: "top 20%",
           toggleActions: "play none none reverse",
