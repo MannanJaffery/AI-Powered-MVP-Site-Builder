@@ -6,6 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
 import { useEffect , useState } from 'react';
 import Sidebar from '../components/edit_sidebar';
+import Generated_Page_Nav from '../components/generated_page_nav';
 
 const PreviewandEdit = () => {
 
@@ -92,6 +93,12 @@ return (
 
 <div className='flex min-h-screen'>
 
+{!showsidebar && (
+<Generated_Page_Nav makesidebarshow = {setshowsidebar} />
+)}
+  
+
+
 {showsidebar && (
 <div className="fixed top-0 left-0 h-screen w-[250px] overflow-y-hidden bg-white border-r border-gray-200 shadow-lg z-50">
     <Sidebar
@@ -113,17 +120,6 @@ return (
 
 
 <section className={`relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden `}>
-  {!showsidebar && (
-    <div className="relative z-30 px-8 pt-6">
-      <button
-        onClick={() => setshowsidebar(true)}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm text-sm font-medium text-gray-700 hover:bg-white transition"
-      >
-        <Menu className="w-5 h-5" />
-        <span className="hidden sm:inline"></span>
-      </button>
-    </div>
-  )}
   <div className="absolute inset-0">
     <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
     <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl"></div>
