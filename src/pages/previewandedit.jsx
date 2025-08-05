@@ -1,6 +1,6 @@
 
 import { useLocation } from 'react-router-dom'
-import { ArrowRight ,ShieldCheck, Clock , Zap , CreditCard , Brush, LayoutGrid , Shield , Settings,Users,TrendingUp  } from 'lucide-react';
+import { ArrowRight ,ShieldCheck, Clock , Zap , CreditCard , Brush, LayoutGrid , Shield , Settings,Users,TrendingUp  , Menu } from 'lucide-react';
 
 import { FcGoogle } from 'react-icons/fc';
 import { animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
@@ -13,6 +13,9 @@ const PreviewandEdit = () => {
 
   const [editmaintitle , seteditmaintitle] = useState('');
   const [editsubtitle , seteditsubtitle] = useState('');
+
+
+  const [showsidebar , setshowsidebar] = useState(false);
 
   const [benefits, setBenefits] = useState([
   { title: "50%", subtitle: "Discount" },
@@ -73,13 +76,14 @@ const PreviewandEdit = () => {
 
 
 
-  // useEffect(()=>{
+  useEffect(()=>{
       
-  //     animate_scroll_section1(".section1");
-  //     animate_scroll_section2(".section2");
-  //     animate_scroll_section3(".section3");
-  
-  // },[]);
+    if(!showsidebar){
+      animate_scroll_section1(".section1");
+      animate_scroll_section2(".section2");
+      animate_scroll_section3(".section3");
+    }
+   },[showsidebar]);
 
 
 return (
@@ -88,7 +92,8 @@ return (
 
 <div className='flex min-h-screen'>
 
-  <div className="fixed top-0 left-0 h-screen w-[250px] overflow-y-auto bg-white border-r border-gray-200 shadow-lg z-50">
+{showsidebar && (
+<div className="fixed top-0 left-0 h-screen w-[250px] overflow-y-hidden bg-white border-r border-gray-200 shadow-lg z-50">
     <Sidebar
       editmaintitle={editmaintitle}
       seteditmaintitle={seteditmaintitle}
@@ -96,12 +101,29 @@ return (
       seteditsubtitle={seteditsubtitle}
       benefits={benefits}
       setBenefits={setBenefits}
+      setshowsidebar = {setshowsidebar}
     />
   </div>
+)}
+  
 
 
-<main className='flex-1 overflow-y-auto ml-[250px]'>
-<section className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden">
+
+<main className={`flex-1 overflow-hidden ${showsidebar ? 'ml-[250px]':''}`}>
+
+
+<section className={`relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden `}>
+  {!showsidebar && (
+    <div className="relative z-30 px-8 pt-6">
+      <button
+        onClick={() => setshowsidebar(true)}
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm text-sm font-medium text-gray-700 hover:bg-white transition"
+      >
+        <Menu className="w-5 h-5" />
+        <span className="hidden sm:inline"></span>
+      </button>
+    </div>
+  )}
   <div className="absolute inset-0">
     <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
     <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl"></div>
@@ -202,7 +224,7 @@ return (
 
 
 
-<section className="py-20 bg-gray-50">
+<section className={`py-20 bg-gray-50 ${!showsidebar ? 'section1':'' }`}>
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-16">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -247,7 +269,7 @@ return (
 </section>
 
 
-<section className="w-full bg-[#F9F9FA] py-20 px-6 md:px-20">
+<section className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20 ${!showsidebar ? 'section2':'' }`}>
  <div className="max-w-6xl mx-auto text-center">
    <h2 className="text-4xl md:text-5xl font-light mb-6 text-gray-900 leading-tight">
      Why Use <span className="text-blue-600 font-medium">{productName}</span>?
@@ -305,7 +327,7 @@ return (
  </div>
 </section>
 
-<section className="w-full bg-white py-20 px-4 sm:px-6">
+<section className={`w-full bg-white py-20 px-4 sm:px-6 ${!showsidebar ? 'section3':'' } `}>
   <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-12 border border-gray-200/50 shadow-sm">
     <div className="text-center mb-10">
       <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
