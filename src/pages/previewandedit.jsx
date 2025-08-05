@@ -13,7 +13,13 @@ const PreviewandEdit = () => {
 
   const [editmaintitle , seteditmaintitle] = useState('');
   const [editsubtitle , seteditsubtitle] = useState('');
-  
+
+  const [benefits, setBenefits] = useState([
+  { title: "50%", subtitle: "Discount" },
+  { title: "VIP", subtitle: "Priority" },
+  { title: "+1 mon", subtitle: "Free Trial" },
+]);
+
 
   const handleGoogleSignup = () => {
     // Google signup functionality will go here
@@ -38,6 +44,7 @@ const PreviewandEdit = () => {
           .replace(/```\n?/g, '')
           .trim();
         parsedResponse = JSON.parse(cleanedResponse);
+
       }
 
     } catch (error) {
@@ -54,26 +61,46 @@ const PreviewandEdit = () => {
 
 
 
-
   useEffect(()=>{
+
+    if(parsedResponse && !editmaintitle && !editsubtitle){
+      seteditmaintitle(parsedResponse.heading);
+      seteditsubtitle(parsedResponse.subheading);
+    }
+
+  },[parsedResponse , editmaintitle , editsubtitle])
+
+
+
+
+  // useEffect(()=>{
       
-      animate_scroll_section1(".section1");
-      animate_scroll_section2(".section2");
-      animate_scroll_section3(".section3");
+  //     animate_scroll_section1(".section1");
+  //     animate_scroll_section2(".section2");
+  //     animate_scroll_section3(".section3");
   
-  },[]);
+  // },[]);
 
 
 return (
 
     <>
 
+<div className='flex min-h-screen'>
+
+  <div className="fixed top-0 left-0 h-screen w-[250px] overflow-y-auto bg-white border-r border-gray-200 shadow-lg z-50">
+    <Sidebar
+      editmaintitle={editmaintitle}
+      seteditmaintitle={seteditmaintitle}
+      editsubtitle={editsubtitle}
+      seteditsubtitle={seteditsubtitle}
+      benefits={benefits}
+      setBenefits={setBenefits}
+    />
+  </div>
 
 
-
-
-
-
+<main className='flex-1 overflow-y-auto ml-[250px]'>
 <section className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden">
   <div className="absolute inset-0">
     <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
@@ -92,12 +119,12 @@ return (
 
       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
         <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          {parsedResponse.heading}
+          {editmaintitle}
         </span>
       </h1>
 
 <p className="text-xl text-gray-600 mb-10 max-w-full mx-auto leading-relaxed font-normal">
-  {parsedResponse.subheading}
+  {editsubtitle}
 </p>
 
 
@@ -136,19 +163,13 @@ return (
 
         {/* Benefits Grid */}
         <div className="grid grid-cols-3 gap-3 mt-6">
-          <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50 shadow-xs">
-            <div className="text-lg sm:text-xl font-bold text-blue-600">50%</div>
-            <div className="text-xs text-gray-600">Discount</div>
-          </div>
-          <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50 shadow-xs">
-            <div className="text-lg sm:text-xl font-bold text-blue-600">VIP</div>
-            <div className="text-xs text-gray-600">Priority</div>
-          </div>
-          <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50 shadow-xs">
-            <div className="text-lg sm:text-xl font-bold text-blue-600">+1 mon</div>
-            <div className="text-xs text-gray-600">Free Trial</div>
-          </div>
-        </div>
+  {benefits.map((item, index) => (
+    <div key={index} className="bg-white/90 p-3 rounded-lg border border-gray-200/50 shadow-xs">
+      <div className="text-lg sm:text-xl font-bold text-blue-600">{item.title}</div>
+      <div className="text-xs text-gray-600">{item.subtitle}</div>
+    </div>
+  ))}
+</div>
       </div>
 
       {/* Features */}
@@ -181,7 +202,7 @@ return (
 
 
 
-<section className="py-20 bg-gray-50 section1">
+<section className="py-20 bg-gray-50">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-16">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -226,7 +247,7 @@ return (
 </section>
 
 
-<section className="w-full bg-[#F9F9FA] py-20 px-6 md:px-20 section2">
+<section className="w-full bg-[#F9F9FA] py-20 px-6 md:px-20">
  <div className="max-w-6xl mx-auto text-center">
    <h2 className="text-4xl md:text-5xl font-light mb-6 text-gray-900 leading-tight">
      Why Use <span className="text-blue-600 font-medium">{productName}</span>?
@@ -284,7 +305,7 @@ return (
  </div>
 </section>
 
-<section className="w-full bg-white py-20 px-4 sm:px-6 section3">
+<section className="w-full bg-white py-20 px-4 sm:px-6">
   <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-12 border border-gray-200/50 shadow-sm">
     <div className="text-center mb-10">
       <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
@@ -329,24 +350,19 @@ return (
 
 
       <div className="grid grid-cols-3 gap-4 mt-8 text-center">
-        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
-          <div className="text-xl font-bold text-blue-600">50%</div>
-          <div className="text-xs text-gray-600">Discount</div>
-        </div>
-        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
-          <div className="text-xl font-bold text-blue-600">VIP</div>
-          <div className="text-xs text-gray-600">Priority</div>
-        </div>
-        <div className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
-          <div className="text-xl font-bold text-blue-600">+1 mon</div>
-          <div className="text-xs text-gray-600">Free Trial</div>
-        </div>
-      </div>
+  {benefits.map((item, index) => (
+    <div key={index} className="bg-white/90 p-3 rounded-lg border border-gray-200/50">
+      <div className="text-xl font-bold text-blue-600">{item.title}</div>
+      <div className="text-xs text-gray-600">{item.subtitle}</div>
+    </div>
+  ))}
+</div>
     </div>
   </div>
 </section>
 
-
+</main>
+</div>
     </>
 
 
