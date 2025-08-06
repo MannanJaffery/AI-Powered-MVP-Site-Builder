@@ -16,6 +16,7 @@ const Sidebar = ({
     setBenefits(updated);
   };
 
+  
   const addBenefit = () => {
     setBenefits([...benefits, { title: '', subtitle: '' }]);
   };
