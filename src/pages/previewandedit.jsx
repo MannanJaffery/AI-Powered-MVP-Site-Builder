@@ -1,6 +1,6 @@
 
 import { useLocation } from 'react-router-dom'
-import { ArrowRight ,ShieldCheck, Clock , Zap , CreditCard , Brush, LayoutGrid , Shield , Settings,Users,TrendingUp  , Menu } from 'lucide-react';
+import { ArrowRight ,ShieldCheck, Clock , Zap , CreditCard , Brush, LayoutGrid , Shield , Settings,Users,TrendingUp  , EyeOff } from 'lucide-react';
 
 import { FcGoogle } from 'react-icons/fc';
 import { animate_scroll_section1, animate_scroll_section2, animate_scroll_section3} from '../animations/Landing_animations';
@@ -17,6 +17,22 @@ const PreviewandEdit = () => {
 
 
   const [showsidebar , setshowsidebar] = useState(false);
+  const [preview , setPreview] = useState(false);
+
+
+const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  window.addEventListener('resize', handleResize);
+
+ 
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
 
   const [benefits, setBenefits] = useState([
   { title: "50%", subtitle: "Discount" },
@@ -93,33 +109,48 @@ return (
 
 <div className='flex min-h-screen'>
 
-{!showsidebar && (
-<Generated_Page_Nav makesidebarshow = {setshowsidebar} />
+{!showsidebar && !preview && (
+<Generated_Page_Nav 
+makesidebarshow = {setshowsidebar}
+setPreview = {setPreview}
+ />
 )}
+
+<div
+  className={`fixed top-0 left-0 h-screen w-[250px] bg-white border-r border-gray-200 shadow-lg z-50 transition-transform duration-300 ${
+    showsidebar ? 'translate-x-0' : '-translate-x-full'
+  }`}
+>
+
+
+  <Sidebar
+    editmaintitle={editmaintitle}
+    seteditmaintitle={seteditmaintitle}
+    editsubtitle={editsubtitle}
+    seteditsubtitle={seteditsubtitle}
+    benefits={benefits}
+    setBenefits={setBenefits}
+    setshowsidebar={setshowsidebar}
+  />
+</div>
+
   
 
 
-{showsidebar && (
-<div className="fixed top-0 left-0 h-screen w-[250px] overflow-y-hidden bg-white border-r border-gray-200 shadow-lg z-50">
-    <Sidebar
-      editmaintitle={editmaintitle}
-      seteditmaintitle={seteditmaintitle}
-      editsubtitle={editsubtitle}
-      seteditsubtitle={seteditsubtitle}
-      benefits={benefits}
-      setBenefits={setBenefits}
-      setshowsidebar = {setshowsidebar}
-    />
+
+<main className={`flex-1 overflow-hidden ${showsidebar&&!isMobile ? 'ml-[250px]':''}`}>
+
+
+<section className={`relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden`}>
+{!showsidebar && preview && (
+  <div
+    className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-500 hover:text-gray-700 shadow-md hover:shadow-lg cursor-pointer transition-all duration-200 z-50 border border-gray-200"
+    onClick={() => setPreview(false)}
+  >
+    <EyeOff className="w-5 h-5" />
   </div>
 )}
-  
 
-
-
-<main className={`flex-1 overflow-hidden ${showsidebar ? 'ml-[250px]':''}`}>
-
-
-<section className={`relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden `}>
   <div className="absolute inset-0">
     <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
     <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl"></div>

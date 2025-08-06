@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const Generated_Page_Nav = ({ makesidebarshow }) => {
+const Generated_Page_Nav = ({ makesidebarshow,setPreview }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -23,7 +23,9 @@ const Generated_Page_Nav = ({ makesidebarshow }) => {
             </button>
           </li>
           <li>
-            <button className="hover:text-blue-600 transition">
+            <button className="hover:text-blue-600 transition" onClick={()=>{
+                setPreview(true);
+            }}>
               Preview
             </button>
           </li>
@@ -61,8 +63,11 @@ const Generated_Page_Nav = ({ makesidebarshow }) => {
             </li>
             <li>
               <button
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {setMenuOpen(false)
+                    setPreview(true);
+                }}
                 className="block w-full text-left hover:text-blue-600 transition"
+
               >
                 Preview
               </button>

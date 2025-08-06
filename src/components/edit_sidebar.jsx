@@ -154,7 +154,9 @@ const Sidebar = ({
         <div className="pt-4 border-t border-gray-200">
           <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 shadow-sm">
             <Save className="w-4 h-4" />
-            <span>Save Changes</span>
+            <span onClick={()=>{
+              setshowsidebar(false);
+            }}>Save Changes</span>
           </button>
         </div>
       </div>
