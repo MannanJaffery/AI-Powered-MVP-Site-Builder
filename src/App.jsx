@@ -1,8 +1,6 @@
 import Dashboard from "./pages/dashboard";
 import InputIdea from "./pages/inputidea";
 import LandingPage from "./pages/landingpage";
-
-
 import NotFoundPage from "./pages/notfound";
 
 import Register from "./pages/authentication/register";
@@ -25,12 +23,14 @@ function App() {
   <AuthProvider>
     <BrowserRouter>
 
-
     <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
             <Route path="/" element = {<LandingPage />} />
             
-            <Route path = "/dashboard" element = {<Dashboard />}/>
+            <Route path = "/dashboard/:id" element = {
+              <ProtectedRoute>
+              <Dashboard />
+              </ProtectedRoute>}/>
 
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
@@ -50,15 +50,12 @@ function App() {
               </ProtectedRoute>
               }/>
 
+
+
               <Route path="/:username/:productname" element={
-              <ProtectedRoute>
               <ProductPage/>
-              </ProtectedRoute>
-              }/>
-
               
-
-
+              }/>
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

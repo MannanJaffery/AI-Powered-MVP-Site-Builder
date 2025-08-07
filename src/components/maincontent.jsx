@@ -1,3 +1,6 @@
+
+import { animate_scroll_section1 , animate_scroll_section2 , animate_scroll_section3 } from "../animations/Landing_animations";
+
 import { 
   EyeOff, 
   ArrowRight, 
@@ -12,6 +15,7 @@ import {
   Users, 
   TrendingUp 
 } from "lucide-react";
+import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 export default function MainContent({
@@ -26,6 +30,14 @@ export default function MainContent({
   parsedResponse,
   productName
 }) {
+
+
+        useEffect(()=>{
+          animate_scroll_section1(".section1");
+          animate_scroll_section2(".section2");
+          animate_scroll_section3(".section3");
+      },[])
+
   return (
     <main className={`flex-1 overflow-hidden ${showsidebar&&!isMobile ? 'ml-[250px]':''}`}>
       {/* Hero Section */}

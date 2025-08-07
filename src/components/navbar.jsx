@@ -5,6 +5,9 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 
 
 const Navbar = () => {
+
+
+ 
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -58,6 +61,15 @@ const Navbar = () => {
           New Project
         </a>
       )}
+
+
+      {user && (
+        <a href={`/dashboard/${user.uid}`} className="hover:text-blue-600 transition">
+          Dashoboard
+        </a>
+      )}
+
+
     </ul>
 
     {/* Auth Button */}
@@ -112,6 +124,18 @@ const Navbar = () => {
               className="block hover:text-blue-600 transition"
             >
               New Project
+            </a>
+          </li>
+        )}
+
+        {user && (
+          <li>
+            <a
+              href={`/dashboard/${user.uid}`} 
+              onClick={() => setMenuOpen(false)}
+              className="block hover:text-blue-600 transition"
+            >
+              Dashboard
             </a>
           </li>
         )}

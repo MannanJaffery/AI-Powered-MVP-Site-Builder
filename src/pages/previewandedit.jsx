@@ -7,6 +7,10 @@ import Sidebar from '../components/edit_sidebar';
 import Generated_Page_Nav from '../components/generated_page_nav';
 
 import MainContent from '../components/maincontent';
+import { addDoc , collection } from 'firebase/firestore';
+import { db ,auth } from '../firebase';
+
+
 
 
 
@@ -22,8 +26,6 @@ const PreviewandEdit = () => {
 
 
 const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-
 
 useEffect(() => {
   const handleResize = () => {
@@ -48,6 +50,7 @@ useEffect(() => {
     // Google signup functionality will go here
     console.log('Google signup clicked');
   };
+
 
  const location = useLocation();
   const { productName, aiResponse } = location.state || {};
@@ -76,6 +79,8 @@ useEffect(() => {
       return <div>Error: Invalid AI response format</div>;
     }
   }
+
+
 
   
   if (!productName || !parsedResponse) {
@@ -106,6 +111,37 @@ useEffect(() => {
    },[showsidebar]);
 
 
+
+   
+
+const handlePublish = async ()=> {
+
+  if(!editmaintitle || !editsubtitle || !benefits.length || !productName ||!parsedResponse){
+    return;
+  }
+
+    const pageData = {
+    title: editmaintitle,
+    subtitle: editsubtitle,
+    benefits,
+    productName,
+    parsedResponse,
+    createdAt: new Date(),
+  };
+
+  try {
+    const user = auth.currentUser;
+    await addDoc(collection(db, "users", user.uid, "pages"), pageData);
+    alert("Page published successfully!");
+  } catch (error) {
+    console.error("Error publishing page:", error);
+    alert("Failed to publish page.");
+  }
+
+}
+
+
+
 return (
 
     <>
@@ -116,8 +152,10 @@ return (
 <Generated_Page_Nav 
 makesidebarshow = {setshowsidebar}
 setPreview = {setPreview}
+handlepublish={handlePublish}
  />
 )}
+
 
 <div
   className={`fixed top-0 left-0 h-screen w-[250px] bg-white border-r border-gray-200 shadow-lg z-50 transition-transform duration-300 ${
@@ -136,10 +174,6 @@ setPreview = {setPreview}
     setshowsidebar={setshowsidebar}
   />
 </div>
-
-  
-
-
 
 <MainContent 
   showsidebar={showsidebar}
