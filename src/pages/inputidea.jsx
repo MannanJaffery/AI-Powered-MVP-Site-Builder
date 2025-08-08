@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useNavigate } from "react-router-dom";
 import useUsername from "../services/getcurrentusername";
 
-
+import Loader from "../components/loading";
 
 export default function IdeaInputAssistant() {
 
@@ -110,6 +110,9 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
       description: ""
     });
   };
+
+  if(loading) return <Loader />
+
 
   return (<div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-purple-50 font-sans overflow-x-hidden">
   {/* Animated Header */}

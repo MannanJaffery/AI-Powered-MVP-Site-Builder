@@ -17,6 +17,7 @@ import { animate_main_heading , animateImageEntrance , animate_scroll_section1, 
 import { useAuth } from '../context/authContext';
 import { sendEmailVerification } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import Loader from '../components/loading';
 
 
 //this is mock data for now , while creating mvp
@@ -94,6 +95,9 @@ const LandingPage = () => {
 
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
+
+const [loading , setLoading] = useState(false);
+
 const imageref = useRef(null);
   const [showNotice, setShowNotice] = useState(true);
 
@@ -146,6 +150,9 @@ console.log("currentUser:",currentUser);
 console.log("Email Verified:", currentUser?.emailVerified);
 
 
+
+
+if(loading) return <Loader />
 
 
 return (

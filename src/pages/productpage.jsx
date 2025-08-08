@@ -13,13 +13,14 @@ import { db } from "../firebase";
 import MainContent from "../components/maincontent";
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
+import Loader from "../components/loading";
 
 const ProductPage = () => {
   const { username, productname } = useParams();
   const decodedUsername = decodeURIComponent(username);
 
   const [pageData, setPageData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchPage = async () => {
       try {
-        // Find user by username
+        setLoading(true);
         const usersRef = collection(db, "users");
         const userQuery = query(usersRef, where("username", "==", decodedUsername));
         const userSnap = await getDocs(userQuery);
@@ -80,7 +81,6 @@ const ProductPage = () => {
     e.preventDefault();
 
     if (!name || !email) {
-      toast.warning("Please fill in all fields");
       return;
     }
 
@@ -118,11 +118,7 @@ const ProductPage = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
+    return <Loader />
   }
 
   if (!pageData) {

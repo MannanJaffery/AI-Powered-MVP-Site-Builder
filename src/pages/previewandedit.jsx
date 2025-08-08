@@ -11,9 +11,6 @@ import { addDoc , collection } from 'firebase/firestore';
 import { db ,auth } from '../firebase';
 
 
-
-
-
 const PreviewandEdit = () => {
 
 
@@ -23,8 +20,7 @@ const PreviewandEdit = () => {
 
   const [showsidebar , setshowsidebar] = useState(false);
   const [preview , setPreview] = useState(false);
-
-
+ 
 const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
 useEffect(() => {
@@ -59,7 +55,7 @@ useEffect(() => {
   
   if (aiResponse) {
     try {
-
+   
       if (typeof aiResponse === 'object') {
         parsedResponse = aiResponse;
         console.log(parsedResponse);
@@ -137,8 +133,11 @@ const handlePublish = async ()=> {
     console.error("Error publishing page:", error);
     alert("Failed to publish page.");
   }
-
 }
+
+
+
+
 
 
 
