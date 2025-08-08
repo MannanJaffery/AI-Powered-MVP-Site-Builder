@@ -44,17 +44,19 @@ const Dashboard = () => {
 
 
 
-const [copied, setCopied] = useState(false);
+const [copiedId, setCopiedId] = useState(null);
 
-const handleCopy = async (link) => {
-  try {
-    await navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500); // optional feedback reset
-  } catch (err) {
-    console.error('Failed to copy: ', err);
-  }
+
+
+const handleCopy = (link, productId) => {
+  navigator.clipboard.writeText(link).then(() => {
+    setCopiedId(productId);
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 2000); 
+  });
 };
+
 
   
   if (loading) {
@@ -69,7 +71,7 @@ const handleCopy = async (link) => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            {username}'s Dashboard
+            Welcom {username}
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Manage your products and track customer engagement
@@ -140,34 +142,41 @@ const handleCopy = async (link) => {
                 </div>
 
 
-          <div className="mt-2 flex items-center gap-2">
-  <span className="font-medium">Link:</span>
+          <div className="mt-2 flex items-center gap-2" >
+            <span className="font-medium">Link:</span>
 
-  <a
-    href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-600 hover:text-blue-800 underline flex items-center gap-1"
-  >
-    <LinkIcon size={14} />
-    <span
-      className="truncate max-w-[200px]"
-      
-    >
-      {`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
-    </span>
-  </a>
+            <a
+              href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 underline flex items-center gap-1"
+            >
+              <LinkIcon size={14} />
+              <span
+                className="truncate max-w-[200px]"
+                
+              >
+                {`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
+              </span>
+            </a>
 
-  <button
-   onClick={() => handleCopy(`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`)}
+           <button
+  onClick={() =>
+    handleCopy(
+      `https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`,
+      product.id
+    )
+  }
+  className="ml-2 text-gray-500 hover:text-gray-800"
+  title="Copy link"
+>
+  <CopyIcon size={16} />
+</button>
 
-    className="ml-2 text-gray-500 hover:text-gray-800"
-    title="Copy link"
-  >
-    <CopyIcon size={16} />
-  </button>
+{copiedId === product.id && (
+  <span className="text-sm text-green-600">Copied!</span>
+)}
 
-  {copied && <span className="text-sm text-green-600">Copied!</span>}
 </div>
 
 
