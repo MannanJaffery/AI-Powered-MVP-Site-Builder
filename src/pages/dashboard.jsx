@@ -3,9 +3,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db , auth } from "../firebase";
 import useUsername from "../services/getcurrentusername";
-import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 } from "lucide-react";
+import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 ,Menu,LinkIcon, CopyIcon  } from "lucide-react";
 import Loader from "../components/loading";
-import { LinkIcon, CopyIcon } from "lucide-react";
 import useEmail from "../services/getcurrentemail";
 
 import deleteAccount from "../services/deleteaccount";
@@ -30,7 +29,16 @@ const Dashboard = () => {
 
 
   const [showConfirm, setShowConfirm] = useState(false);
+
+
+  const [showsidebar , setShowSidebar] = useState(false);
   const [password, setPassword] = useState("");
+
+
+
+
+
+
 
 
   useEffect(() => {
@@ -118,7 +126,12 @@ const handleDeleteproduct = async (id) => {
     <div className="min-h-screen bg-slate-50">
       <div className="flex">
         {/* Professional Sidebar */}
-        <div className="w-72 bg-white flex flex-col h-screen shadow-sm border-r border-slate-200 fixed left-0 top-0 z-10">
+        
+<div 
+  className={`w-72 bg-white flex flex-col h-screen shadow-sm border-r border-slate-200 fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
+    showsidebar ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+  }`}
+>
           {/* Sidebar Header */}
           <div className="px-8 py-8 border-b border-slate-100">
             <div className="flex items-center space-x-3">
@@ -127,10 +140,26 @@ const handleDeleteproduct = async (id) => {
                   <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                 </svg>
               </div>
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">Dashboard</h2>
-                <p className="text-xs text-slate-500">Workspace</p>
-              </div>
+
+
+<div className="flex items-center w-full justify-between">
+  
+  <div>
+    <h2 className="text-lg font-semibold text-slate-900">Dashboard</h2>
+    <p className="text-xs text-slate-500">Workspace</p>
+  </div>
+
+
+    <span
+      className="md:hidden cursor-pointer p-1 rounded hover:bg-gray-200"
+      onClick={() => setShowSidebar(false)}
+      aria-label="Close sidebar"
+      role="button"
+    >
+      <X size={20} />
+    </span>
+  
+</div>
             </div>
           </div>
 
@@ -276,19 +305,38 @@ const handleDeleteproduct = async (id) => {
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 ml-72">
+        <main className="flex-1 ml-0 md:ml-72">
           <div className="px-8 py-8">
             {/* Header Section */}
             <div className="mb-8">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div>
-                  <h1 className="text-2xl font-bold text-slate-900 mb-2">
-                    Welcome back, {username}
-                  </h1>
-                  <p className="text-slate-600">
-                    Manage your products and track customer engagement
-                  </p>
-                </div>
+
+
+<div className="flex flex-col md:flex-row md:items-center md:justify-between">
+
+
+  <div>
+    <div className="flex items-center justify-between space-x-2">
+      <h1 className="text-2xl font-bold text-slate-900 mb-2">
+        Welcome back, {username}
+      </h1>
+
+      <span className="md:hidden p-2 rounded-md bg-indigo-600 text-white cursor-pointer"
+      onClick={()=>setShowSidebar(true)}>
+        <Menu size={24} />
+      </span>
+    </div>
+
+    <p className="text-slate-600 max-w-max">
+      Manage your products and track customer <span className={`md:hidden`}><br /></span>engagement
+    </p>
+  </div>
+
+</div>
+
+
+
+
 
                 <div className="flex items-center gap-3">
 
