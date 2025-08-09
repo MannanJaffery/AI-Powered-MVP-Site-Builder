@@ -27,6 +27,9 @@ const ProductPage = () => {
   const [userId, setUserId] = useState(null);
   const [pageId, setPageId] = useState(null);
 
+
+
+
   useEffect(() => {
     const fetchPage = async () => {
       try {
@@ -139,6 +142,8 @@ const ProductPage = () => {
         productName={pageData?.productName || null}
         handleGoogleSignup={handleGoogleSignup}
         waitlistCount={pageData?.waitlist?.length || 0}
+        features={pageData?.features}
+        featuresexplanation={pageData?.featuresexplanation}
       />
 
       {showPopup && (

@@ -51,7 +51,7 @@ const prompt = `You are required to extract structured data from the provided pr
    "(Explanation for feature 3 , at least 20 words)"
  ]
 }
-
+ 
 Use the product name and description below to generate the required content:
 PRODUCT NAME: ${inputData.name}
 PRODUCT DESCRIPTION: ${inputData.description}`;
@@ -225,7 +225,6 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
     </div>
   </main>
 
-  {/* Custom animations */}
   <style jsx>{`
     @keyframes fadeIn {
       from { opacity: 0; }
