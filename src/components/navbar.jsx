@@ -41,12 +41,11 @@ const Navbar = () => {
   return (
 <nav className="w-full z-50 fixed top-0 left-0 bg-white/80 backdrop-blur-md border-b shadow-sm">
   <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
-    {/* Logo */}
-    <a href="/" className="text-2xl font-bold">
+
+ <a href="/" className="text-2xl font-bold">
       Bloom<span className="text-blue-600">Queue</span>
     </a>
 
-    {/* Desktop Menu */}
     <ul className="hidden md:flex space-x-8 text-sm font-medium">
       {navLinks.map((link) => (
         <li key={link.name}>
@@ -56,11 +55,7 @@ const Navbar = () => {
         </li>
       ))}
 
-      {user && (
-        <a href="/input-idea" className="hover:text-blue-600 transition">
-          New Project
-        </a>
-      )}
+
 
 
       {user && (
@@ -115,18 +110,6 @@ const Navbar = () => {
           </li>
         ))}
         
-        {/* Show New Project in mobile when logged in */}
-        {user && (
-          <li>
-            <a
-              href="/input-idea"
-              onClick={() => setMenuOpen(false)}
-              className="block hover:text-blue-600 transition"
-            >
-              New Project
-            </a>
-          </li>
-        )}
 
         {user && (
           <li>

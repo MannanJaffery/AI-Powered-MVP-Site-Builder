@@ -1,18 +1,34 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { db , auth, googleprovider } from "../firebase";
 import useUsername from "../services/getcurrentusername";
-import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User } from "lucide-react";
+import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 } from "lucide-react";
 import Loader from "../components/loading";
-import { LinkIcon ,CopyIcon } from "lucide-react";
+import { LinkIcon, CopyIcon } from "lucide-react";
+import useEmail from "../services/getcurrentemail";
+
+import deleteAccount from "../services/deleteaccount";
+import GoogleAccountDeletion from "../services/googleaccountdeletion";
 
 const Dashboard = () => {
+
+
+  const navigate = useNavigate();
   const username = useUsername();
+  const email = useEmail();
+
+
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState({});
+  const [accountsettings, setAccountsettings] = useState(false);
+
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [password, setPassword] = useState("");
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,206 +57,379 @@ const Dashboard = () => {
     setExpanded((prev) => ({ ...prev, [productId]: !prev[productId] }));
   };
 
+  const [copiedId, setCopiedId] = useState(null);
+
+  const handleCopy = (link, productId) => {
+    navigator.clipboard.writeText(link).then(() => {
+      setCopiedId(productId);
+      setTimeout(() => {
+        setCopiedId(null);
+      }, 2000); 
+    });
+  };
+
+  const handleaccountsettings = () => {
+    let settings = accountsettings === false ? true : false;
+    setAccountsettings(settings);
+  }
 
 
+    const handleDelete = async () => {
 
-const [copiedId, setCopiedId] = useState(null);
-
-
-
-const handleCopy = (link, productId) => {
-  navigator.clipboard.writeText(link).then(() => {
-    setCopiedId(productId);
-    setTimeout(() => {
-      setCopiedId(null);
-    }, 2000); 
-  });
-};
+    await deleteAccount(email,password);
+    
+  };
 
 
-  
+  const handlegoogledelete = async ()=>{
+    await GoogleAccountDeletion();
+  }
+
   if (loading) {
     return <Loader />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    {/* Header Section */}
-    <div className="mb-8">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Welcom {username}
-          </h1>
-          <p className="text-sm text-gray-500 mt-2">
-            Manage your products and track customer engagement
-          </p>
-        </div>
-        <Link
-          to="/input-idea"
-          className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm shadow-sm hover:shadow-md"
-        >
-          <Plus size={18} className="shrink-0" />
-          <span className="hidden sm:inline">New Product</span>
-          <span className="inline sm:hidden">New Product</span>
-        </Link>
-      </div>
-    </div>
-
-
-    {products.length === 0 ? (
-      <div className="bg-white rounded-xl border border-gray-200 p-8 sm:p-12 text-center max-w-2xl mx-auto">
-        <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Plus className="text-purple-600" size={24} />
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">No products published yet</h3>
-        <p className="text-gray-500 mb-6">
-          Create your first product to start building your waitlist
-        </p>
-        <Link
-          to="/new-project"
-          className="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium shadow-sm hover:shadow-md w-full sm:w-auto"
-        >
-          <Plus size={18} />
-          Create Product
-        </Link>
-      </div>
-    ) : (
-      /* Products Grid */
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {products.map((product) => {
-          const waitlist = product.waitlist || [];
-          const isExpanded = expanded[product.id];
-          const createdAtFormatted = product.createdAt
-            ? new Date(product.createdAt.seconds * 1000).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-              })
-            : "Unknown";
-
-          return (
-            <div 
-              key={product.id} 
-              className="bg-white rounded-lg border border-gray-200 hover:border-purple-200 transition-all h-80 flex flex-col shadow-sm hover:shadow-md overflow-hidden"
-            >
-
-              <div className="p-5 border-b border-gray-100 flex-shrink-0">
-                <Link 
-                  to={`/${username}/${product.productName}`}
-                  className="group block"
-                >
-                  <h3 className="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2 mb-2 text-lg">
-                    {product.productName}
-                  </h3>
-                </Link>
-                
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <Calendar size={14} className="text-gray-400" />
-                  <span>Created {createdAtFormatted}</span>
-                </div>
-
-
-          <div className="mt-2 flex items-center gap-2" >
-            <span className="font-medium">Link:</span>
-
-            <a
-              href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 underline flex items-center gap-1"
-            >
-              <LinkIcon size={14} />
-              <span
-                className="truncate max-w-[200px]"
-                
-              >
-                {`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
-              </span>
-            </a>
-
-           <button
-  onClick={() =>
-    handleCopy(
-      `https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`,
-      product.id
-    )
-  }
-  className="ml-2 text-gray-500 hover:text-gray-800"
-  title="Copy link"
->
-  <CopyIcon size={16} />
-</button>
-
-{copiedId === product.id && (
-  <span className="text-sm text-green-600">Copied!</span>
-)}
-
-</div>
-
-
+    <div className="min-h-screen bg-slate-50">
+      <div className="flex">
+        {/* Professional Sidebar */}
+        <div className="w-72 bg-white flex flex-col h-screen shadow-sm border-r border-slate-200 fixed left-0 top-0 z-10">
+          {/* Sidebar Header */}
+          <div className="px-8 py-8 border-b border-slate-100">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                </svg>
               </div>
-
-              {/* Waitlist Section */}
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Users size={16} className="text-purple-500" />
-                    <span className="text-sm font-medium text-gray-900">
-                      {waitlist.length} {waitlist.length === 1 ? 'subscriber' : 'subscribers'}
-                    </span>
-                  </div>
-                  
-                  {waitlist.length > 0 && (
-                    <button
-                      onClick={() => toggleExpand(product.id)}
-                      className="flex items-center gap-1 text-xs font-medium text-purple-600 hover:text-purple-800 transition-colors"
-                    >
-                      {isExpanded ? (
-                        <>
-                          Hide <ChevronUp size={14} />
-                        </>
-                      ) : (
-                        <>
-                          View <ChevronDown size={14} />
-                        </>
-                      )}
-                    </button>
-                  )}
-                </div>
-
-                {/* Expanded Waitlist */}
-                {isExpanded && waitlist.length > 0 && (
-                  <div className="flex-1 border-t border-gray-100 pt-4">
-                    <div className="space-y-3 h-[136px] overflow-y-auto pr-2 -mr-2 custom-scrollbar">
-                      {waitlist.map((entry, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 text-purple-700 text-xs font-medium">
-                            {entry.name?.charAt(0)?.toUpperCase() || <User size={14} className="text-purple-500" />}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-gray-900 truncate">
-                              {entry.name || 'Anonymous'}
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                              <Mail size={12} />
-                              <span className="truncate">{entry.email}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Dashboard</h2>
+                <p className="text-xs text-slate-500">Workspace</p>
               </div>
             </div>
-          );
-        })}
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 px-6 py-6 space-y-2 overflow-y-auto">
+            {/* New Project Button */}
+            <div className="mb-8">
+              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              onClick={()=>{
+                navigate("/input-idea");
+              }}>
+                <Plus className="w-5 h-5" />
+                <span>New Project</span>
+              </button>
+            </div>
+
+            {/* Menu Items */}
+            <div className="space-y-1">
+              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group">
+                <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v3H8V5z" />
+                </svg>
+                <span className="font-medium">Projects</span>
+              </button>
+
+              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group">
+                <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <span className="font-medium">Subcribers</span>
+              </button>
+            </div>
+
+            {/* Account Settings */}
+            <div className="pt-6 border-t border-slate-100">
+              <button
+                onClick={handleaccountsettings}
+                className="w-full flex justify-between items-center px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group"
+              >
+                <div className="flex items-center space-x-3">
+                  <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="font-medium">Account Settings</span>
+                </div>
+                <ChevronDown className={`w-4 h-4 transform transition-transform duration-200 ${accountsettings ? "rotate-180 text-indigo-600" : "text-slate-400"}`} />
+              </button>
+
+              {accountsettings && (
+                <div className="mt-2 space-y-1 pl-12 animate-in slide-in-from-top-2 duration-200">
+
+                    <Link to = '/forget-password' className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
+                           Forget Password
+                    </Link>
+
+<button
+        className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors text-sm"
+        onClick={() => {
+          if(auth.currentUser.providerData[0].providerId==='password'){
+          setShowConfirm(true)} else { 
+            handlegoogledelete();
+          }
+        }}
+      >
+        <Trash2 size={16} />
+        Delete Account
+      </button>
+
+      {showConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 relative">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowConfirm(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Content */}
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">
+              Confirm Account Deletion
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">
+              This action cannot be undone. Please enter your password to
+              confirm.
+            </p>
+
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
+            />
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <button
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition"
+                onClick={handleDelete}
+              >
+                Confirm Delete
+              </button>
+
+            </div>
+          </div>
+        </div>
+      )}
+                  <button className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
+                    Billing & Payment
+                  </button>
+                </div>
+              )}
+            </div>
+          </nav>
+
+          {/* User Profile */}
+          <div className="p-6 border-t border-slate-100">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+                {username
+                  ? username
+                      .split(" ")
+                      .map(word => word[0])
+                      .join("")
+                      .toUpperCase()
+                  : ""}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-slate-900 truncate">{username}</p>
+                <p className="text-xs text-slate-500 truncate">{email}</p>
+              </div>
+              <button className="text-slate-400 hover:text-slate-600 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 ml-72">
+          <div className="px-8 py-8">
+            {/* Header Section */}
+            <div className="mb-8">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div>
+                  <h1 className="text-2xl font-bold text-slate-900 mb-2">
+                    Welcome back, {username}
+                  </h1>
+                  <p className="text-slate-600">
+                    Manage your products and track customer engagement
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3">
+
+
+                  <Link
+                    to="/input-idea"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  >
+                    <Plus size={18} />
+                    New Project
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Products Section */}
+            <div className="flex justify-center">
+              {products.length === 0 ? (
+                <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-2xl shadow-sm">
+                  <div className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <Plus className="text-indigo-600" size={32} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                    No projects yet
+                  </h3>
+                  <p className="text-slate-600 mb-8 leading-relaxed">
+                    Create your first project to start building your waitlist and engaging with customers
+                  </p>
+                  <Link
+                    to="/input-idea"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  >
+                    <Plus size={20} />
+                    Create Your First Project
+                  </Link>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 w-full max-w-7xl">
+                  {products.map((product) => {
+                    const waitlist = product.waitlist || [];
+                    const isExpanded = expanded[product.id];
+                    const createdAtFormatted = product.createdAt
+                      ? new Date(product.createdAt.seconds * 1000).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })
+                      : "Unknown";
+
+                    return (
+                      <div
+                        key={product.id}
+                        className="bg-white rounded-2xl border border-slate-200 hover:border-indigo-200 transition-all duration-300 h-80 flex flex-col shadow-sm hover:shadow-lg group overflow-hidden"
+                      >
+                        {/* Product Header */}
+                        <div className="p-6 border-b border-slate-100 flex-shrink-0">
+                          <Link to={`/${username}/${product.productName}`} className="block">
+                            <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors line-clamp-1 mb-2 text-lg">
+                              {product.productName}
+                            </h3>
+                          </Link>
+
+                          <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
+                            <Calendar size={14} className="text-slate-400" />
+                            <span>{createdAtFormatted}</span>
+                          </div>
+
+                          {/* Project Link */}
+                          <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl">
+                            <LinkIcon size={14} className="text-slate-400 flex-shrink-0" />
+                            <a
+                              href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-indigo-600 hover:text-indigo-800 flex-1 truncate text-sm font-medium"
+                            >
+                              {`mvp-go-seven.vercel.app/${username}/${product.productName}`}
+                            </a>
+                            <button
+                              onClick={() =>
+                                handleCopy(
+                                  `https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`,
+                                  product.id
+                                )
+                              }
+                              className="text-slate-400 hover:text-slate-600 transition-colors"
+                              title="Copy link"
+                            >
+                              <CopyIcon size={16} />
+                            </button>
+                            {copiedId === product.id && (
+                              <span className="text-xs text-green-600 font-medium">Copied!</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Waitlist Section */}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                <Users size={16} className="text-indigo-600" />
+                              </div>
+                              <div>
+                                <span className="text-lg font-semibold text-slate-900">
+                                  {waitlist.length}
+                                </span>
+                                <span className="text-sm text-slate-500 ml-1">
+                                  waitlisted
+                                </span>
+                              </div>
+                            </div>
+
+                            {waitlist.length > 0 && (
+                              <button
+                                onClick={() => toggleExpand(product.id)}
+                                className="flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors px-3 py-1 rounded-lg hover:bg-indigo-50"
+                              >
+                                {isExpanded ? (
+                                  <>
+                                    Hide <ChevronUp size={14} />
+                                  </>
+                                ) : (
+                                  <>
+                                    View All <ChevronDown size={14} />
+                                  </>
+                                )}
+                              </button>
+                            )}
+                          </div>
+
+                          {isExpanded && waitlist.length > 0 && (
+                            <div className="flex-1 border-t border-slate-100 pt-4">
+                              <div className="space-y-3 h-32 overflow-y-auto">
+                                {waitlist.map((entry, index) => (
+                                  <div key={index} className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center flex-shrink-0 text-indigo-700 text-xs font-semibold">
+                                      {entry.name?.charAt(0)?.toUpperCase() || (
+                                        <User size={14} className="text-indigo-500" />
+                                      )}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="text-sm font-medium text-slate-900 truncate">
+                                        {entry.name || 'Anonymous'}
+                                      </div>
+                                      <div className="flex items-center gap-1 text-xs text-slate-500">
+                                        <Mail size={10} />
+                                        <span className="truncate">{entry.email}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
       </div>
-    )}
-  </div>
-</div>
+    </div>
   );
 };
 

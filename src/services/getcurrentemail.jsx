@@ -2,27 +2,26 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-const useUsername = () => {
-  const [username, setUsername] = useState(null);
+const useEmail = () => {
+  const [email, setEmail] = useState(null);
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchEmail = async () => {
       const user = auth.currentUser;
 
-      
-      if (user && !username ) {
+      if (user && !email) {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setUsername(docSnap.data().username);
+          setEmail(docSnap.data().email);
         }
       }
     };
-    fetchUsername();
-  }, []);
+    fetchEmail();
+  }, [email]);
 
-  return username;
+  return email;
 };
 
-export default useUsername;
+export default useEmail;
