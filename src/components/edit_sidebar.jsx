@@ -1,4 +1,4 @@
-import { Edit3, Type, List, Save, X, Star } from 'lucide-react';
+import { Edit3, Type, List, Save, X, Star , HelpCircle } from 'lucide-react';
 
 const Sidebar = ({
   editmaintitle,
@@ -11,7 +11,12 @@ const Sidebar = ({
   features,
   featuresexplanation,
   setFeatures,
-  setFeaturesExplanation
+  setFeaturesExplanation,
+
+  whyuseline,
+  whyusepoints,
+  setWhyuseLine,
+  setWhyUsePoints
 }) => {
   const handleBenefitChange = (index, field, value) => {
     const updated = [...benefits];
@@ -53,6 +58,30 @@ const Sidebar = ({
       setFeaturesExplanation(featuresexplanation.filter((_, i) => i !== index));
     }
   };
+
+const handleWhyUseLineChange = (value) => {
+  setWhyuseLine(value);
+};
+
+
+const handleWhyUsePointChange = (index, value) => {
+  const updated = [...whyusepoints];
+  updated[index] = value;
+  setWhyUsePoints(updated);
+};
+
+
+const addWhyUsePoint = () => {
+  setWhyUsePoints([...whyusepoints, '']);
+};
+
+
+const removeWhyUsePoint = (index) => {
+  if (whyusepoints.length > 1) {
+    setWhyUsePoints(whyusepoints.filter((_, i) => i !== index));
+  }
+};
+
 
   return (
     <div className="relative h-full bg-white border-r border-gray-200 shadow-sm">
@@ -166,6 +195,70 @@ const Sidebar = ({
             ))}
           </div>
         </section>
+
+
+        {/* Why Use */}
+<section>
+  <div className="flex items-center justify-between mb-4">
+    <div className="flex items-center space-x-2">
+      <HelpCircle className="w-4 h-4 text-gray-600" />
+      <h2 className="text-lg font-medium text-gray-900">Why Use</h2>
+    </div>
+  </div>
+
+  {/* Main line */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      Main Reason Line
+    </label>
+    <input
+      type="text"
+      value={whyuseline}
+      onChange={(e) => handleWhyUseLineChange(e.target.value)}
+      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+      placeholder="Enter main reason headline"
+    />
+  </div>
+
+  {/* Points */}
+  <div className="space-y-4">
+    {whyusepoints.map((point, index) => (
+      <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm font-medium text-gray-600">
+            Reason {index + 1}
+          </span>
+          {whyusepoints.length > 1 && (
+            <button
+              onClick={() => removeWhyUsePoint(index)}
+              className="text-red-500 hover:text-red-700 text-sm font-medium"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+
+        <input
+          type="text"
+          value={point}
+          onChange={(e) => handleWhyUsePointChange(index, e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+          placeholder="Enter reason"
+        />
+      </div>
+    ))}
+  </div>
+
+  <div className="mt-3">
+    <button
+      onClick={addWhyUsePoint}
+      className="px-3 py-1.5 text-sm font-medium text-green-600 bg-green-50 rounded-md hover:bg-green-100"
+    >
+      + Add Reason
+    </button>
+  </div>
+</section>
+
 
         {/* Benefits */}
         <section>

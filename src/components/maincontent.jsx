@@ -31,6 +31,8 @@ export default function MainContent({
   productName,
   features,
   featuresexplanation,
+  whyuseline,
+  whyusepoints,
 }) {
 
 
@@ -194,62 +196,52 @@ export default function MainContent({
       </section>
 
       {/* Why Use Section */}
-      <section className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20 ${!showsidebar ? 'section2':'' }`}>
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-light mb-6 text-gray-900 leading-tight">
-            Why Use <span className="text-blue-600 font-medium">{productName}</span>?
-          </h2>
-          <p className="text-gray-600 text-lg md:text-xl mb-16 max-w-2xl mx-auto leading-relaxed">
-            {parsedResponse.why_use?.line || "The smarter way to validate your idea"}
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-12 text-left max-w-7xl mx-auto">
-            <div className="flex items-start gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-              <div className="flex-shrink-0">
-                <Zap className="text-blue-600 w-5 h-5 mt-1" />
-              </div>
-              <div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {parsedResponse.why_use.points[0] || "Launch quickly and validate"}
-                </p>
-              </div>
-            </div>
+<section
+  className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20 ${
+    !showsidebar ? "section2" : ""
+  }`}
+>
+  <div className="max-w-6xl mx-auto text-center">
+    <h2 className="text-4xl md:text-5xl font-light mb-6 text-gray-900 leading-tight">
+      Why Use{" "}
+      <span className="text-blue-600 font-medium">{productName}</span>?
+    </h2>
+    <p className="text-gray-600 text-lg md:text-xl mb-16 max-w-2xl mx-auto leading-relaxed">
+      {whyuseline || "The smarter way to validate your idea"}
+    </p>
 
-            <div className="flex items-start gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-              <div className="flex-shrink-0">
-                <Users className="text-green-600 w-5 h-5 mt-1" />
-              </div>
-              <div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {parsedResponse.why_use.points[1] || "Get real user feedback"}
-                </p>
-              </div>
-            </div>
+    <div className="grid md:grid-cols-2 gap-12 text-left max-w-7xl mx-auto">
+      {whyusepoints.map((point, index) => {
+        // Optional: choose icon & color per index
+        const icons = [
+          { icon: Zap, color: "text-blue-600" },
+          { icon: Users, color: "text-green-600" },
+          { icon: Clock, color: "text-amber-600" },
+          { icon: TrendingUp, color: "text-purple-600" },
+        ];
+        const IconComponent = icons[index % icons.length].icon;
+        const iconColor = icons[index % icons.length].color;
 
-            <div className="flex items-start gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-              <div className="flex-shrink-0">
-                <Clock className="text-amber-600 w-5 h-5 mt-1" />
-              </div>
-              <div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {parsedResponse.why_use.points[2] || "Save time and resources"}
-                </p>
-              </div>
+        return (
+          <div
+            key={index}
+            className="flex items-start gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+          >
+            <div className="flex-shrink-0">
+              <IconComponent className={`${iconColor} w-5 h-5 mt-1`} />
             </div>
-
-            <div className="flex items-start gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-              <div className="flex-shrink-0">
-                <TrendingUp className="text-purple-600 w-5 h-5 mt-1" />
-              </div>
-              <div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {parsedResponse.why_use.points[3] || "Build momentum for launch"}
-                </p>
-              </div>
+            <div>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                {point || ""}
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
 
       {/* CTA Section */}
       <section className={`w-full bg-white py-20 px-4 sm:px-6 ${!showsidebar ? 'section3':'' } `}>

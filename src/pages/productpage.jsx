@@ -144,6 +144,8 @@ const ProductPage = () => {
         waitlistCount={pageData?.waitlist?.length || 0}
         features={pageData?.features}
         featuresexplanation={pageData?.featuresexplanation}
+        whyuseline={pageData?.whyuseline}
+        whyusepoints={pageData?.whyusepoints}
       />
 
       {showPopup && (

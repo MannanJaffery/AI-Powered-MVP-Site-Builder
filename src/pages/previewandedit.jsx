@@ -18,10 +18,12 @@ const PreviewandEdit = () => {
   const [editsubtitle , seteditsubtitle] = useState('');
 
 
-
   const [features , setFeatures] = useState([]);
   const [featuresexplanation , setFeaturesExplanation] = useState([]);
 
+
+  const [whyuseline , setWhyuseLine] = useState('');
+  const [whyusepoints , setWhyUsePoints] = useState([]);
 
 
   const [showsidebar , setshowsidebar] = useState(false);
@@ -46,8 +48,6 @@ useEffect(() => {
   { title: "VIP", subtitle: "Priority" },
   { title: "+1 mon", subtitle: "Free Trial" },
 ]);
-
-
 
 
   const handleGoogleSignup = () => {
@@ -83,8 +83,6 @@ useEffect(() => {
     }
   }
 
-
-
   
   if (!productName || !parsedResponse) {
     return <div>No data available</div>;
@@ -94,11 +92,13 @@ useEffect(() => {
   useEffect(()=>{
 
     if(parsedResponse && !editmaintitle && !editsubtitle &&(!features || features.length === 0) &&
-    (!featuresexplanation || featuresexplanation.length === 0)){
+    (!featuresexplanation || featuresexplanation.length === 0) && !whyuseline && (!whyusepoints || whyusepoints.length===0)){
       seteditmaintitle(parsedResponse.heading);
       seteditsubtitle(parsedResponse.subheading);
       setFeatures(parsedResponse.features_and_benefits);
       setFeaturesExplanation(parsedResponse.features_explanation);
+      setWhyuseLine(parsedResponse.why_use.line);
+      setWhyUsePoints(parsedResponse.why_use.points);
     }
   },[parsedResponse])
 
@@ -132,6 +132,8 @@ const handlePublish = async ()=> {
     parsedResponse,
     features,
     featuresexplanation,
+    whyuseline,
+    whyusepoints,
     createdAt: new Date(),
   };
 
@@ -179,6 +181,10 @@ handlepublish={handlePublish}
     featuresexplanation = {featuresexplanation}
     setFeatures = {setFeatures}
     setFeaturesExplanation = {setFeaturesExplanation}
+    whyuseline={whyuseline}
+    whyusepoints={whyusepoints}
+    setWhyuseLine={setWhyuseLine}
+    setWhyUsePoints={setWhyUsePoints}
   />
 </div>
 
@@ -196,6 +202,8 @@ handlepublish={handlePublish}
   productName={productName}
   features = {features}
   featuresexplanation = {featuresexplanation}
+  whyuseline={whyuseline}
+  whyusepoints={whyusepoints}
 />
 </div>
     </>
