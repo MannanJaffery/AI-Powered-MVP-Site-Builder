@@ -18,6 +18,12 @@ const PreviewandEdit = () => {
   const [editsubtitle , seteditsubtitle] = useState('');
 
 
+
+  const [features , setFeatures] = useState([]);
+  const [featuresexplanation , setFeaturesExplanation] = useState([]);
+
+
+
   const [showsidebar , setshowsidebar] = useState(false);
   const [preview , setPreview] = useState(false);
  
@@ -42,8 +48,9 @@ useEffect(() => {
 ]);
 
 
+
+
   const handleGoogleSignup = () => {
-    // Google signup functionality will go here
     console.log('Google signup clicked');
   };
 
@@ -84,15 +91,16 @@ useEffect(() => {
   }
 
 
-
   useEffect(()=>{
 
-    if(parsedResponse && !editmaintitle && !editsubtitle){
+    if(parsedResponse && !editmaintitle && !editsubtitle &&(!features || features.length === 0) &&
+    (!featuresexplanation || featuresexplanation.length === 0)){
       seteditmaintitle(parsedResponse.heading);
       seteditsubtitle(parsedResponse.subheading);
+      setFeatures(parsedResponse.features_and_benefits);
+      setFeaturesExplanation(parsedResponse.features_explanation);
     }
-
-  },[parsedResponse , editmaintitle , editsubtitle])
+  },[parsedResponse])
 
 
 
@@ -122,6 +130,8 @@ const handlePublish = async ()=> {
     benefits,
     productName,
     parsedResponse,
+    features,
+    featuresexplanation,
     createdAt: new Date(),
   };
 
@@ -134,12 +144,6 @@ const handlePublish = async ()=> {
     alert("Failed to publish page.");
   }
 }
-
-
-
-
-
-
 
 return (
 
@@ -171,8 +175,13 @@ handlepublish={handlePublish}
     benefits={benefits}
     setBenefits={setBenefits}
     setshowsidebar={setshowsidebar}
+    features = {features}
+    featuresexplanation = {featuresexplanation}
+    setFeatures = {setFeatures}
+    setFeaturesExplanation = {setFeaturesExplanation}
   />
 </div>
+
 
 <MainContent 
   showsidebar={showsidebar}
@@ -185,10 +194,11 @@ handlepublish={handlePublish}
   benefits={benefits}
   parsedResponse={parsedResponse}
   productName={productName}
+  features = {features}
+  featuresexplanation = {featuresexplanation}
 />
 </div>
     </>
-
 
 );
 }

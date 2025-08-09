@@ -1,5 +1,4 @@
-
-import { Edit3, Type, List, Save , X } from 'lucide-react';
+import { Edit3, Type, List, Save, X, Star } from 'lucide-react';
 
 const Sidebar = ({
   editmaintitle,
@@ -9,6 +8,10 @@ const Sidebar = ({
   benefits,
   setBenefits,
   setshowsidebar,
+  features,
+  featuresexplanation,
+  setFeatures,
+  setFeaturesExplanation
 }) => {
   const handleBenefitChange = (index, field, value) => {
     const updated = [...benefits];
@@ -16,7 +19,6 @@ const Sidebar = ({
     setBenefits(updated);
   };
 
-  
   const addBenefit = () => {
     setBenefits([...benefits, { title: '', subtitle: '' }]);
   };
@@ -28,15 +30,40 @@ const Sidebar = ({
     }
   };
 
+  const handleFeatureChange = (index, field, value) => {
+    if (field === 'feature') {
+      const updated = [...features];
+      updated[index] = value;
+      setFeatures(updated);
+    } else if (field === 'explanation') {
+      const updated = [...featuresexplanation];
+      updated[index] = value;
+      setFeaturesExplanation(updated);
+    }
+  };
+
+  const addFeature = () => {
+    setFeatures([...features, '']);
+    setFeaturesExplanation([...featuresexplanation, '']);
+  };
+
+  const removeFeature = (index) => {
+    if (features.length > 1) {
+      setFeatures(features.filter((_, i) => i !== index));
+      setFeaturesExplanation(featuresexplanation.filter((_, i) => i !== index));
+    }
+  };
+
   return (
     <div className="relative h-full bg-white border-r border-gray-200 shadow-sm">
+      {/* Close Button */}
+      <button
+        onClick={() => setshowsidebar(false)}
+        className="absolute top-3 right-3 text-red-600 hover:text-red-800 transition"
+      >
+        <X className="w-5 h-5" />
+      </button>
 
-  <button
-    onClick={() => setshowsidebar(false)}
-    className="absolute top-3 right-3 text-red-600 hover:text-red-800 transition"
-  >
-    <X className="w-5 h-5" />
-  </button>
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
         <div className="flex items-center space-x-2">
@@ -48,15 +75,15 @@ const Sidebar = ({
 
       {/* Content */}
       <div className="px-6 py-6 space-y-8 overflow-y-auto max-h-[calc(100vh-100px)]">
-        {/* Main Headings Section */}
+        {/* Main Headings */}
         <section>
           <div className="flex items-center space-x-2 mb-4">
             <Type className="w-4 h-4 text-gray-600" />
             <h2 className="text-lg font-medium text-gray-900">Page Headings</h2>
           </div>
-          
+
           <div className="space-y-4">
-            <div className="group">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Main Title
               </label>
@@ -64,12 +91,12 @@ const Sidebar = ({
                 type="text"
                 value={editmaintitle}
                 onChange={(e) => seteditmaintitle(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-colors duration-200 text-gray-900 placeholder-gray-400"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your main title"
               />
             </div>
 
-            <div className="group">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Subtitle
               </label>
@@ -77,14 +104,70 @@ const Sidebar = ({
                 type="text"
                 value={editsubtitle}
                 onChange={(e) => seteditsubtitle(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900 placeholder-gray-400"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your subtitle"
               />
             </div>
           </div>
         </section>
 
-        {/* Benefits Section */}
+
+
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <Star className="w-4 h-4 text-gray-600" />
+              <h2 className="text-lg font-medium text-gray-900">Features</h2>
+            </div>
+            <button
+              onClick={addFeature}
+              className="px-3 py-1.5 text-sm font-medium text-purple-600 bg-purple-50 rounded-md hover:bg-purple-100"
+            >
+              + Add
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {features.map((feature, index) => (
+              <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium text-gray-600">
+                    Feature {index + 1}
+                  </span>
+                  {features.length > 1 && (
+                    <button
+                      onClick={() => removeFeature(index)}
+                      className="text-red-500 hover:text-red-700 text-sm font-medium"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={features[index]}
+                    onChange={(e) => handleFeatureChange(index, 'feature', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    placeholder="Feature name"
+                  />
+                  <textarea
+                    value={featuresexplanation[index]}
+                    onChange={(e) =>
+                      handleFeatureChange(index, 'explanation', e.target.value)
+                    }
+                    rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm resize-none"
+                    placeholder="Feature explanation"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Benefits */}
         <section>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
@@ -93,7 +176,7 @@ const Sidebar = ({
             </div>
             <button
               onClick={addBenefit}
-              className="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+              className="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100"
             >
               + Add
             </button>
@@ -101,10 +184,7 @@ const Sidebar = ({
 
           <div className="space-y-4">
             {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200"
-              >
+              <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-gray-600">
                     Benefit {index + 1}
@@ -112,7 +192,7 @@ const Sidebar = ({
                   {benefits.length > 1 && (
                     <button
                       onClick={() => removeBenefit(index)}
-                      className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors duration-200 focus:outline-none"
+                      className="text-red-500 hover:text-red-700 text-sm font-medium"
                     >
                       Remove
                     </button>
@@ -120,44 +200,35 @@ const Sidebar = ({
                 </div>
 
                 <div className="space-y-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      value={benefit.title}
-                      onChange={(e) => handleBenefitChange(index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900 placeholder-gray-400 text-sm"
-                      placeholder={`Enter benefit title`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                      Description
-                    </label>
-                    <textarea
-                      value={benefit.subtitle}
-                      onChange={(e) => handleBenefitChange(index, 'subtitle', e.target.value)}
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900 placeholder-gray-400 text-sm resize-none"
-                      placeholder={`Enter benefit description`}
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    value={benefit.title}
+                    onChange={(e) => handleBenefitChange(index, 'title', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    placeholder="Benefit title"
+                  />
+                  <textarea
+                    value={benefit.subtitle}
+                    onChange={(e) => handleBenefitChange(index, 'subtitle', e.target.value)}
+                    rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm resize-none"
+                    placeholder="Benefit description"
+                  />
                 </div>
               </div>
             ))}
           </div>
         </section>
 
+
         {/* Save Button */}
         <div className="pt-4 border-t border-gray-200">
-          <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 shadow-sm">
+          <button
+            onClick={() => setshowsidebar(false)}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700"
+          >
             <Save className="w-4 h-4" />
-            <span onClick={()=>{
-              setshowsidebar(false);
-            }}>Save Changes</span>
+            <span>Save Changes</span>
           </button>
         </div>
       </div>

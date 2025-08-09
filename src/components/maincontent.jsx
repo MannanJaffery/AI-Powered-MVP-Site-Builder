@@ -28,7 +28,9 @@ export default function MainContent({
   handleGoogleSignup,
   benefits,
   parsedResponse,
-  productName
+  productName,
+  features,
+  featuresexplanation,
 }) {
 
 
@@ -159,7 +161,7 @@ export default function MainContent({
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {parsedResponse.features_and_benefits?.map((feature, index) => (
+            {features?.map((feature, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-100 transition-all duration-300 hover:shadow-lg"
@@ -183,7 +185,7 @@ export default function MainContent({
                   {feature}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  {parsedResponse.features_explanation[index]}
+                  {featuresexplanation[index]}
                 </p>
               </div>
             ))}

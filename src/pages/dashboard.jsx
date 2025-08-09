@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
-import { db , auth, googleprovider } from "../firebase";
+import { db , auth } from "../firebase";
 import useUsername from "../services/getcurrentusername";
 import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 } from "lucide-react";
 import Loader from "../components/loading";
@@ -10,6 +10,9 @@ import useEmail from "../services/getcurrentemail";
 
 import deleteAccount from "../services/deleteaccount";
 import GoogleAccountDeletion from "../services/googleaccountdeletion";
+
+import { doc , deleteDoc } from "firebase/firestore";
+
 
 const Dashboard = () => {
 
@@ -84,6 +87,28 @@ const Dashboard = () => {
   const handlegoogledelete = async ()=>{
     await GoogleAccountDeletion();
   }
+
+const handleDeleteproduct = async (id) => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("No authenticated user found.");
+
+
+    const pageRef = doc(db, "users", user.uid, "pages", id);
+
+    await deleteDoc(pageRef);
+
+    setProducts((prev) => prev ? prev.filter((p) => p.id !== id) : []);
+
+    alert("Deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    alert(error.message || "Failed to delete product. Please try again.");
+  }
+};
+
+
+
 
   if (loading) {
     return <Loader />;
@@ -320,11 +345,21 @@ const Dashboard = () => {
                       >
                         {/* Product Header */}
                         <div className="p-6 border-b border-slate-100 flex-shrink-0">
+
+                          <div className="flex justify-between">
+
+                   
                           <Link to={`/${username}/${product.productName}`} className="block">
                             <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors line-clamp-1 mb-2 text-lg">
                               {product.productName}
                             </h3>
                           </Link>
+                          <span className="text-red-600 cursor-pointer hover:text-red-500" onClick={()=>{
+                            handleDeleteproduct(product.id);
+                          }}>
+                            <Trash2 size={16} />
+                          </span>
+                   </div>
 
                           <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
                             <Calendar size={14} className="text-slate-400" />
