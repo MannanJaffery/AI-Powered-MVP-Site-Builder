@@ -216,8 +216,6 @@ const handleDeleteproduct = async (id) => {
                     <Link to = '/forget-password' className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
                            Forget Password
                     </Link>
-
-
                      <button className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
                     Billing & Payment
                   </button>
@@ -400,7 +398,7 @@ const handleDeleteproduct = async (id) => {
                           <div className="flex justify-between">
 
                    
-                          <Link to={`/${username}/${product.productName}`} className="block">
+                          <Link to={`/${username}/${encodeURIComponent(product.productName)}`} className="block">
                             <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors line-clamp-1 mb-2 text-lg">
                               {product.productName}
                             </h3>
