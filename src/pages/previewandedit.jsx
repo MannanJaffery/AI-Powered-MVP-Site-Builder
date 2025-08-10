@@ -46,7 +46,7 @@ useEffect(() => {
   const [benefits, setBenefits] = useState([
   { title: "50%", subtitle: "Discount" },
   { title: "VIP", subtitle: "Priority" },
-  { title: "+1 mon", subtitle: "Free Trial" },
+  { title: "1 Month", subtitle: "Free Trial" },
 ]);
 
 
