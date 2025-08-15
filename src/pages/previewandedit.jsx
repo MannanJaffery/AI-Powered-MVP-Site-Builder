@@ -103,8 +103,6 @@ useEffect(() => {
   },[parsedResponse])
 
 
-
-
   useEffect(()=>{
       
     if(!showsidebar){
@@ -114,9 +112,6 @@ useEffect(() => {
     }
    },[showsidebar]);
 
-
-
-   
 
 const handlePublish = async ()=> {
 

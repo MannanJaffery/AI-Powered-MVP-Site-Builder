@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getFunctions,connectFunctionsEmulator } from "firebase/functions";
 
 
 const firebaseConfig = {
@@ -15,6 +16,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app);
+
+//this line is only for the local version and for testing it locally
+
+    if (import.meta.env.MODE === "development") {
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+}
+
 
 const googleprovider = new GoogleAuthProvider();
 export { app, auth, db , googleprovider };

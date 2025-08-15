@@ -19,6 +19,7 @@ import { sendEmailVerification } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import Loader from '../components/loading';
 
+import { app } from '../firebase';
 import { getFunctions, httpsCallable } from "firebase/functions";
 //this is mock data for now , while creating mvp
 const faqs = [
@@ -92,8 +93,20 @@ const testimonials = [
 
 
 const LandingPage = () => {
-  const functions = getFunctions(undefined, "us-central1");
-  const sayHello = httpsCallable(functions, "sayHello");
+
+const handleSubscribe = async (type) => {
+  try {
+    console.log("start")
+    const functions = getFunctions(app);
+    const createCheckoutSession = httpsCallable(functions, "createCheckoutSession");
+
+    const result = await createCheckoutSession({ type });
+    console.log("function call")
+    window.location.href = result.data.url;
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
+};
 
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
@@ -109,20 +122,6 @@ const imageref = useRef(null);
 
 
 let index = 0;
-
-
-const handletest = async ()=>{
-
-
-    try {
-      const result = await sayHello({ name: "Abdul Mannan" }); // or any value
-      console.log(result.data.message);
-      alert(result.data.message); // optional: show message in alert
-    } catch (error) {
-      console.error("Error calling function:", error);
-    }
-
-}
 
 
 useEffect(()=>{
@@ -175,6 +174,7 @@ if(loading) return <Loader />
 
 return (
 <>
+
 
 {
   currentUser &&
@@ -557,6 +557,8 @@ return (
             text="Subscribe Monthly"
             color="bg-purple-800"
             bgcolor_border="bg-purple-100 border-purple-200"
+
+            onClick={()=>handleSubscribe("subscription")}
           />
         </div>
       </div>
@@ -583,17 +585,19 @@ return (
             text="Get Lifetime Deal"
             color="bg-purple-800"
             bgcolor_border="bg-purple-100 border-purple-200"
+            onClick={()=>handleSubscribe("onetime")}
           />
         </div>
       </div>
     </div>
   </div>
+
 </section>
+
 
     <Footer />
 
 </>
-
 )
 };
 
