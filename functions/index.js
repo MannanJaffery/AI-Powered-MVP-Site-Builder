@@ -112,14 +112,9 @@ exports.stripeWebhook = functions
             planType: session.mode === "subscription" ? "monthly" : "onetime",
             active: true,
             startedAt: admin.firestore.FieldValue.serverTimestamp(),
-            stripeSessionId: session.id,
+
           };
 
-      if (session.mode === "subscription") {
-        planData.subscriptionId = session.subscription;
-      } else if (session.mode === "payment") {
-        planData.paymentId = session.payment_intent;
-      }
 
       await db.collection("users").doc(uid).set({
         plan: planData
@@ -135,8 +130,8 @@ case "invoice.payment_failed": {
   if (uid) {
     await db.collection("users").doc(uid).set({
       plan: {
-        ...invoice.plan, // keep existing plan info if needed
-        active: false,   // mark plan as inactive due to failed payment
+        ...invoice.plan,
+        active: false,
         failedPaymentAt: admin.firestore.FieldValue.serverTimestamp(),
       }
     }, { merge: true });

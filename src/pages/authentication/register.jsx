@@ -106,6 +106,7 @@ const handleEmailRegister = async (e) => {
   const handleGoogleRegister = async () => {
 
     setgoogleloading(true);
+
     try {
         
       const result = await signInWithPopup(auth, googleprovider);
@@ -118,19 +119,19 @@ const handleEmailRegister = async (e) => {
 
         const name =user.displayName;
 
-        await setDoc(userRef,{
-        email: user.email,
-        username:name,
-        emailVerified: true, 
-        plan:{
-        active:false,
-        planType:"free",
-      },
-        createdAt: serverTimestamp(),
-        },{merge:true})
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          username:name,
+          
+          emailVerified: false, 
+          plan:{
+            active:false,
+            planType:"free",
+          },
+          createdAt: serverTimestamp(),
+        });
         
       }
-
 
       console.log("registered with google");
       navigate('/');
