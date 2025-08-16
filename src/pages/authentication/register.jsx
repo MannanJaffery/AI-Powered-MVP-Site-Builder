@@ -127,7 +127,7 @@ const handleEmailRegister = async (e) => {
         planType:"free",
       },
         createdAt: serverTimestamp(),
-        })
+        },{merge:true})
         
       }
 
