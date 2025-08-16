@@ -1,7 +1,7 @@
 import  { useState , useEffect } from "react";
 import { auth, googleprovider, db } from "../../firebase";
 import {createUserWithEmailAndPassword,sendEmailVerification,signInWithPopup} from "firebase/auth";
-import { setDoc, doc, getDoc , serverTimestamp , updateDoc} from "firebase/firestore";
+import { setDoc, doc, getDoc , serverTimestamp } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
 import { Check } from "lucide-react";
@@ -115,28 +115,23 @@ const handleEmailRegister = async (e) => {
       const userRef = doc(db,"users",user.uid);
       const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists() || !userSnap.username) {
-          await setDoc(userRef, {
-            email: user.email,
-            username: name,
-            emailVerified: false,
-            plan: {
-              active: false,
-              planType: "free",
-            },
-            createdAt: serverTimestamp(),
-          });
-        } else {
-          // Update only if plan doesn't exist
-          if (!userSnap.data().plan) {
-            await updateDoc(userRef, {
-              plan: {
-                active: false,
-                planType: "free",
-              }
-            });
-          }
-        }
+      // if(!userSnap.exists() || !userSnap.data().username){}
+
+        const name =user.displayName;
+
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          username:name,
+          
+          emailVerified: false, 
+          plan:{
+            active:false,
+            planType:"free",
+          },
+          createdAt: serverTimestamp(),
+        },{merge:true});
+        
+      
 
       console.log("registered with google");
       navigate('/');
