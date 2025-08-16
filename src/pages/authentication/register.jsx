@@ -1,15 +1,15 @@
 import  { useState , useEffect } from "react";
 import { auth, googleprovider, db } from "../../firebase";
 import {createUserWithEmailAndPassword,sendEmailVerification,signInWithPopup} from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc , serverTimestamp } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import PasswordInput from "../../components/passwordInput";
 import { Check } from "lucide-react";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
 
+const Register = () => {
 
 
   const navigate = useNavigate();
@@ -78,8 +78,13 @@ const handleEmailRegister = async (e) => {
     await setDoc(doc(db, "users", user.uid), {
       email: user.email,
       username:username,
-      createdAt: new Date(),
+      
       emailVerified: false, 
+      plan:{
+        active:false,
+        planType:"free",
+      },
+      createdAt: serverTimestamp(),
     });
 
     setShowverificationMsg(true);
@@ -116,7 +121,12 @@ const handleEmailRegister = async (e) => {
         await setDoc(userRef,{
         email: user.email,
         username:name,
-        createdAt: new Date(),
+        emailVerified: true, 
+        plan:{
+        active:false,
+        planType:"free",
+      },
+        createdAt: serverTimestamp(),
         })
         
       }

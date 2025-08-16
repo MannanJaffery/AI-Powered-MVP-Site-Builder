@@ -18,9 +18,8 @@ import { useAuth } from '../context/authContext';
 import { sendEmailVerification } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import Loader from '../components/loading';
-
+import { getFunctions , httpsCallable } from 'firebase/functions';
 import { app } from '../firebase';
-import { getFunctions, httpsCallable } from "firebase/functions";
 //this is mock data for now , while creating mvp
 const faqs = [
   {
@@ -94,19 +93,18 @@ const testimonials = [
 
 const LandingPage = () => {
 
-const handleSubscribe = async (type) => {
+const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
   try {
-    console.log("start")
     const functions = getFunctions(app);
     const createCheckoutSession = httpsCallable(functions, "createCheckoutSession");
-
     const result = await createCheckoutSession({ type });
-    console.log("function call")
     window.location.href = result.data.url;
   } catch (error) {
     console.error("Error creating checkout session:", error);
   }
 };
+
+
 
 const [openIndex, setOpenIndex] = useState(null);
 const main_heading_words = ["MVP", "Startup", "Product", "WebApp"];
