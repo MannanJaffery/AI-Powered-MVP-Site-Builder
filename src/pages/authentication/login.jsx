@@ -85,8 +85,13 @@ const handleGoogleSignIn = async () => {
       await setDoc(userRef, {
         email: user.email,
         username: name,
+        emailVerified: true, 
+        plan:{
+          active:false,
+          planType:"free",
+        },
         createdAt: new Date(),
-      });
+      },{merge:true});
     }
 
     console.log("Signed in with Google:", user.email);

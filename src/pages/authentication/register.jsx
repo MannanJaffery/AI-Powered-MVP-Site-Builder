@@ -115,7 +115,7 @@ const handleEmailRegister = async (e) => {
       const userRef = doc(db,"users",user.uid);
       const userSnap = await getDoc(userRef);
 
-      // if(!userSnap.exists() || !userSnap.data().username){}
+      if(!userSnap.exists() || !userSnap.data().username){
 
         const name =user.displayName;
 
@@ -131,7 +131,7 @@ const handleEmailRegister = async (e) => {
           createdAt: serverTimestamp(),
         },{merge:true});
         
-      
+      }
 
       console.log("registered with google");
       navigate('/');
