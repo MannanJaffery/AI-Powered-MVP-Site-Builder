@@ -11,6 +11,7 @@ import deleteAccount from "../services/deleteaccount";
 import GoogleAccountDeletion from "../services/googleaccountdeletion";
 
 import { doc , deleteDoc } from "firebase/firestore";
+import usePlanData from "../hook/useplandata";
 
 
 const Dashboard = () => {
@@ -34,6 +35,7 @@ const Dashboard = () => {
   const [showsidebar , setShowSidebar] = useState(false);
   const [password, setPassword] = useState("");
 
+  const plandata = usePlanData();
 
 
 
@@ -216,9 +218,17 @@ const handleDeleteproduct = async (id) => {
                     <Link to = '/forget-password' className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
                            Forget Password
                     </Link>
+
                      <button className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
                     Billing & Payment
                   </button>
+
+                  <button className="w-full text-left px-3 py-2 rounded-lg text-indigo-800 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
+                    {plandata?.planType !== "free"
+                      ? `Subscribed ${plandata.planType}`
+                      : "Free version"}
+                  </button>
+
 
 <button
         className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors text-sm"

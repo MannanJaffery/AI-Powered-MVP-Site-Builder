@@ -85,7 +85,7 @@ const handleGoogleSignIn = async () => {
       await setDoc(userRef, {
         email: user.email,
         username: name,
-        emailVerified: true, 
+        emailVerified: true,
         plan:{
           active:false,
           planType:"free",

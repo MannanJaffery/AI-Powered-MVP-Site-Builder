@@ -20,6 +20,10 @@ import { toast } from 'react-toastify';
 import Loader from '../components/loading';
 import { getFunctions , httpsCallable } from 'firebase/functions';
 import { app } from '../firebase';
+
+
+
+
 //this is mock data for now , while creating mvp
 const faqs = [
   {
@@ -92,6 +96,7 @@ const testimonials = [
 
 
 const LandingPage = () => {
+
 
 const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
   try {

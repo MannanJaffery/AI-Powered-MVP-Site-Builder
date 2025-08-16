@@ -9,6 +9,7 @@ import Generated_Page_Nav from '../components/generated_page_nav';
 import MainContent from '../components/maincontent';
 import { addDoc , collection } from 'firebase/firestore';
 import { db ,auth } from '../firebase';
+import usePlanData from '../hook/useplandata';
 
 
 const PreviewandEdit = () => {
@@ -30,6 +31,13 @@ const PreviewandEdit = () => {
   const [preview , setPreview] = useState(false);
  
 const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+
+
+const plandata= usePlanData();
+
+
+
 
 useEffect(() => {
   const handleResize = () => {
@@ -119,6 +127,14 @@ const handlePublish = async ()=> {
     return;
   }
 
+
+  if(plandata.active===false){
+    alert("Upgrade Your Plan to publish");
+    return;
+  }
+
+  
+  
     const pageData = {
     title: editmaintitle,
     subtitle: editsubtitle,
