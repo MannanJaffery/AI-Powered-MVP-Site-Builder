@@ -13,6 +13,8 @@ import GoogleAccountDeletion from "../services/googleaccountdeletion";
 import { doc , deleteDoc } from "firebase/firestore";
 import usePlanData from "../hook/useplandata";
 
+import { getFunctions, httpsCallable } from "firebase/functions";
+
 
 const Dashboard = () => {
 
@@ -36,6 +38,8 @@ const Dashboard = () => {
   const [password, setPassword] = useState("");
 
   const plandata = usePlanData();
+
+  const functions = getFunctions();
 
 
 
@@ -118,6 +122,35 @@ const handleDeleteproduct = async (id) => {
 };
 
 
+const handlestripelinking = async ()=>{
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("You must be logged in to connect Stripe.");
+    return;
+  }
+
+  try {
+    
+    const createStripeConnectLink = httpsCallable(functions, "createStripeConnectLink");
+
+    const result = await createStripeConnectLink({ email: user.email });
+
+    const { url } = result.data;
+
+    if (!url) {
+      throw new Error("No Stripe onboarding URL returned.");
+    }
+
+    window.location.href = url;
+  } catch (error) {
+    console.error("Error linking Stripe:", error);
+    alert("Failed to link Stripe account: " + error.message);
+  }
+
+}
+
+
 
 
   if (loading) {
@@ -198,6 +231,21 @@ const handleDeleteproduct = async (id) => {
 
             {/* Account Settings */}
             <div className="pt-6 border-t border-slate-100">
+                            <button
+                onClick={handlestripelinking}
+                className="w-full flex justify-between items-center px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group"
+              >
+                <div className="flex items-center space-x-3">
+                  <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="font-medium">Connect Stripe</span>
+                </div>
+
+              </button>
+
+
               <button
                 onClick={handleaccountsettings}
                 className="w-full flex justify-between items-center px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group"
@@ -344,9 +392,6 @@ const handleDeleteproduct = async (id) => {
   </div>
 
 </div>
-
-
-
 
 
                 <div className="flex items-center gap-3">

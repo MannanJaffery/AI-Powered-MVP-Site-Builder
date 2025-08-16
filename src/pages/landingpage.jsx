@@ -98,6 +98,8 @@ const testimonials = [
 const LandingPage = () => {
 
 
+  
+
 const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
   try {
     const functions = getFunctions(app);

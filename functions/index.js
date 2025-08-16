@@ -8,6 +8,15 @@ const isLocal = process.env.FUNCTIONS_EMULATOR === "true";
 if (isLocal) require("dotenv").config();
 
 
+            const successUrl = isLocal
+        ? "http://localhost:5173/success"
+        : "https://mvp-go-seven.vercel.app/success";
+
+      const cancelUrl = isLocal
+        ? "http://localhost:5173/cancel"
+        : "https://mvp-go-seven.vercel.app/cancel";
+
+
 
 exports.createCheckoutSession = functions
   .runWith({
@@ -29,13 +38,6 @@ exports.createCheckoutSession = functions
       const priceId = process.env.STRIPE_PRICE_ID;
       const onetimePriceId = process.env.STRIPE_ONE_TIME;
 
-      const successUrl = isLocal
-        ? "http://localhost:5173/success"
-        : "https://mvp-go-seven.vercel.app/success";
-
-      const cancelUrl = isLocal
-        ? "http://localhost:5173/cancel"
-        : "https://mvp-go-seven.vercel.app/cancel";
 
       let sessionConfig = {
         payment_method_types: ["card"],
@@ -68,7 +70,6 @@ exports.createCheckoutSession = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
-
 
 
 exports.stripeWebhook = functions
@@ -164,3 +165,53 @@ case "customer.subscription.deleted": {
       res.json({ received: true });
     })();
   });
+
+
+
+
+exports.createStripeConnectLink = functions
+  .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError("unauthenticated", "User must be logged in");
+    }
+
+    try {
+      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+      const userId = context.auth.uid;
+
+      // 1. Check if user already has a connected account
+      const userDoc = await admin.firestore().collection("users").doc(userId).get();
+      let accountId = userDoc.exists ? userDoc.data()?.stripeAccountId : null;
+
+      // 2. If no account exists, create one
+      if (!accountId) {
+        const account = await stripe.accounts.create({
+          type: "express",
+          email: context.auth.token.email || data.email || null, 
+        });
+        accountId = account.id;
+
+        await admin.firestore().collection("users").doc(userId).set(
+          { stripeAccountId: accountId },
+          { merge: true }
+        );
+      }
+
+
+      // 3. Create an onboarding link
+      const accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: cancelUrl,
+        return_url: successUrl,
+        type: "account_onboarding",
+      });
+
+      return { url: accountLink.url };
+    } catch (err) {
+      console.error("Stripe connect error:", err);
+      throw new functions.https.HttpsError("internal", err.message);
+    }
+  });
+
+
