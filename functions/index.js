@@ -16,8 +16,6 @@ if (isLocal) require("dotenv").config();
         ? "http://localhost:5173/cancel"
         : "https://mvp-go-seven.vercel.app/cancel";
 
-
-
 exports.createCheckoutSession = functions
   .runWith({
     secrets: ["STRIPE_SECRET_KEY", "STRIPE_PRICE_ID", "STRIPE_ONE_TIME"]
@@ -33,36 +31,54 @@ exports.createCheckoutSession = functions
     try {
       const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-      const { type  } = data;
+      const { type, sellerId } = data; 
+      // sellerId = Firestore UID of the seller (if customer is buying from a seller)
+      // If null, default to platform checkout.
 
-      const priceId = process.env.STRIPE_PRICE_ID;
-      const onetimePriceId = process.env.STRIPE_ONE_TIME;
+      let priceId;
+      let accountId = null;
 
-
-      let sessionConfig = {
-        payment_method_types: ["card"],
-        line_items: [],
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        metadata: {
-        uid: context.auth.uid
+      if (sellerId) {
+        // 🔹 Lookup seller’s account + price from Firestore
+        const sellerDoc = await admin.firestore().collection("users").doc(sellerId).get();
+        if (!sellerDoc.exists) {
+          throw new functions.https.HttpsError("not-found", "Seller account not found");
         }
-      };
-
-      if (type === "subscription") {
-        sessionConfig.mode = "subscription";
-        sessionConfig.line_items.push({ price: priceId, quantity: 1 });
-      } else if (type === "onetime") {
-        sessionConfig.mode = "payment";
-        sessionConfig.line_items.push({ price: onetimePriceId, quantity: 1 });
+        accountId = sellerDoc.data().stripeAccountId;
+        priceId = sellerDoc.data().sellerPriceId;
       } else {
-        throw new functions.https.HttpsError(
-          "invalid-argument",
-          "Invalid checkout type"
-        );
+        // 🔹 Platform checkout
+        if (type === "subscription") {
+          priceId = process.env.STRIPE_PRICE_ID;
+        } else if (type === "onetime") {
+          priceId = process.env.STRIPE_ONE_TIME;
+        }
       }
 
-      const session = await stripe.checkout.sessions.create(sessionConfig);
+      if (!priceId) {
+        throw new functions.https.HttpsError("invalid-argument", "No price ID found for checkout");
+      }
+
+      // Build Checkout Session config
+      let sessionConfig = {
+        payment_method_types: ["card"],
+        line_items: [{ price: priceId, quantity: 1 }],
+        mode: type === "subscription" ? "subscription" : "payment",
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: { buyerUid: context.auth.uid, sellerUid: sellerId || "platform" }
+      };
+
+      // If seller checkout → create session in their Stripe account
+      let session;
+      if (accountId) {
+        session = await stripe.checkout.sessions.create(sessionConfig, {
+          stripeAccount: accountId,
+        });
+      } else {
+        // Platform checkout
+        session = await stripe.checkout.sessions.create(sessionConfig);
+      }
 
       return { url: session.url };
     } catch (err) {
@@ -70,6 +86,7 @@ exports.createCheckoutSession = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
 
 
 exports.stripeWebhook = functions
@@ -169,6 +186,12 @@ case "customer.subscription.deleted": {
 
 
 
+
+
+
+
+
+
 exports.createStripeConnectLink = functions
   .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
   .https.onCall(async (data, context) => {
@@ -183,21 +206,39 @@ exports.createStripeConnectLink = functions
       // 1. Check if user already has a connected account
       const userDoc = await admin.firestore().collection("users").doc(userId).get();
       let accountId = userDoc.exists ? userDoc.data()?.stripeAccountId : null;
+      let sellerPriceId = userDoc.exists ? userDoc.data()?.sellerPriceId : null;
 
       // 2. If no account exists, create one
       if (!accountId) {
         const account = await stripe.accounts.create({
           type: "express",
-          email: context.auth.token.email || data.email || null, 
+          email: context.auth.token.email || data.email || null,
         });
         accountId = account.id;
 
+        // (a) Create a product in seller’s account
+        const product = await stripe.products.create(
+          { name: "One-time Access Deal" },
+          { stripeAccount: accountId }
+        );
+
+        // (b) Create a price in seller’s account
+        const price = await stripe.prices.create(
+          {
+            unit_amount: 500, // $5.00 — you can customize
+            currency: "usd",
+            product: product.id,
+          },
+          { stripeAccount: accountId }
+        );
+        sellerPriceId = price.id;
+
+        // Save account + price to Firestore
         await admin.firestore().collection("users").doc(userId).set(
-          { stripeAccountId: accountId },
+          { stripeAccountId: accountId, sellerPriceId },
           { merge: true }
         );
       }
-
 
       // 3. Create an onboarding link
       const accountLink = await stripe.accountLinks.create({
@@ -213,5 +254,6 @@ exports.createStripeConnectLink = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
 
 

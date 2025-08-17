@@ -18,6 +18,11 @@ import {
 import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 
+
+import { app } from "../firebase";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import getSellerId from "../services/getsellerId";
+
 export default function MainContent({
   showsidebar,
   isMobile,
@@ -41,6 +46,32 @@ export default function MainContent({
           animate_scroll_section2(".section2");
           animate_scroll_section3(".section3");
       },[])
+
+
+
+
+    const handleSellerPayment = async () => {
+  try {
+
+    const sellerId = await getSellerId();
+    if(!sellerId){
+      console.log("no seller id found , stripe is not connected");
+      return;
+    }
+
+    const functions = getFunctions(app);
+    const paySeller = httpsCallable(functions, "paySeller");
+
+    const result = await paySeller({ sellerId }); 
+    window.location.href = result.data.url;
+  } catch (error) {
+    console.error("Error paying seller:", error);
+  }
+};
+
+
+
+
 
   return (
     <main className={`flex-1 overflow-hidden ${showsidebar&&!isMobile ? 'ml-[250px]':''}`}>
@@ -104,7 +135,8 @@ export default function MainContent({
               {/* Reserve Button */}
               <div className="relative group">
                 <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-50 blur-sm group-hover:opacity-75 transition-all duration-300"></div>
-                <button className="relative w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
+                <button className="relative w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5"
+                onClick={handleSellerPayment}>
                   <div className="flex items-center justify-center gap-2">
                     <span className="text-lg">Become an Early Supporter for $5</span>
                     <ArrowRight className="w-5 h-5" />
@@ -279,7 +311,8 @@ export default function MainContent({
             {/* Main Reserve Now Button */}
             <div className="relative group">
               <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-75 blur-sm group-hover:opacity-100 transition-all duration-300 animate-pulse"></div>
-              <button className="relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5">
+              <button className="relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-0.5"
+              onClick={handleSellerPayment}>
                 <div className="flex items-center justify-center gap-2">
                   <span className="text-lg">Become an Early Supporter for $5</span>
                   <ArrowRight className="w-5 h-5" />
