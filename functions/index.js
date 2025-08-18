@@ -282,11 +282,3 @@ exports.createConnectedAccountCheckout = functions
   });
 
 
-  /*
-  STRIPE_SECRET_KEY=REMOVED
-STRIPE_PRICE_ID=price_1RwESgLZs7wBNJ9aYZZ5cck5
-STRIPE_ONE_TIME=price_1RwEolLZs7wBNJ9aVIHdFpb7
-STRIPE_WEBHOOK_SECRET=whsec_QKoN2qk183sHFsCDK3MdwLLqbnHId5jC
-
-  */
-
