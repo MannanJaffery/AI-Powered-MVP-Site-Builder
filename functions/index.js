@@ -214,8 +214,6 @@ exports.createStripeConnectLink = functions
 
 
 
-
-
 exports.createConnectedAccountCheckout = functions
   .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
   .https.onCall(async (data, context) => {

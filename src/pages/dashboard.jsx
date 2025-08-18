@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db , auth } from "../firebase";
 import useUsername from "../services/getcurrentusername";
-import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 ,Menu,LinkIcon, CopyIcon , CreditCard  } from "lucide-react";
+import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 ,Menu,LinkIcon, CopyIcon , CreditCard , Loader2  } from "lucide-react";
 import Loader from "../components/loading";
 import useEmail from "../services/getcurrentemail";
 
@@ -37,6 +37,7 @@ const Dashboard = () => {
   const [showsidebar , setShowSidebar] = useState(false);
   const [password, setPassword] = useState("");
 
+  const [stripeloading , setStripeLoading] = useState(false);
   const plandata = usePlanData();
 
   const functions = getFunctions();
@@ -131,6 +132,8 @@ const handlestripelinking = async ()=>{
   }
 
   try {
+
+    setStripeLoading(true);
     
     const createStripeConnectLink = httpsCallable(functions, "createStripeConnectLink");
 
@@ -146,6 +149,9 @@ const handlestripelinking = async ()=>{
   } catch (error) {
     console.error("Error linking Stripe:", error);
     alert("Failed to link Stripe account: " + error.message);
+  }
+  finally{
+    setStripeLoading(false);
   }
 
 }
@@ -231,17 +237,24 @@ const handlestripelinking = async ()=>{
 
             {/* Account Settings */}
             <div className="pt-6 border-t border-slate-100">
-                            <button
-                onClick={handlestripelinking}
-                className="w-full flex justify-between items-center px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group"
-              >
-                <div className="flex items-center space-x-3">
-                <CreditCard className={`w-4 h-4 transform transition-transform duration-200`} />
-
-                  <span className="font-medium">Connect Stripe</span>
-                </div>
-
-              </button>
+    <button
+      onClick={handlestripelinking}
+      disabled={stripeloading}
+      className={`w-full flex justify-between items-center px-4 py-3 rounded-xl 
+        text-slate-700 transition-all duration-200 group
+        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
+    >
+      <div className="flex items-center space-x-3">
+        {stripeloading ? (
+          <Loader2 className="w-5 h-5 animate-spin text-indigo-600" />
+        ) : (
+          <CreditCard className="w-4 h-4 transform transition-transform duration-200" />
+        )}
+        <span className="font-medium">
+          {stripeloading ? "Connecting..." : "Connect Stripe"}
+        </span>
+      </div>
+    </button>
 
 
               <button
