@@ -213,3 +213,80 @@ exports.createStripeConnectLink = functions
   });
 
 
+
+
+
+exports.createConnectedAccountCheckout = functions
+  .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError(
+        "unauthenticated",
+        "User must be logged in to create a checkout session"
+      );
+    }
+
+    try {
+      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+      const userId = context.auth.uid;
+
+      // 1. Check if user has a connected account
+      const userDoc = await admin.firestore().collection("users").doc(userId).get();
+      if (!userDoc.exists || !userDoc.data()?.stripeAccountId) {
+        throw new functions.https.HttpsError(
+          "failed-precondition",
+          "User does not have a linked Stripe account"
+        );
+      }
+      const connectedAccountId = userDoc.data().stripeAccountId;
+      const product = await stripe.products.create(
+        {
+          name: "WaitList Subsripition",
+        },
+        {
+          stripeAccount: connectedAccountId,
+        }
+      );
+
+      // 3. Create a Price for $5 USD linked to that product
+      const price = await stripe.prices.create(
+        {
+          unit_amount: 500, // $5 in cents
+          currency: "usd",
+          product: product.id,
+        },
+        {
+          stripeAccount: connectedAccountId,
+        }
+      );
+
+      const session = await stripe.checkout.sessions.create(
+        {
+          payment_method_types: ["card"],
+          mode: "payment",
+          line_items: [{ price: price.id, quantity: 1 }],
+          success_url: successUrl,
+          cancel_url: cancelUrl,
+          metadata: { uid: userId },
+        },
+        {
+          stripeAccount: connectedAccountId,
+        }
+      );
+
+      return { url: session.url };
+    } catch (err) {
+      console.error("Connected account checkout error:", err);
+      throw new functions.https.HttpsError("internal", err.message);
+    }
+  });
+
+
+  /*
+  STRIPE_SECRET_KEY=REMOVED
+STRIPE_PRICE_ID=price_1RwESgLZs7wBNJ9aYZZ5cck5
+STRIPE_ONE_TIME=price_1RwEolLZs7wBNJ9aVIHdFpb7
+STRIPE_WEBHOOK_SECRET=whsec_QKoN2qk183sHFsCDK3MdwLLqbnHId5jC
+
+  */
+
