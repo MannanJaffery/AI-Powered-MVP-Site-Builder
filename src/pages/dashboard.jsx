@@ -37,11 +37,13 @@ const Dashboard = () => {
   const [showsidebar , setShowSidebar] = useState(false);
   const [password, setPassword] = useState("");
 
+  const [connected , setConnected] = useState(null);
+
+
   const [stripeloading , setStripeLoading] = useState(false);
   const plandata = usePlanData();
 
   const functions = getFunctions();
-
 
 
 
@@ -153,6 +155,24 @@ const handlestripelinking = async ()=>{
 
 
 
+ useEffect(() => {
+
+    const checkConnection = async () => {
+      if (!auth.currentUser) return;
+      try {
+        const checkStripeConnection = httpsCallable(functions, "checkStripeConnection");
+        const result = await checkStripeConnection({});
+        setConnected(result.data.connected);
+      } catch (error) {
+        console.error("Error checking Stripe connection:", error);
+        setConnected(false);
+      }
+    };
+    checkConnection();
+  }, [auth.currentUser, functions]);
+
+
+
 
   if (loading) {
     return <Loader />;
@@ -232,6 +252,9 @@ const handlestripelinking = async ()=>{
 
             {/* Account Settings */}
             <div className="pt-6 border-t border-slate-100">
+
+
+    {  connected==false &&        
     <button
       onClick={handlestripelinking}
       disabled={stripeloading}
@@ -250,6 +273,22 @@ const handlestripelinking = async ()=>{
         </span>
       </div>
     </button>
+}
+
+
+{connected ==true && 
+    <button
+      disabled
+      className={`w-full flex justify-between items-center px-4 py-3 rounded-xl 
+        text-slate-700 transition-all duration-200 group
+        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
+    >
+      <div className="flex items-center space-x-3">
+        <span className="font-medium text-indigo-700">
+          Stripe Connected
+        </span>
+      </div>
+    </button>}
 
 
               <button
