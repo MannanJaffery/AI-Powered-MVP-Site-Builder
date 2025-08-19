@@ -126,10 +126,6 @@ const handleDeleteproduct = async (id) => {
 const handlestripelinking = async ()=>{
   const user = auth.currentUser;
 
-  if (!user) {
-    alert("You must be logged in to connect Stripe.");
-    return;
-  }
 
   try {
 
@@ -148,7 +144,6 @@ const handlestripelinking = async ()=>{
     window.location.href = url;
   } catch (error) {
     console.error("Error linking Stripe:", error);
-    alert("Failed to link Stripe account: " + error.message);
   }
   finally{
     setStripeLoading(false);

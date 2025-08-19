@@ -13,6 +13,11 @@ import ProductPage from "./pages/productpage";
 import PreviewandEdit from "./pages/previewandedit";
 
 
+
+import Success from "./pages/successpayment";
+import Cancel from "./pages/cancelpayment";
+
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,6 +40,11 @@ function App() {
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
+
+
+            <Route path="/success" element={<Success />} />
+            <Route path="/cancel" element={<Cancel />} /> 
+
 
             <Route path="/forget-password" element={<ForgetPassword/>}/>
 

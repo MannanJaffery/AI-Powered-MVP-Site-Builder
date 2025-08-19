@@ -17,6 +17,13 @@ if (isLocal) require("dotenv").config();
         : "https://mvp-go-seven.vercel.app/cancel";
 
 
+        const linkingurl = isLocal
+        ? "http://localhost:5173/"
+        :"https://mvp-go-seven.vercel.app/";
+
+
+
+
 exports.createCheckoutSession = functions
   .runWith({
     secrets: ["STRIPE_SECRET_KEY", "STRIPE_PRICE_ID", "STRIPE_ONE_TIME"]
@@ -196,12 +203,11 @@ exports.createStripeConnectLink = functions
         );
       }
 
-
       // 3. Create an onboarding link
       const accountLink = await stripe.accountLinks.create({
         account: accountId,
-        refresh_url: cancelUrl,
-        return_url: successUrl,
+        refresh_url: linkingurl,
+        return_url: linkingurl,
         type: "account_onboarding",
       });
 
@@ -211,6 +217,7 @@ exports.createStripeConnectLink = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
 
 
 
@@ -278,5 +285,39 @@ exports.createConnectedAccountCheckout = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
+
+
+
+  exports.checkStripeConnection = functions
+  .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError("unauthenticated", "User must be logged in");
+    }
+
+    try {
+      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+      const userId = context.auth.uid;
+
+      const userDoc = await admin.firestore().collection("users").doc(userId).get();
+      const accountId = userDoc.exists ? userDoc.data()?.stripeAccountId : null;
+
+      if (!accountId) {
+        return { connected: false };
+      }
+
+      const account = await stripe.accounts.retrieve(accountId);
+      const connected = account.charges_enabled;
+
+      return { connected };
+    } catch (err) {
+      console.error("Stripe status check error:", err);
+      throw new functions.https.HttpsError("internal", err.message);
+    }
+  });
+
+
+
 
 
