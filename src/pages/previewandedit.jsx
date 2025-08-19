@@ -18,6 +18,9 @@ const PreviewandEdit = () => {
   const [editmaintitle , seteditmaintitle] = useState('');
   const [editsubtitle , seteditsubtitle] = useState('');
 
+  const [showtermspopup, setShowtermspopup] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
 
   const [features , setFeatures] = useState([]);
   const [featuresexplanation , setFeaturesExplanation] = useState([]);
@@ -121,6 +124,7 @@ useEffect(() => {
    },[showsidebar]);
 
 
+
 const handlePublish = async ()=> {
 
   if(!editmaintitle || !editsubtitle || !benefits.length || !productName ||!parsedResponse){
@@ -151,16 +155,26 @@ const handlePublish = async ()=> {
   try {
     const user = auth.currentUser;
     await addDoc(collection(db, "users", user.uid, "pages"), pageData);
+    setShowtermspopup(false);
     alert("Page published successfully!");
   } catch (error) {
     console.error("Error publishing page:", error);
+    setShowtermspopup(false);
     alert("Failed to publish page.");
   }
+}
+
+
+
+const handlePublishButton = ()=>{
+  setShowtermspopup(true);
 }
 
 return (
 
     <>
+
+
 
 <div className='flex min-h-screen'>
 
@@ -168,9 +182,61 @@ return (
 <Generated_Page_Nav 
 makesidebarshow = {setshowsidebar}
 setPreview = {setPreview}
-handlepublish={handlePublish}
+handlePublishButton={handlePublishButton}
  />
 )}
+
+
+
+{showtermspopup && (
+  <div className="fixed inset-0 flex items-center justify-center z-50">
+    {/* Blurred Background */}
+    <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+
+    {/* Popup Content */}
+    <div className="bg-white rounded-xl shadow-xl p-6 relative z-10 max-w-md w-full">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        Confirm Terms
+      </h2>
+      <p className="text-gray-600 mb-4">
+        By publishing your page, you confirm that it does <strong>not</strong> contain any prohibited content as defined by our policy.
+      </p>
+
+      <div className="flex items-center mb-6">
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)}
+          className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+        />
+        <label className="ml-2 text-gray-700 select-none">
+          I confirm my page complies with the terms
+        </label>
+      </div>
+
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={()=>setShowtermspopup(false)}
+          className="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 transition"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handlePublish}
+          disabled={!isChecked}
+          className={`px-4 py-2 rounded-xl text-white font-semibold transition ${
+            isChecked ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-300 cursor-not-allowed"
+          }`}
+        >
+          Publish
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
 
 
 <div

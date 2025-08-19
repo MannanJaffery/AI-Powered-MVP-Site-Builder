@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const Generated_Page_Nav = ({ makesidebarshow,setPreview,handlepublish }) => {
+const Generated_Page_Nav = ({ makesidebarshow,setPreview,handlePublishButton }) => {
   const [menuOpen, setMenuOpen] = useState(false);   
 
   return (
@@ -34,7 +34,7 @@ const Generated_Page_Nav = ({ makesidebarshow,setPreview,handlepublish }) => {
         {/* Desktop Button */}
         <div className="hidden md:block">
           <button className="px-4 py-2 rounded-xl text-sm font-semibold transition-colors bg-blue-500 text-white hover:bg-blue-400" 
-          onClick={handlepublish}>
+          onClick={handlePublishButton}>
             Publish
           </button>
         </div>
@@ -76,7 +76,7 @@ const Generated_Page_Nav = ({ makesidebarshow,setPreview,handlepublish }) => {
             <li>
               <button
                 onClick={() => {
-                    handlepublish();
+                    handlePublishButton();
                     setMenuOpen(false)}}
                 className="block w-full text-left font-bold text-black hover:text-blue-600 transition"
 
