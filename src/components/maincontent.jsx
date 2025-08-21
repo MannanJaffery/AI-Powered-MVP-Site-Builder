@@ -37,6 +37,7 @@ export default function MainContent({
   featuresexplanation,
   whyuseline,
   whyusepoints,
+  pageid,
 }) {
 
 
@@ -48,11 +49,11 @@ export default function MainContent({
 
 
 
-const handleSubscribeConnectedAccount = async (type) => { 
+const handleSubscribeConnectedAccount = async () => { 
   try {
     const functions = getFunctions(app);
     const createConnectedAccountCheckout = httpsCallable(functions, "createConnectedAccountCheckout");
-    const result = await createConnectedAccountCheckout();
+    const result = await createConnectedAccountCheckout({pageid});
     window.location.href = result.data.url;
   } catch (error) {
     console.error("Error creating checkout session:", error);

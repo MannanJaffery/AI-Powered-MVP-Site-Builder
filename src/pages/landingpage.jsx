@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/loading';
 import { getFunctions , httpsCallable } from 'firebase/functions';
 import { app } from '../firebase';
-
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -98,9 +98,11 @@ const testimonials = [
 const LandingPage = () => {
 
 
-  
 
-const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
+  const navigate = useNavigate();
+  const auth = useAuth();
+
+  const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
   try {
     const functions = getFunctions(app);
     const createCheckoutSession = httpsCallable(functions, "createCheckoutSession");
@@ -175,7 +177,6 @@ console.log("Email Verified:", currentUser?.emailVerified);
 
 
 if(loading) return <Loader />
-
 
 return (
 <>
@@ -531,9 +532,9 @@ return (
           <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">Free</h3>
           <ul className="text-left text-sm text-gray-600 space-y-3">
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full platform access (limited)</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Generate 1 free website template</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Generate multiple free website template</li>
             <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Dashboard or analytics</li>
-            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />No unlimited Sited Generation</li>
+            <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Make Landing Pages publishable</li>
           </ul>
         </div>
         <div className="mt-6">
@@ -541,6 +542,15 @@ return (
             text="Free Demo"
             color="bg-purple-800"
             bgcolor_border="bg-purple-100 border-purple-200"
+            onClick={()=>{
+
+
+              if(!auth.currentUser){
+                navigate("/login");
+              }else{
+                toast.success("Already registered, check plan from dashboard");
+              }
+            }}
           />
         </div>
       </div>
@@ -553,6 +563,7 @@ return (
           <ul className="text-left text-sm text-gray-600 space-y-3">
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full feature access</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Unlimited site generations monthly</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Make Landing Pages publishable</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Priority support</li>
           </ul>
@@ -582,6 +593,7 @@ return (
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />All Standard plan features</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />Unlimited Site Generations</li>
             <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Make Landing Pages publishable</li>
             <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-purple-700" />Priority Support</li>
           </ul>
         </div>

@@ -51,7 +51,8 @@ exports.createCheckoutSession = functions
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {
-        uid: context.auth.uid
+        uid: context.auth.uid,
+        checkoutType:"platform",
         }
       };
 
@@ -76,6 +77,7 @@ exports.createCheckoutSession = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
 
 
 exports.stripeWebhook = functions
@@ -107,62 +109,103 @@ exports.stripeWebhook = functions
       switch (event.type) {
         case "checkout.session.completed": {
           const session = event.data.object;
-          const uid = session.metadata?.uid; 
+          const uid = session.metadata?.uid;
+          const checkoutType = session.metadata?.checkoutType;
 
           if (!uid) {
             console.error("No UID found in session metadata");
             break;
           }
 
+          if (checkoutType === "platform") {
+            let planData = {
+              planType: session.mode === "subscription" ? "monthly" : "onetime",
+              active: true,
+              startedAt: admin.firestore.FieldValue.serverTimestamp(),
+            };
 
-          let planData = {
-            planType: session.mode === "subscription" ? "monthly" : "onetime",
-            active: true,
-            startedAt: admin.firestore.FieldValue.serverTimestamp(),
+            await db.collection("users").doc(uid).set(
+              {
+                plan: planData,
+              },
+              { merge: true }
+            );
+            console.log("Checkout session recorded in DB for UID:", uid);
+          }
 
-          };
+          if (checkoutType === "user") {
 
+            const customerEmail = session.customer_details?.email;
+            const customerName = session.customer_details?.name;
+            const pageid = session.metadata?.pageid;
 
-      await db.collection("users").doc(uid).set({
-        plan: planData
-      }, { merge: true });
-          console.log("Checkout session recorded in DB for UID:", uid);
+            if (customerEmail) {
+              await db
+                .collection("users")
+                .doc(uid)
+                .collection("pages")
+                .doc(pageid)
+                .collection("subscribers")
+                .add({
+                  email: customerEmail,
+                  name: customerName || "",
+                  createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                });
+
+              console.log(
+                `Stored customer info for user checkout (UID: ${uid}) — ${customerEmail}`
+              );
+            } else {
+              console.error("No customer email found in session");
+            }
+          }
+
           break;
         }
 
-case "invoice.payment_failed": {
-  const invoice = event.data.object;
-  const uid = invoice.metadata?.uid;
+        case "invoice.payment_failed": {
+          const invoice = event.data.object;
+          const uid = invoice.metadata?.uid;
 
-  if (uid) {
-    await db.collection("users").doc(uid).set({
-      plan: {
-        ...invoice.plan,
-        active: false,
-        failedPaymentAt: admin.firestore.FieldValue.serverTimestamp(),
-      }
-    }, { merge: true });
-    console.log("Subscription payment failed, disabled access for UID:", uid);
-  }
-  break;
-}
 
-case "customer.subscription.deleted": {
-  const deletedSub = event.data.object;
-  const uid = deletedSub.metadata?.uid;
+          if (uid) {
+            await db.collection("users").doc(uid).set(
+              {
+                plan: {
+                  ...invoice.plan,
+                  active: false,
+                  failedPaymentAt: admin.firestore.FieldValue.serverTimestamp(),
+                },
+              },
+              { merge: true }
+            );
+            console.log(
+              "Subscription payment failed, disabled access for UID:",
+              uid
+            );
+          }
+          break;
+        }
 
-  if (uid) {
-    await db.collection("users").doc(uid).set({
-      plan: {
-        ...deletedSub.plan,
-        active: false,
-        canceledAt: admin.firestore.FieldValue.serverTimestamp(),
-      }
-    }, { merge: true });
-    console.log("Subscription canceled, disabled access for UID:", uid);
-  }
-  break;
-}
+        case "customer.subscription.deleted": {
+          const deletedSub = event.data.object;
+          const uid = deletedSub.metadata?.uid;
+
+          if (uid) {
+            await db.collection("users").doc(uid).set(
+              {
+                plan: {
+                  ...deletedSub.plan,
+                  active: false,
+                  canceledAt: admin.firestore.FieldValue.serverTimestamp(),
+                },
+              },
+              { merge: true }
+            );
+            console.log("Subscription canceled, disabled access for UID:", uid);
+          }
+          break;
+        }
 
         default:
           console.log(`Unhandled event type: ${event.type}`);
@@ -174,56 +217,10 @@ case "customer.subscription.deleted": {
 
 
 
-exports.createStripeConnectLink = functions
-  .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
-  .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError("unauthenticated", "User must be logged in");
-    }
-
-    try {
-      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-      const userId = context.auth.uid;
-
-      // 1. Check if user already has a connected account
-      const userDoc = await admin.firestore().collection("users").doc(userId).get();
-      let accountId = userDoc.exists ? userDoc.data()?.stripeAccountId : null;
-
-      // 2. If no account exists, create one
-      if (!accountId) {
-        const account = await stripe.accounts.create({
-          type: "express",
-          email: context.auth.token.email || data.email || null, 
-        });
-        accountId = account.id;
-
-        await admin.firestore().collection("users").doc(userId).set(
-          { stripeAccountId: accountId },
-          { merge: true }
-        );
-      }
-
-      // 3. Create an onboarding link
-      const accountLink = await stripe.accountLinks.create({
-        account: accountId,
-        refresh_url: linkingurl,
-        return_url: linkingurl,
-        type: "account_onboarding",
-      });
-
-      return { url: accountLink.url };
-    } catch (err) {
-      console.error("Stripe connect error:", err);
-      throw new functions.https.HttpsError("internal", err.message);
-    }
-  });
-
-
-
-
 exports.createConnectedAccountCheckout = functions
   .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
   .https.onCall(async (data, context) => {
+    const pageId = data; // from client
     if (!context.auth) {
       throw new functions.https.HttpsError(
         "unauthenticated",
@@ -235,8 +232,9 @@ exports.createConnectedAccountCheckout = functions
       const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
       const userId = context.auth.uid;
 
-      // 1. Check if user has a connected account
-      const userDoc = await admin.firestore().collection("users").doc(userId).get();
+
+      const userDocRef = admin.firestore().collection("users").doc(userId);
+      const userDoc = await userDocRef.get();
       if (!userDoc.exists || !userDoc.data()?.stripeAccountId) {
         throw new functions.https.HttpsError(
           "failed-precondition",
@@ -244,39 +242,60 @@ exports.createConnectedAccountCheckout = functions
         );
       }
       const connectedAccountId = userDoc.data().stripeAccountId;
-      const product = await stripe.products.create(
-        {
-          name: "WaitList Subsripition",
-        },
-        {
-          stripeAccount: connectedAccountId,
-        }
-      );
 
-      // 3. Create a Price for $5 USD linked to that product
-      const price = await stripe.prices.create(
-        {
-          unit_amount: 500, // $5 in cents
-          currency: "usd",
-          product: product.id,
-        },
-        {
-          stripeAccount: connectedAccountId,
-        }
-      );
+
+      const pageRef = userDocRef.collection("pages").doc(pageId);
+      const pageDoc = await pageRef.get();
+
+      let productId = pageDoc.exists ? pageDoc.data()?.productId : null;
+      let priceId = pageDoc.exists ? pageDoc.data()?.priceId : null;
+
+
+      if (!productId || !priceId) {
+        const product = await stripe.products.create(
+          {
+            name: "WaitList Subscription", 
+            metadata: { userId, pageId },
+          },
+          { stripeAccount: connectedAccountId }
+        );
+
+        const price = await stripe.prices.create(
+          {
+            unit_amount: 500,
+            currency: "usd",
+            product: product.id,
+          },
+          { stripeAccount: connectedAccountId }
+        );
+
+        productId = product.id;
+        priceId = price.id;
+
+        await pageRef.set(
+          {
+            productId,
+            priceId,
+          },
+          { merge: true }
+        );
+      }
 
       const session = await stripe.checkout.sessions.create(
         {
           payment_method_types: ["card"],
           mode: "payment",
-          line_items: [{ price: price.id, quantity: 1 }],
+          line_items: [{ price: priceId, quantity: 1 }],
           success_url: successUrl,
           cancel_url: cancelUrl,
-          metadata: { uid: userId },
+          customer_creation: "always",
+          metadata: {
+            uid: userId,
+            checkoutType: "user",
+            pageid: pageId,
+          },
         },
-        {
-          stripeAccount: connectedAccountId,
-        }
+        { stripeAccount: connectedAccountId }
       );
 
       return { url: session.url };
@@ -285,6 +304,7 @@ exports.createConnectedAccountCheckout = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
+
 
 
 

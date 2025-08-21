@@ -146,6 +146,7 @@ const ProductPage = () => {
         featuresexplanation={pageData?.featuresexplanation}
         whyuseline={pageData?.whyuseline}
         whyusepoints={pageData?.whyusepoints}
+        pageid = {pageId}
       />
 
       {showPopup && (
