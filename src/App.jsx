@@ -11,6 +11,8 @@ import ProtectedRoute from "./components/protectedRoute";
 import ForgetPassword from "./pages/authentication/forgetpassword";
 import ProductPage from "./pages/productpage";
 import PreviewandEdit from "./pages/previewandedit";
+import Subscribers from "./pages/subscribers";
+import { ProductsProvider } from "./context/productsContext";
 
 
 
@@ -26,9 +28,11 @@ function App() {
  return (
   <>
   <AuthProvider>
+    <ProductsProvider >
     <BrowserRouter>
 
     <ToastContainer position="top-right" autoClose={3000} />
+    
         <Routes>
             <Route path="/" element = {<LandingPage />} />
             
@@ -36,6 +40,11 @@ function App() {
               <ProtectedRoute>
               <Dashboard />
               </ProtectedRoute>}/>
+
+            <Route path = "/subscribers/:userid" element = {
+            <ProtectedRoute>
+              <Subscribers />
+            </ProtectedRoute>}/>
 
             <Route path = "/ideainput" element = {<InputIdea />}/>
             <Route path="/register" element={<Register/>}/>
@@ -68,7 +77,9 @@ function App() {
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        
     </BrowserRouter>
+    </ProductsProvider>
     </AuthProvider>
   </>
  )

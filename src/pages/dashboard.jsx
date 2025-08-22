@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
 import { db , auth } from "../firebase";
 import useUsername from "../services/getcurrentusername";
 import { Plus, Calendar, Users, ChevronDown, ChevronUp, Mail, User ,X , Trash2 ,Menu,LinkIcon, CopyIcon , CreditCard , Loader2  } from "lucide-react";
@@ -14,6 +13,7 @@ import { doc , deleteDoc } from "firebase/firestore";
 import usePlanData from "../hook/useplandata";
 
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { useProducts } from "../context/productsContext";
 
 
 const Dashboard = () => {
@@ -25,8 +25,7 @@ const Dashboard = () => {
 
 
   const { id } = useParams();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {products , setProducts , loading} = useProducts();
   const [expanded, setExpanded] = useState({});
   const [accountsettings, setAccountsettings] = useState(false);
 
@@ -44,34 +43,6 @@ const Dashboard = () => {
   const plandata = usePlanData();
 
   const functions = getFunctions();
-
-
-
-
-
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const pagesRef = collection(db, "users", id, "pages");
-        const pagesSnap = await getDocs(pagesRef);
-        
-        const productList = pagesSnap.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          waitlist: doc.data().waitlist || []
-        }));
-        
-        setProducts(productList);
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [id]);
 
   const toggleExpand = (productId) => {
     setExpanded((prev) => ({ ...prev, [productId]: !prev[productId] }));
@@ -174,7 +145,7 @@ const handlestripelinking = async ()=>{
 
 
 
-  if (loading) {
+   if (loading) {
     return <Loader />;
   }
 
@@ -242,7 +213,10 @@ const handlestripelinking = async ()=>{
                 <span className="font-medium">Projects</span>
               </button>
 
-              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group">
+              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group" 
+              onClick={()=>{
+                navigate(`/subscribers/${id}`)
+              }}>
                 <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>

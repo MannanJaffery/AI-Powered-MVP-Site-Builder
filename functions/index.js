@@ -216,11 +216,55 @@ exports.stripeWebhook = functions
   });
 
 
+exports.createStripeConnectLink = functions
+  .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError("unauthenticated", "User must be logged in");
+    }
+
+    try {
+      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+      const userId = context.auth.uid;
+
+      // 1. Check if user already has a connected account
+      const userDoc = await admin.firestore().collection("users").doc(userId).get();
+      let accountId = userDoc.exists ? userDoc.data()?.stripeAccountId : null;
+
+      // 2. If no account exists, create one
+      if (!accountId) {
+        const account = await stripe.accounts.create({
+          type: "express",
+          email: context.auth.token.email || data.email || null, 
+        });
+        accountId = account.id;
+
+        await admin.firestore().collection("users").doc(userId).set(
+          { stripeAccountId: accountId },
+          { merge: true }
+        );
+      }
+
+      // 3. Create an onboarding link
+      const accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: linkingurl,
+        return_url: linkingurl,
+        type: "account_onboarding",
+      });
+
+      return { url: accountLink.url };
+    } catch (err) {
+      console.error("Stripe connect error:", err);
+      throw new functions.https.HttpsError("internal", err.message);
+    }
+  });
+
 
 exports.createConnectedAccountCheckout = functions
   .runWith({ secrets: ["STRIPE_SECRET_KEY"] })
   .https.onCall(async (data, context) => {
-    const pageId = data; // from client
+    const pageId = data;
     if (!context.auth) {
       throw new functions.https.HttpsError(
         "unauthenticated",
@@ -304,8 +348,6 @@ exports.createConnectedAccountCheckout = functions
       throw new functions.https.HttpsError("internal", err.message);
     }
   });
-
-
 
 
 
