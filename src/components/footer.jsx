@@ -21,23 +21,43 @@ const Footer = () => {
             <li><a href="#faq" className="hover:text-white">FAQ</a></li>
             <li><a href="#contact" className="hover:text-white">Contact</a></li>
             <li><a href="#signup" className="hover:text-white">Sign Up</a></li>
+            <li>
+              <a 
+                href="/terms.pdf" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-white"
+              >
+                Terms & Conditions
+              </a>
+            </li>
           </ul>
         </div>
 
         {/* Social & Contact */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Connect</h3>
-            <div className="flex gap-5 text-xl">
-            <a href="https://twitter.com/yourhandle" target="_blank" rel="noreferrer" className="hover:text-white">
-                <Twitter className="w-5 h-5" />
+          <div className="flex gap-5 text-xl">
+            <a 
+              href="https://twitter.com/yourhandle" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="hover:text-white"
+            >
+              <Twitter className="w-5 h-5" />
             </a>
             <a href="mailto:yourname@gmail.com" className="hover:text-white">
-                <Mail className="w-5 h-5" />
+              <Mail className="w-5 h-5" />
             </a>
-            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer" className="hover:text-white">
-                <Linkedin className="w-5 h-5" />
+            <a 
+              href="https://linkedin.com/in/yourprofile" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="hover:text-white"
+            >
+              <Linkedin className="w-5 h-5" />
             </a>
-            </div>
+          </div>
         </div>
       </div>
 
