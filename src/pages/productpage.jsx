@@ -65,6 +65,10 @@ const ProductPage = () => {
           waitlist: pageDoc.data().waitlist || []
         });
         setPageId(pageDoc.id);
+
+        console.log("page id: ",pageDoc.id)
+
+
       } catch (err) {
         console.error("Error fetching page:", err);
         toast.error("Failed to load page");
@@ -146,7 +150,7 @@ const ProductPage = () => {
         featuresexplanation={pageData?.featuresexplanation}
         whyuseline={pageData?.whyuseline}
         whyusepoints={pageData?.whyusepoints}
-        pageid = {pageId}
+        pageid={pageId}
       />
 
       {showPopup && (
