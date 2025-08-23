@@ -141,6 +141,14 @@ exports.stripeWebhook = functions
             const customerEmail = session.customer_details?.email;
             const customerName = session.customer_details?.name;
             const pageid = session.metadata?.pageid;
+            
+            await db.collection("debugSessions").add({
+            pageID: pageid,
+            email_customer: customerEmail,
+            name_customer:customerName,
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+            
 
 
             if (customerEmail) {
