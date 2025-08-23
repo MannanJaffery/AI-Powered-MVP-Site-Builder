@@ -258,7 +258,7 @@ const handlestripelinking = async ()=>{
         ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
     >
       <div className="flex items-center space-x-3">
-        <CreditCard className="w-4 h-4 transform transition-transform duration-200" />
+        <CreditCard className="w-4 h-4 transform transition-transform duration-200 text-indigo-700" />
         <span className="font-medium text-indigo-700">
           Stripe Connected
         </span>

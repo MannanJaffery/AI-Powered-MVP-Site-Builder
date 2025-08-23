@@ -92,19 +92,19 @@ exports.stripeWebhook = functions
     const sig = req.headers["stripe-signature"];
     let event;
 
-    // Try to verify with both webhook secrets
+
     try {
       event = stripe.webhooks.constructEvent(
         req.rawBody,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET
+        process.env.STRIPE_WEBHOOK_SECRET_PLATFORM
       );
     } catch (firstErr) {
       try {
         event = stripe.webhooks.constructEvent(
           req.rawBody,
           sig,
-          process.env.STRIPE_WEBHOOK_SECRET_PLATFORM
+          process.env.STRIPE_WEBHOOK_SECRET
         );
       } catch (secondErr) {
         console.error("Webhook signature verification failed with both secrets:", firstErr.message, secondErr.message);
