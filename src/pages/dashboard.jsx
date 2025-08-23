@@ -251,16 +251,19 @@ const handlestripelinking = async ()=>{
 
 
 {connected ==true && 
-<button
-  disabled
-  className="relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg opacity-60 cursor-not-allowed"
->
-  <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 opacity-75 blur-sm transition-all duration-300"></div>
-  <div className="relative flex items-center justify-center">
-    <CreditCard className="w-4 h-4 mr-2" />
-    Stripe Connected
-  </div>
-</button>
+    <button
+      disabled
+      className={`w-full flex justify-between items-center px-4 py-3 rounded-xl 
+        text-slate-700 transition-all duration-200 group
+        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
+    >
+      <div className="flex items-center space-x-3">
+        <CreditCard className="w-4 h-4 transform transition-transform duration-200" />
+        <span className="font-medium text-indigo-700">
+          Stripe Connected
+        </span>
+      </div>
+    </button>
 }
 
 
