@@ -110,9 +110,14 @@ exports.stripeWebhook = functions
         case "checkout.session.completed": {
           const session = event.data.object;
 
+
+           const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+    stripeAccount: event.account ?? undefined, // works for both
+  });
+
           console.log("the session after checkout complete",session);
           const uid = session.metadata?.uid;
-          const checkoutType = session.metadata?.checkoutType;
+          const checkoutType = fullSession.metadata?.checkoutType;
 
 
           if (!uid) {
@@ -149,7 +154,6 @@ exports.stripeWebhook = functions
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
           });
             
-
 
             if (customerEmail) {
               await db
@@ -347,7 +351,7 @@ exports.createConnectedAccountCheckout = functions
           customer_creation: "always",
           metadata: {
             uid: userId,
-            checkoutType: "user",
+            checkoutType:"user",
             pageid: pageId,
           },
         },
