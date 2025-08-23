@@ -41,6 +41,15 @@ export default function MainContent({
 }) {
 
 
+
+
+  useEffect(()=>{
+    console.log("page id from main content component:",pageid);
+
+
+  },[pageid])
+
+
         useEffect(()=>{
           animate_scroll_section1(".section1");
           animate_scroll_section2(".section2");

@@ -66,7 +66,6 @@ const ProductPage = () => {
         });
         setPageId(pageDoc.id);
 
-        console.log("page id: ",pageDoc.id)
 
 
       } catch (err) {
