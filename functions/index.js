@@ -82,7 +82,7 @@ exports.createCheckoutSession = functions
 
 exports.stripeWebhook = functions
   .runWith({ secrets: ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"] })
-  .https.onRequest((req, res) => {
+  .https.onRequest(async (req, res) => {
     const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
     if (req.method !== "POST") {
@@ -105,20 +105,21 @@ exports.stripeWebhook = functions
 
     const db = admin.firestore();
 
-    (async () => {
+    try {
       switch (event.type) {
         case "checkout.session.completed": {
           const session = event.data.object;
 
+          // ✅ Always retrieve full session correctly
+          const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+            stripeAccount: event.account ?? undefined,
+          });
 
-           const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-    stripeAccount: event.account ?? undefined, // works for both
-  });
+          console.log("Checkout completed. Event account:", event.account);
+          console.log("Full session metadata:", fullSession.metadata);
 
-          console.log("the session after checkout complete",session);
-          const uid = session.metadata?.uid;
+          const uid = fullSession.metadata?.uid; // ✅ must use fullSession for metadata
           const checkoutType = fullSession.metadata?.checkoutType;
-
 
           if (!uid) {
             console.error("No UID found in session metadata");
@@ -127,7 +128,7 @@ exports.stripeWebhook = functions
 
           if (checkoutType === "platform") {
             let planData = {
-              planType: session.mode === "subscription" ? "monthly" : "onetime",
+              planType: fullSession.mode === "subscription" ? "monthly" : "onetime",
               active: true,
               startedAt: admin.firestore.FieldValue.serverTimestamp(),
             };
@@ -142,18 +143,17 @@ exports.stripeWebhook = functions
           }
 
           if (checkoutType === "user") {
+            const customerEmail = fullSession.customer_details?.email;
+            const customerName = fullSession.customer_details?.name;
+            const pageid = fullSession.metadata?.pageid;
 
-            const customerEmail = session.customer_details?.email;
-            const customerName = session.customer_details?.name;
-            const pageid = session.metadata?.pageid;
-            
             await db.collection("debugSessions").add({
-            pageID: pageid,
-            email_customer: customerEmail,
-            name_customer:customerName,
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-          });
-            
+              pageID: pageid || null,
+              email_customer: customerEmail || null,
+              name_customer: customerName || null,
+              connectedAccount: event.account || "platform",
+              createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
 
             if (customerEmail) {
               await db
@@ -183,22 +183,17 @@ exports.stripeWebhook = functions
           const invoice = event.data.object;
           const uid = invoice.metadata?.uid;
 
-
           if (uid) {
             await db.collection("users").doc(uid).set(
               {
                 plan: {
-                  ...invoice.plan,
                   active: false,
                   failedPaymentAt: admin.firestore.FieldValue.serverTimestamp(),
                 },
               },
               { merge: true }
             );
-            console.log(
-              "Subscription payment failed, disabled access for UID:",
-              uid
-            );
+            console.log("Subscription payment failed, disabled access for UID:", uid);
           }
           break;
         }
@@ -211,7 +206,6 @@ exports.stripeWebhook = functions
             await db.collection("users").doc(uid).set(
               {
                 plan: {
-                  ...deletedSub.plan,
                   active: false,
                   canceledAt: admin.firestore.FieldValue.serverTimestamp(),
                 },
@@ -228,7 +222,10 @@ exports.stripeWebhook = functions
       }
 
       res.json({ received: true });
-    })();
+    } catch (err) {
+      console.error("Error processing webhook:", err);
+      res.status(500).send("Webhook handler failed");
+    }
   });
 
 
