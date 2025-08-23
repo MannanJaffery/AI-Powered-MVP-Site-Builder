@@ -109,8 +109,11 @@ exports.stripeWebhook = functions
       switch (event.type) {
         case "checkout.session.completed": {
           const session = event.data.object;
+
+          console.log("the session after checkout complete",session);
           const uid = session.metadata?.uid;
           const checkoutType = session.metadata?.checkoutType;
+
 
           if (!uid) {
             console.error("No UID found in session metadata");
@@ -138,6 +141,7 @@ exports.stripeWebhook = functions
             const customerEmail = session.customer_details?.email;
             const customerName = session.customer_details?.name;
             const pageid = session.metadata?.pageid;
+
 
             if (customerEmail) {
               await db
