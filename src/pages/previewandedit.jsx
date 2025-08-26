@@ -22,10 +22,6 @@ const PreviewandEdit = () => {
 
 
 
-  const {username , uid} = useUsername();
-
-
-
 
   const [editmaintitle , seteditmaintitle] = useState('');
   const [editsubtitle , seteditsubtitle] = useState('');
@@ -169,11 +165,11 @@ const handlePublish = async ()=> {
     await addDoc(collection(db, "users", user.uid, "pages"), pageData);
     setShowtermspopup(false);
     alert("Page published successfully!");
-    navigate(`/dashboard/${uid}`)
 
 
+    navigate(`/dashboard/${user.uid}`)
+    console.log("The uid of user",user.uid);
 
-    navigate();
 
   } catch (error) {
     console.error("Error publishing page:", error);
@@ -181,7 +177,6 @@ const handlePublish = async ()=> {
     alert("Failed to publish page.");
   }
 }
-
 
 
 const handlePublishButton = ()=>{

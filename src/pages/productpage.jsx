@@ -28,6 +28,8 @@ const ProductPage = () => {
   const [pageId, setPageId] = useState(null);
 
 
+  
+
 
 
   useEffect(() => {
@@ -65,8 +67,6 @@ const ProductPage = () => {
           waitlist: pageDoc.data().waitlist || []
         });
         setPageId(pageDoc.id);
-
-
 
       } catch (err) {
         console.error("Error fetching page:", err);
