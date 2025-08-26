@@ -10,9 +10,21 @@ import MainContent from '../components/maincontent';
 import { addDoc , collection } from 'firebase/firestore';
 import { db ,auth } from '../firebase';
 import usePlanData from '../hook/useplandata';
+import { useNavigate } from 'react-router-dom';
+import useUsername from '../services/getcurrentusername';
+
+
 
 
 const PreviewandEdit = () => {
+
+  const navigate = useNavigate();
+
+
+
+  const {username , uid} = useUsername();
+
+
 
 
   const [editmaintitle , seteditmaintitle] = useState('');
@@ -157,6 +169,12 @@ const handlePublish = async ()=> {
     await addDoc(collection(db, "users", user.uid, "pages"), pageData);
     setShowtermspopup(false);
     alert("Page published successfully!");
+    navigate(`/dashboard/${uid}`)
+
+
+
+    navigate();
+
   } catch (error) {
     console.error("Error publishing page:", error);
     setShowtermspopup(false);

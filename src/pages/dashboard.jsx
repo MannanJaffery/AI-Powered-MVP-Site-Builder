@@ -20,7 +20,7 @@ const Dashboard = () => {
 
 
   const navigate = useNavigate();
-  const username = useUsername();
+  const {username} = useUsername();
   const email = useEmail();
 
 
