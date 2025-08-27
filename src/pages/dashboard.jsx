@@ -14,6 +14,11 @@ import usePlanData from "../hook/useplandata";
 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useProducts } from "../context/productsContext";
+import Subscribers from "./subscribers";
+import AccountSettings from "../components/accountsettings";
+
+
+
 
 
 const Dashboard = () => {
@@ -22,7 +27,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const {username} = useUsername();
   const email = useEmail();
-
 
   const { id } = useParams();
   const {products , setProducts , loading} = useProducts();
@@ -40,6 +44,18 @@ const Dashboard = () => {
 
 
   const [stripeloading , setStripeLoading] = useState(false);
+
+
+  const [showSubscribers,setShowSubscribers] = useState(false);
+  const [showProjects,setShowProjects] = useState(true);
+  const [showAccountSettings,setShowAccountSettings] = useState(false);
+
+  
+
+
+
+
+
   const plandata = usePlanData();
 
   const functions = getFunctions();
@@ -60,8 +76,11 @@ const Dashboard = () => {
   };
 
   const handleaccountsettings = () => {
-    let settings = accountsettings === false ? true : false;
-    setAccountsettings(settings);
+    // let settings = accountsettings === false ? true : false;
+    // setAccountsettings(settings);
+    setShowProjects(false);
+    setShowSubscribers(false);
+    setShowAccountSettings(true);
   }
 
 
@@ -98,6 +117,7 @@ const handleDeleteproduct = async (id) => {
 
 const handlestripelinking = async ()=>{
   const user = auth.currentUser;
+
 
 
   try {
@@ -205,23 +225,71 @@ const handlestripelinking = async ()=>{
 
             {/* Menu Items */}
             <div className="space-y-1">
-              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group">
-                <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v3H8V5z" />
+              <button
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-200 group ${
+                  showProjects ? "text-indigo-800" : "text-slate-700 hover:text-indigo-700"
+                }`}
+                onClick={()=>{
+                  setShowSubscribers(false);
+                  setShowAccountSettings(false);
+                  setShowProjects(true);
+                }}
+              >
+                <svg
+                  className={`w-5 h-5 transition-colors duration-200 ${
+                    showProjects ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-500"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 5a2 2 0 012-2h4a2 2 0 012 2v3H8V5z"
+                  />
                 </svg>
                 <span className="font-medium">Projects</span>
               </button>
 
-              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group" 
-              onClick={()=>{
-                navigate(`/subscribers/${id}`)
-              }}>
-                <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                <span className="font-medium">Subscribers</span>
-              </button>
+
+                <button
+                  onClick={() => {
+                    setShowProjects(false);
+                    setShowAccountSettings(false);
+                    setShowSubscribers(true);
+                  }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+                    showSubscribers
+                      ? " text-indigo-700"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-indigo-700"
+                  }`}
+                >
+                  <svg
+                    className={`w-5 h-5 ${
+                      showSubscribers ? "text-indigo-500" : "text-slate-400 group-hover:text-indigo-500"
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                  <span className="font-medium">Subscribers</span>
+                </button>
+
             </div>
 
             {/* Account Settings */}
@@ -278,114 +346,72 @@ const handlestripelinking = async ()=>{
                   </svg>
                   <span className="font-medium">Account Settings</span>
                 </div>
-                <ChevronDown className={`w-4 h-4 transform transition-transform duration-200 ${accountsettings ? "rotate-180 text-indigo-600" : "text-slate-400"}`} />
               </button>
 
-              {accountsettings && (
-                <div className="mt-2 space-y-1 pl-12 animate-in slide-in-from-top-2 duration-200">
-
-                    <Link to = '/forget-password' className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
-                           Forget Password
-                    </Link>
-
-                     <button className="w-full text-left px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
-                    Billing & Payment
-                  </button>
-
-                  <button className="w-full text-left px-3 py-2 rounded-lg text-indigo-800 hover:bg-slate-50 hover:text-indigo-700 transition-colors text-sm">
-                    {plandata?.planType !== "free"
-                      ? `Subscribed ${plandata.planType}`
-                      : "Free version"}
-                  </button>
-
-
-<button
-        className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors text-sm"
-        onClick={() => {
-          if(auth.currentUser.providerData[0].providerId==='password'){
-          setShowConfirm(true)} else { 
-            handlegoogledelete();
-          }
-        }}
-      >
-        <Trash2 size={16} />
-        Delete Account
-      </button>
-
-      {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 relative">
-            {/* Close Button */}
-            <button
-              onClick={() => setShowConfirm(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
-            >
-              <X size={18} />
-            </button>
-
-            {/* Content */}
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              Confirm Account Deletion
-            </h2>
-            <p className="text-sm text-gray-500 mb-4">
-              This action cannot be undone. Please enter your password to
-              confirm.
-            </p>
-
-            <input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
-            />
-
-            {/* Actions */}
-            <div className="flex gap-3">
-              <button
-                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition"
-                onClick={handleDelete}
-              >
-                Confirm Delete
-              </button>
-
-            </div>
-          </div>
-        </div>
-      )}
-
-                </div>
-              )}
+              
             </div>
           </nav>
 
+
           {/* User Profile */}
-          <div className="p-6 border-t border-slate-100">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
-                {username
-                  ? username
-                      .split(" ")
-                      .map(word => word[0])
-                      .join("")
-                      .toUpperCase()
-                  : ""}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate">{username}</p>
-                <p className="text-xs text-slate-500 truncate">{email}</p>
-              </div>
-              <button className="text-slate-400 hover:text-slate-600 transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-              </button>
-            </div>
-          </div>
+ <div className="p-6 border-t border-slate-100">
+  <div className="flex items-center space-x-3">
+    {/* Avatar */}
+    {auth.currentUser?.photoURL ? (
+      <img
+        src={auth.currentUser.photoURL}
+        alt="avatar"
+        className="w-10 h-10 rounded-full object-cover"
+      />
+    ) : (
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+        {(auth.currentUser?.displayName || username || "")
+          .split(" ")
+          .map(word => word[0])
+          .join("")
+          .toUpperCase()}
+      </div>
+    )}
+
+    {/* Name & Email */}
+    <div className="flex-1 min-w-0">
+      <p className="text-sm font-semibold text-slate-900 truncate">
+        {auth.currentUser?.displayName || username}
+      </p>
+      <p className="text-xs text-slate-500 truncate">
+        {auth.currentUser?.email || email}
+      </p>
+    </div>
+
+    {/* Button */}
+    <button className="text-slate-400 hover:text-slate-600 transition-colors">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
         </div>
 
+
+
+
+
         {/* Main Content */}
-        <main className="flex-1 ml-0 md:ml-72">
+
+
+        {showProjects && (
+          <main className="flex-1 ml-0 md:ml-72">
           <div className="px-8 py-8">
             {/* Header Section */}
             <div className="mb-8">
@@ -588,8 +614,39 @@ const handlestripelinking = async ()=>{
             </div>
           </div>
         </main>
+        )}
+
+        {showSubscribers && (
+          <>
+            <main className="flex-1 ml-0 md:ml-72">
+              <div className="px-8 py-8">
+                <Subscribers />
+              </div>
+            </main>
+          </>
+        )}
+
+
+                {showAccountSettings && (
+          <>
+            <main className="flex-1 ml-0 md:ml-72">
+              <div className="px-8 py-8">
+                <AccountSettings 
+                plandata={plandata}
+                handlegoogledelete={handlegoogledelete}
+                handleDelete={handleDelete}/>
+              </div>
+            </main>
+          </>
+        )}
+
+
+        
       </div>
     </div>
+
+
+
   );
 };
 
