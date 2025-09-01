@@ -7,13 +7,20 @@ import { toast } from "react-toastify";
 import { signOut, updateProfile } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useProducts } from "../context/productsContext";
+import { useNavigate } from "react-router-dom";
+
+
 
 const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
+
+
+  const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
   const [password, setPassword] = useState("");
 
-  const username = useUsername();
+
   const email = useEmail();
+  const {username} = useUsername();
   const currentUser = auth.currentUser;
 
   const [displayName, setDisplayName] = useState("");
@@ -91,7 +98,7 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
       <div className="bg-white/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-40 shadow-sm">
         <div className="max-w-5xl mx-auto px-6 py-6">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl shadow-lg">
+            <div className="p-3 bg-gradient-to-br from-[#46AA72] to-[#90C1CA] rounded-xl shadow-lg">
               <Settings className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -107,7 +114,7 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
         <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-lg p-8">
           <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-200">
             <div className="p-2 bg-indigo-100 rounded-lg">
-              <User className="w-5 h-5 text-indigo-600" />
+              <User className="w-5 h-5 text-[#46AA72]" />
             </div>
             <h2 className="text-xl font-semibold text-slate-800">Profile Information</h2>
           </div>
@@ -135,7 +142,7 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
               <h3 className="text-lg font-medium text-slate-800 mb-2">Profile Picture</h3>
               <p className="text-slate-600 text-sm mb-4">Upload a new profile picture to personalize your account</p>
               
-              <div className="relative">
+              <div className="relative cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"
@@ -144,11 +151,11 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
                   disabled={uploading}
                 />
                 <button
-                  className={`flex items-center gap-2 px-4 py-2 border-2 border-dashed border-indigo-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`flex items-center gap-2 px-4 py-2 border-2 border-dashed border-green-500 rounded-lg  transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={uploading}
                 >
-                  <Upload className="w-4 h-4 text-indigo-600" />
-                  <span className="text-sm text-indigo-700 font-medium">
+                  <Upload className="w-4 h-4 text-[#46AA72]" />
+                  <span className="text-sm text-[#46AA72] font-medium">
                     {uploading ? 'Uploading...' : 'Choose Image'}
                   </span>
                 </button>
@@ -187,7 +194,7 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
             <div className="pt-2">
               <button
                 onClick={handleSave}
-                className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-[#46AA72] to-[hsl(146,42%,57%)] text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
               >
                 Save Changes
               </button>
@@ -196,68 +203,88 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
         </div>
 
         {/* Account Statistics & Actions Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Account Stats */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-lg p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 bg-emerald-100 rounded-lg">
-                <Calendar className="w-5 h-5 text-emerald-600" />
-              </div>
-              <h3 className="font-medium text-slate-800 text-sm">Account Created</h3>
-            </div>
-            <p className="text-slate-600 text-xs leading-relaxed">{auth.currentUser.metadata.creationTime}</p>
-          </div>
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  {/* Profile Overview */}
+  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/60 shadow-xl p-6 space-y-6">
+    <h2 className="text-lg font-semibold text-slate-800 border-b pb-3">Account Overview</h2>
 
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-lg p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 bg-violet-100 rounded-lg">
-                <Crown className="w-5 h-5 text-violet-600" />
-              </div>
-              <h3 className="font-medium text-slate-800 text-sm">Current Plan</h3>
-            </div>
-            <p className="text-slate-600 text-sm font-medium">{plandata.planType}</p>
-          </div>
+    <div className="flex items-center gap-4">
+      <div className="p-3 bg-emerald-100 rounded-xl">
+        <Calendar className="w-6 h-6 text-emerald-600" />
+      </div>
+      <div>
+        <p className="text-xs text-slate-500">Created</p>
+        <p className="text-sm font-medium text-slate-700">{auth.currentUser.metadata.creationTime}</p>
+      </div>
+    </div>
 
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-lg p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Package className="w-5 h-5 text-blue-600" />
-              </div>
-              <h3 className="font-medium text-slate-800 text-sm">Projects</h3>
-            </div>
-            <p className="text-slate-600 text-sm font-medium">{products.length} Showcased</p>
-          </div>
+    <div className="flex items-center gap-4">
+      <div className="p-3 bg-violet-100 rounded-xl">
+        <Crown className="w-6 h-6 text-violet-600" />
+      </div>
+      <div>
+        <p className="text-xs text-slate-500">Current Plan</p>
+        <p className="text-sm font-medium text-slate-700">{plandata.planType}</p>
+      </div>
+    </div>
 
-          {/* Quick Actions */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-lg p-6">
-            <div className="space-y-3">
-              <button
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-all text-slate-700 font-medium text-sm"
-                onClick={handlelogout}
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </button>
+    <div className="flex items-center gap-4">
+      <div className="p-3 bg-blue-100 rounded-xl">
+        <Package className="w-6 h-6 text-blue-600" />
+      </div>
+      <div>
+        <p className="text-xs text-slate-500">Projects</p>
+        <p className="text-sm font-medium text-slate-700">{products.length} Showcased</p>
+      </div>
+    </div>
+  </div>
 
-              <button
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-red-200 rounded-lg hover:bg-red-50 transition-all text-red-700 font-medium text-sm"
-                onClick={() => {
-                  if (auth.currentUser.providerData[0].providerId === "password") {
-                    setShowConfirm(true);
-                  } else {
-                    handlegoogledelete();
-                  }
-                }}
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete Account
-              </button>
-            </div>
-          </div>
-        </div>
+  {/* Actions */}
+  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/60 shadow-xl p-6 flex flex-col justify-between">
+    <h2 className="text-lg font-semibold text-slate-800 border-b pb-3 mb-4">Quick Actions</h2>
+
+    <div className="space-y-4">
+
+      <button className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all"
+      onClick={()=>{
+        navigate("/change-password") 
+      }}>
+              Change Password
+        </button>        
+
+
+      <button
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all"
+        onClick={handlelogout}
+      >
+        <LogOut className="w-4 h-4" />
+        Sign Out
+      </button>
+
+      <button
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 font-medium transition-all"
+        onClick={() => {
+          if (auth.currentUser.providerData[0].providerId === "password") {
+            setShowConfirm(true);
+          } else {
+            handlegoogledelete();
+          }
+        }}
+      >
+        <Trash2 className="w-4 h-4" />
+        Delete Account
+      </button>
+    </div>
+  </div>
+</div>
+
       </div>
 
-      {/* Confirm Delete Modal */}
+
+
+
+
+      {/* Confirm Delete for email */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative border border-slate-200">

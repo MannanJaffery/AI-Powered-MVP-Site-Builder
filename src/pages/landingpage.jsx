@@ -6,7 +6,7 @@ import Navbar from '../components/navbar';
 
 import {LayoutDashboard,CreditCard,Paintbrush,Smartphone,Rocket,
   Brush,ShieldCheck,ChevronDown,
-  Hammer , UserCheck , Clock , TrendingUp , HelpCircle , Star , CheckCircle , XCircle , BadgeCheck} from "lucide-react";
+  Hammer , UserCheck , Clock , TrendingUp , HelpCircle , Star , CheckCircle , XCircle , BadgeCheck , ArrowRight, Zap,Sparkles , Users } from "lucide-react";
 import Button from '../components/button';
 
 import { useEffect ,useState , useRef } from 'react';
@@ -215,85 +215,140 @@ return (
 </div>
 
 
+<div className="relative z-0 w-full pt-32 pb-8 bg-[#003F2F] min-h-screen">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#90C1CA]/20 via-transparent to-[#46AA72]/10"></div>
+      </div>
 
-  <div className="relative z-0 w-full pt-24"> 
-  {/* Background SVG */}
-  <img
-    className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0 bg-[#F4F4F8]"
-    src="https://static.typecdn.com/df8f99cf-82fd-423b-b55b-ba08cb042d95/2TpEkhn3WnmoSQiUAYXU4B6b927_dot-grid.svg"
-    alt="background"
-  />
+      {/* Landing Content */}
+      <div className='flex flex-col items-center justify-center px-4 relative z-10'>
+        
+        <h1 className="flex flex-wrap justify-center mb-8 p-4 text-5xl font-bold text-center relative text-white">
+          Validate and Monetize Your 
+          <span id="changer" className="text-[#90C1CA] relative inline-block will-change-transform ml-2">
+            MVP 
+          </span>
+          <span className="hidden lg:inline-block w-full"></span>     
+          <span className="ml-[0.25rem] lg:ml-0">
+              &nbsp;in Record Time
+          </span>
+        </h1>
 
-  {/* Landing Image */}
+        {/* Subtitle */}
+        <p className="text-xl text-white/80 text-center max-w-2xl mb-12 leading-relaxed">
+         Validate your idea faster with our AI-powered platform — waitlist for updates or get early subscribers.
+          <span className="text-[#90C1CA]"> No coding required.</span>
+        </p>
 
-<div className='flex flex-col items-center justify-center px-4'> 
-<h1 className="flex flex-wrap justify-center mb-4 p-4 text-5xl font-bold text-center relative">
-  Validate and Monetize Your 
-  <span id="changer" className="text-purple-900 relative inline-block will-change-transform ml-2">
-    MVP
-  </span>
-  {/* forthe larger screens , this is giving line break */}
-  <span className="hidden lg:inline-block w-full"></span>
-  
-  <span className="ml-[0.25rem] lg:ml-0">
-    in Record Time
-  </span>
-</h1>
-
-
-
-{/* I had to add the space manually here */}
-
-  <img
-    src={landingImage}
-    ref={imageref}
-    onLoad={() => animateImageEntrance(imageref)}
-    alt="Landing"
-    className="relative z-10 mx-auto max-w-[80%] h-auto md:max-w-[40%] sm:max-w-[65%]"
-  />
-
-{/* spans for the image dessign below */}
-
-  <div className="flex flex-wrap gap-2 justify-center z-10 mt-4 px-2">
-    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-green-200 bg-green-50 text-green-500 text-sm font-medium">
-      <Smartphone size={14} />
-      LandingPage
-    </span>
-    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-purple-200 bg-purple-50 text-purple-500 text-sm font-medium">
-      <CreditCard size={14} />
-      Stripe Integration
-    </span>
-    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-red-200 bg-red-50 text-red-500 text-sm font-medium">
-      <Paintbrush size={14} />
-      Modern Design
-    </span>
-    <span className="badge-highlight inline-flex items-center gap-1 px-3 py-1 rounded-md border border-cyan-200 bg-cyan-50 text-cyan-500 text-sm font-medium">
-      <LayoutDashboard size={14} />
-      Dashboard
-    </span>
-  </div>
+        {/* Premium Input Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <div className="relative">
+            {/* Main input container */}
+            <div className="relative flex flex-col sm:flex-row items-stretch gap-0 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-2 shadow-2xl">
+              {/* Input field */}
+              <div className="relative flex-1">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                  <Zap className="w-5 h-5 text-[#90C1CA]/60" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter your MVP idea to get started..."
+                  className="w-full h-14 pl-12 pr-4 bg-transparent text-white placeholder-white/50 text-lg font-medium
+                             focus:outline-none rounded-xl transition-all duration-300"
+                />
+              </div>
+              
+              {/* Launch button */}
+              <button className="group relative h-14 px-8 bg-gradient-to-r from-[#90C1CA] to-[#46AA72] 
+                               text-[#003F2F] font-bold text-lg rounded-xl
+                               hover:shadow-lg hover:shadow-[#90C1CA]/25 
+                               transform hover:scale-[1.02] transition-all duration-300 ease-out
+                               focus:outline-none focus:ring-2 focus:ring-[#90C1CA]/50 focus:ring-offset-2 focus:ring-offset-[#003F2F]
+                               sm:min-w-[180px] whitespace-nowrap flex items-center justify-center gap-2">
+                <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                <span>Instant Launch</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </button>
+            </div>
+            
+            {/* Glowing effect */}
+            <div className="absolute pointer-events-none -inset-1 bg-gradient-to-r from-[#90C1CA]/20 to-[#46AA72]/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          
+          {/* Trust indicators */}
+        <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-white/60">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-400"></div>
+            <span>No setup or coding needed</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#90C1CA]"></div>
+            <span>Validate in under a minute</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+            <span>Waitlist & paid early access</span>
+          </div>
+        </div>
 </div>
 
+        {/* Stats section */}
+        <div className="flex flex-wrap justify-center items-center gap-8 max-w-2xl mx-auto mb-12">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[#90C1CA] mb-1">1K+</div>
+            <div className="text-sm text-white/60">MVPs Launched</div>
+          </div>
+          <div className="hidden sm:block w-px h-12 bg-white/20"></div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[#90C1CA] mb-1">30s</div>
+            <div className="text-sm text-white/60">Average Setup Time</div>
+          </div>
+          <div className="hidden sm:block w-px h-12 bg-white/20"></div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[#90C1CA] mb-1">94%</div>
+            <div className="text-sm text-white/60">Success Rate</div>
+          </div>
+        </div>
 
+        {/* Feature badges */}
+        <div className="flex flex-wrap gap-3 justify-center z-10 px-2">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#90C1CA]/30 bg-[#90C1CA]/10 text-[#90C1CA] text-sm font-medium backdrop-blur-sm">
+            <Smartphone size={16} />
+            Landing Page
+          </span>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#46AA72]/30 bg-[#46AA72]/10 text-[#46AA72] text-sm font-medium backdrop-blur-sm">
+            <CreditCard size={16} />
+            Payment Integration
+          </span>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#90C1CA]/30 bg-[#90C1CA]/10 text-[#90C1CA] text-sm font-medium backdrop-blur-sm">
+            <Paintbrush size={16} />
+            Modern Design
+          </span>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#46AA72]/30 bg-[#46AA72]/10 text-[#46AA72] text-sm font-medium backdrop-blur-sm">
+            <LayoutDashboard size={16} />
+            Analytics Dashboard
+          </span>
+        </div>
 
+        {/* Secondary CTA */}
+        <div className="mt-12">
+          <button className="text-white/70 hover:text-[#90C1CA] text-sm font-medium transition-colors duration-300 flex items-center gap-2 group">
+            <span>See how it works</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </button>
+        </div>
+      </div>
 
-    {/* Heading & Text */}
-    <div className="relative z-10 p-8 text-center">
-
-<span className="text-2xl sm:text-3xl md:text-4xl font-semibold block opacity-30 px-4 text-center">
-
-
-  <strong>Validate Smarter, Launch Faster,  Earn Sooner</strong>
-</span>
-
-
-<Button text='Get Started for Free' color = 'bg-purple-800' bgcolor_border='bg-purple-100 border-purple-200'/>
-
+      {/* Floating elements for visual interest */}
+      <div className="absolute top-1/4 left-10 w-2 h-2 rounded-full bg-[#90C1CA]/30 animate-pulse"></div>
+      <div className="absolute top-1/3 right-16 w-1 h-1 rounded-full bg-[#46AA72]/40 animate-pulse delay-1000"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-[#90C1CA]/20 animate-pulse delay-500"></div>
+      <div className="absolute bottom-1/3 right-1/3 w-1 h-1 rounded-full bg-[#46AA72]/30 animate-pulse delay-1500"></div>
     </div>
-  </div>
 
 
-<section id='features' className="section1 max-w-7xl mx-auto px-4 py-16 bg-gray-50">
+<section id='features' className="section1 max-w-7xl mx-auto px-4 py-16 bg-[#F7F8F3]">
   <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
     Build Smarter. Launch Faster.
   </h2>
@@ -372,7 +427,7 @@ return (
 </section>
 
 
-    <section className="section2 w-full bg-[#F4F4F8] py-16 px-6 md:px-20 ">
+    <section className="section2 w-full bg-[#F7F8F3] py-16 px-6 md:px-20 ">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
           Why Use BloomQueue?
@@ -445,14 +500,14 @@ return (
             className="w-full flex justify-between items-center p-6 text-left group hover:bg-gray-50 rounded-t-xl"
           >
             <div className="flex items-center gap-3">
-              <HelpCircle className="w-5 h-5 text-indigo-500 group-hover:text-indigo-600 transition-colors" />
-              <span className="text-lg md:text-xl font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors">
+              <HelpCircle className="w-5 h-5 text-green-900 group-hover:text-green-600 transition-colors" />
+              <span className="text-lg md:text-xl font-semibold text-gray-800 group-hover:text-green-700 transition-colors">
                 {faq.question}
               </span>
             </div>
             <ChevronDown
-              className={`w-5 h-5 text-gray-400 group-hover:text-indigo-600 transition-transform duration-300 ${
-                openIndex === index ? "rotate-180 text-indigo-600" : ""
+              className={`w-5 h-5 text-gray-400 group-hover:text-green-600 transition-transform duration-300 ${
+                openIndex === index ? "rotate-180 text-green-600" : ""
               }`}
             />
           </button>
@@ -515,12 +570,12 @@ return (
   </div>
 </section>
 
-<section id="pricing" className="section3 w-full bg-purple-100 py-28 px-6">
+<section id="pricing" className="section3 w-full bg-[#003F2F] py-28 px-6">
   <div className="max-w-6xl mx-auto text-center">
-    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
       Choose Your Plan
     </h2>
-    <p className="text-gray-600 text-lg mb-16">
+    <p className="text-[#e5e7eb] text-lg mb-16">
       Get started for free — upgrade anytime. No hidden fees. Cancel anytime.
     </p>
 
@@ -531,17 +586,17 @@ return (
           <span className="text-sm font-semibold text-gray-500 uppercase">Free Demo</span>
           <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">Free</h3>
           <ul className="text-left text-sm text-gray-600 space-y-3">
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full platform access (limited)</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Generate multiple free website template</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Full platform access (limited)</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Generate multiple free website template</li>
             <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Dashboard or analytics</li>
             <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" />Make Landing Pages publishable</li>
           </ul>
         </div>
         <div className="mt-6">
-          <Button
+          {/* <Button
             text="Free Demo"
-            color="bg-purple-800"
-            bgcolor_border="bg-purple-100 border-purple-200"
+            color="bg-[#46AA72]"
+            bgcolor_border="bg-green-100 border-green-200"
             onClick={()=>{
 
 
@@ -551,59 +606,86 @@ return (
                 toast.success("Already registered, check plan from dashboard");
               }
             }}
-          />
+          /> */}
+
+          <button className='bg-[#46AA72] text-white font-semibold px-6 py-3 rounded-xl shadow-md 
+             hover:bg-[#3d9463] hover:shadow-lg transition-all duration-300 ease-in-out
+             focus:outline-none focus:ring-2 focus:ring-[#46AA72] focus:ring-offset-2' 
+             onClick={()=>{
+              
+              if(!auth.currentUser){
+                navigate("/login");
+              }else{
+                toast.success("Already registered, check plan from dashboard");
+              }
+
+             }}
+             >Free Demo</button>
         </div>
       </div>
 
       {/* Monthly Plan */}
-      <div className="relative border-2 border-purple-400 bg-gray-100 rounded-2xl p-10 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300 min-h-[400px]">
+      <div className="relative border-2 border-green-800 bg-gray-100 rounded-2xl p-10 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300 min-h-[400px]">
         <div>
-          <span className="text-sm font-semibold text-purple-600 uppercase">Standard</span>
+          <span className="text-sm font-semibold text-green-900 uppercase">Standard</span>
           <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">$10/mo</h3>
           <ul className="text-left text-sm text-gray-600 space-y-3">
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Full feature access</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Unlimited site generations monthly</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Make Landing Pages publishable</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Priority support</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Full feature access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Unlimited site generations monthly</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Make Landing Pages publishable</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Dashboard + analytics access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Priority support</li>
           </ul>
         </div>
         <div className="mt-6">
-          <Button
+          {/* <Button
             text="Subscribe Monthly"
-            color="bg-purple-800"
-            bgcolor_border="bg-purple-100 border-purple-200"
+            color="bg-[#46AA72]"
+            bgcolor_border="bg-green-100 border-green-200"
 
             onClick={()=>handleSubscribe("subscription")}
-          />
+          /> */}
+
+          <button className='bg-[#46AA72] text-white font-semibold px-6 py-3 rounded-xl shadow-md 
+             hover:bg-[#3d9463] hover:shadow-lg transition-all duration-300 ease-in-out
+             focus:outline-none focus:ring-2 focus:ring-[#46AA72] focus:ring-offset-2'
+             onClick={()=>handleSubscribe("subscription")}
+             >
+              Subscribe Monthly
+          </button>
         </div>
       </div>
 
       {/* Lifetime Deal */}
-      <div className="relative border-4 border-purple-700 bg-gray-100 rounded-2xl p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all duration-300 min-h-[400px]">
+      <div className="relative border-4 border-green-800 bg-gray-100 rounded-2xl p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all duration-300 min-h-[400px]">
         {/* Ribbon */}
-        <div className="absolute -top-3 right-4 bg-purple-700 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+        <div className="absolute -top-3 right-4 bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
           <Star className="w-3.5 h-3.5" /> Most Popular
         </div>
         <div>
-          <span className="text-sm font-semibold text-purple-700 uppercase">Lifetime Access</span>
+          <span className="text-sm font-semibold text-green-900 uppercase">Lifetime Access</span>
           <h3 className="text-3xl font-bold text-gray-800 mt-2 mb-4">$49</h3>
           <ul className="text-left text-sm text-gray-600 space-y-3">
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />One-time payment</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />All Standard plan features</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-700" />Unlimited Site Generations</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Dashboard + analytics access</li>
-            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" />Make Landing Pages publishable</li>
-            <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-purple-700" />Priority Support</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />One-time payment</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />All Standard plan features</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Unlimited Site Generations</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Dashboard + analytics access</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-900" />Make Landing Pages publishable</li>
+            <li className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-green-900" />Priority Support</li>
           </ul>
         </div>
         <div className="mt-6">
-          <Button
+          {/* <Button
             text="Get Lifetime Deal"
-            color="bg-purple-800"
-            bgcolor_border="bg-purple-100 border-purple-200"
+            color="bg-[#46AA72]"
+            bgcolor_border="bg-green-100 border-green-200"
             onClick={()=>handleSubscribe("onetime")}
-          />
+          /> */}
+          <button onClick={()=>handleSubscribe("onetime")} className='bg-[#46AA72] text-white font-semibold px-6 py-3 rounded-xl shadow-md 
+             hover:bg-[#3d9463] hover:shadow-lg transition-all duration-300 ease-in-out
+             focus:outline-none focus:ring-2 focus:ring-[#46AA72] focus:ring-offset-2'>
+            Get Lifetime Deal
+          </button>
         </div>
       </div>
     </div>

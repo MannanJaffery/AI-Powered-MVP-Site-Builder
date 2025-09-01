@@ -182,7 +182,7 @@ const handlestripelinking = async ()=>{
           {/* Sidebar Header */}
           <div className="px-8 py-8 border-b border-slate-100">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#46AA72] to-[#90C1CA] rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                 </svg>
@@ -214,7 +214,7 @@ const handlestripelinking = async ()=>{
           <nav className="flex-1 px-6 py-6 space-y-2 overflow-y-auto">
             {/* New Project Button */}
             <div className="mb-8">
-              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-gradient-to-r bg-[#46AA72] hover:bg-[hsl(146,42%,57%)] text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               onClick={()=>{
                 navigate("/input-idea");
               }}>
@@ -227,7 +227,7 @@ const handlestripelinking = async ()=>{
             <div className="space-y-1">
               <button
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-200 group ${
-                  showProjects ? "text-indigo-800" : "text-slate-700 hover:text-indigo-700"
+                  showProjects ? "text-[#46AA72]" : "text-slate-700 hover:text-[hsl(146,42%,57%)]"
                 }`}
                 onClick={()=>{
                   setShowSubscribers(false);
@@ -237,7 +237,7 @@ const handlestripelinking = async ()=>{
               >
                 <svg
                   className={`w-5 h-5 transition-colors duration-200 ${
-                    showProjects ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-500"
+                    showProjects ? "text-[#46AA72]" : "text-slate-400 group-hover:text-[hsl(146,42%,57%)]"
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -268,13 +268,13 @@ const handlestripelinking = async ()=>{
                   }}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                     showSubscribers
-                      ? " text-indigo-700"
-                      : "text-slate-700 hover:bg-slate-50 hover:text-indigo-700"
+                      ? " text-[#46AA72]"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-[hsl(146,42%,57%)]"
                   }`}
                 >
                   <svg
                     className={`w-5 h-5 ${
-                      showSubscribers ? "text-indigo-500" : "text-slate-400 group-hover:text-indigo-500"
+                      showSubscribers ? "text-[#46AA72]" : "text-slate-400 group-hover:text-[hsl(146,42%,57%)]"
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -302,7 +302,7 @@ const handlestripelinking = async ()=>{
       disabled={stripeloading}
       className={`w-full flex justify-between items-center px-4 py-3 rounded-xl 
         text-slate-700 transition-all duration-200 group
-        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
+        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-[#46AA72]"}`}
     >
       <div className="flex items-center space-x-3">
         {stripeloading ? (
@@ -323,11 +323,11 @@ const handlestripelinking = async ()=>{
       disabled
       className={`w-full flex justify-between items-center px-4 py-3 rounded-xl 
         text-slate-700 transition-all duration-200 group
-        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-indigo-700"}`}
+        ${stripeloading ? "bg-slate-100 cursor-not-allowed" : "hover:bg-slate-50 hover:text-[hsl(146,42%,57%)]"}`}
     >
       <div className="flex items-center space-x-3">
-        <CreditCard className="w-4 h-4 transform transition-transform duration-200 text-indigo-700" />
-        <span className="font-medium text-indigo-700">
+        <CreditCard className="w-4 h-4 transform transition-transform duration-200 text-[#46AA72]" />
+        <span className="font-medium text-[#46AA72]">
           Stripe Connected
         </span>
       </div>
@@ -339,13 +339,52 @@ const handlestripelinking = async ()=>{
                 onClick={handleaccountsettings}
                 className="w-full flex justify-between items-center px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-indigo-700 transition-all duration-200 group"
               >
-                <div className="flex items-center space-x-3">
-                  <svg className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span className="font-medium">Account Settings</span>
-                </div>
+<div
+  className="flex items-center space-x-3 cursor-pointer group"
+  
+>
+  <svg
+    className={`w-5 h-5 transition-colors duration-200 
+      ${accountsettings ? "text-[#46AA72]" : "text-slate-700"} 
+      group-hover:text-[#46AA72]`}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 
+         0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 
+         2.37 2.37a1.724 1.724 0 001.065 
+         2.572c1.756.426 1.756 2.924 0 3.35a1.724 
+         1.724 0 00-1.066 2.573c.94 1.543-.826 
+         3.31-2.37 2.37a1.724 1.724 0 
+         00-2.572 1.065c-.426 1.756-2.924 
+         1.756-3.35 0a1.724 1.724 0 
+         00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 
+         1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 
+         0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 
+         2.37-2.37.996.608 2.296.07 2.572-1.065z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+
+  <span
+    className={`font-medium transition-colors duration-200 
+      ${accountsettings ? "text-[#46AA72]" : "text-slate-700"} 
+      group-hover:text-[#46AA72]`}
+  >
+    Account Settings
+  </span>
+</div>
+
               </button>
 
               
@@ -427,7 +466,7 @@ const handlestripelinking = async ()=>{
         Welcome back, {username}
       </h1>
 
-      <span className="md:hidden p-2 rounded-md bg-indigo-600 text-white cursor-pointer"
+      <span className="md:hidden p-2 rounded-md bg-[#90C1CA] text-white cursor-pointer"
       onClick={()=>setShowSidebar(true)}>
         <Menu size={24} />
       </span>
@@ -446,7 +485,7 @@ const handlestripelinking = async ()=>{
 
                   <Link
                     to="/input-idea"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r bg-[#46AA72] hover:bg-[hsl(146,42%,57%)] text-white px-6 py-3 rounded-xl  transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     <Plus size={18} />
                     New Project
@@ -460,7 +499,7 @@ const handlestripelinking = async ()=>{
               {products.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-2xl shadow-sm">
                   <div className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <Plus className="text-indigo-600" size={32} />
+                    <Plus className="text-[#90C1CA]" size={32} />
                   </div>
                   <h3 className="text-xl font-semibold text-slate-900 mb-3">
                     No projects yet
@@ -492,7 +531,7 @@ const handlestripelinking = async ()=>{
                     return (
                       <div
                         key={product.id}
-                        className="bg-white rounded-2xl border border-slate-200 hover:border-indigo-200 transition-all duration-300 h-80 flex flex-col shadow-sm hover:shadow-lg group overflow-hidden"
+                        className="bg-white rounded-2xl border border-slate-200 hover:border-green-200 transition-all duration-300 h-80 flex flex-col shadow-sm hover:shadow-lg group overflow-hidden"
                       >
                         {/* Product Header */}
                         <div className="p-6 border-b border-slate-100 flex-shrink-0">
@@ -501,7 +540,7 @@ const handlestripelinking = async ()=>{
 
                    
                           <Link to={`/${username}/${encodeURIComponent(product.productName)}`} className="block">
-                            <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors line-clamp-1 mb-2 text-lg">
+                            <h3 className="font-semibold text-slate-900 group-hover:text-[#46AA72] transition-colors line-clamp-1 mb-2 text-lg">
                               {product.productName}
                             </h3>
                           </Link>
@@ -524,7 +563,7 @@ const handlestripelinking = async ()=>{
                               href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-indigo-600 hover:text-indigo-800 flex-1 truncate text-sm font-medium"
+                              className="text-[#46AA72] hover:text-[hsl(146,42%,57%)] flex-1 truncate text-sm font-medium"
                             >
                               {`mvp-go-seven.vercel.app/${username}/${product.productName}`}
                             </a>
@@ -551,7 +590,7 @@ const handlestripelinking = async ()=>{
                           <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
                               <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                                <Users size={16} className="text-indigo-600" />
+                                <Users size={16} className="text-[#46AA72]" />
                               </div>
                               <div>
                                 <span className="text-lg font-semibold text-slate-900">
@@ -566,7 +605,7 @@ const handlestripelinking = async ()=>{
                             {waitlist.length > 0 && (
                               <button
                                 onClick={() => toggleExpand(product.id)}
-                                className="flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors px-3 py-1 rounded-lg hover:bg-indigo-50"
+                                className="flex items-center gap-1 text-sm font-medium text-[#46AA72] hover:text-[hsl(146,42%,57%)] transition-colors px-3 py-1 rounded-lg hover:bg-indigo-50"
                               >
                                 {isExpanded ? (
                                   <>

@@ -165,7 +165,7 @@ if (products.length === 0) {
                       </h2>
                       <div className="flex flex-wrap gap-4">
                         <div className="flex items-center">
-                          <Users className="h-4 w-4 md:h-5 md:w-5 text-indigo-600 mr-2" />
+                          <Users className="h-4 w-4 md:h-5 md:w-5 text-[#46AA72] mr-2" />
                           <span className="text-sm font-medium text-gray-700">
                             {totalSubscribers} total
                           </span>
@@ -190,7 +190,7 @@ if (products.length === 0) {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => downloadCSV(product)}
-                        className="inline-flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                        className="inline-flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-[#46AA72] text-white rounded-lg hover:bg-[hsl(146,42%,57%)] transition-colors text-sm font-medium"
                       >
                         <Download className="h-4 w-4" />
                         Export CSV

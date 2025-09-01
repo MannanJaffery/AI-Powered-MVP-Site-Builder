@@ -13,6 +13,8 @@ import ProductPage from "./pages/productpage";
 import PreviewandEdit from "./pages/previewandedit";
 import Subscribers from "./pages/subscribers";
 import { ProductsProvider } from "./context/productsContext";
+import Changepassword from "./pages/authentication/changepassword";
+
 
 
 
@@ -56,6 +58,12 @@ function App() {
 
 
             <Route path="/forget-password" element={<ForgetPassword/>}/>
+
+            <Route path="/change-password" element={
+              <ProtectedRoute>
+              <Changepassword/>
+              </ProtectedRoute>
+              }/>
 
             <Route path="/input-idea" element={
               <ProtectedRoute>

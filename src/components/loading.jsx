@@ -30,7 +30,7 @@ const Loader = () => {
           <div
             key={index}
             ref={(el) => (dotsRef.current[index] = el)}
-            className="w-5 h-5 rounded-full bg-blue-600"
+            className="w-5 h-5 rounded-full bg-[#46AA72]"
           />
         ))}
       </div>

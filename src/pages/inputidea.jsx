@@ -8,7 +8,7 @@ import Loader from "../components/loading";
 
 export default function IdeaInputAssistant() {
 
-  const username = useUsername();
+  const {username} = useUsername();
 
   const navigate = useNavigate();
   const [AIresponse , setAIResponse] = useState(null);

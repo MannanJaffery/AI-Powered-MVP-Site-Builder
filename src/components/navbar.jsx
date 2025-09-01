@@ -39,17 +39,26 @@ const Navbar = () => {
   };
 
   return (
-<nav className="w-full z-50 fixed top-0 left-0 bg-white/80 backdrop-blur-md border-b shadow-sm">
-  <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+<nav className="w-full z-50 fixed top-0 left-0 bg-white/80 backdrop-blur-md border-b shadow-sm h-16 items-center ">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-4 h-full">
+  <a href="/" className="flex items-center">
 
- <a href="/" className="text-2xl font-bold">
-      Bloom<span className="text-blue-600">Queue</span>
+      <img
+        src="./Bloomqueue_Logo_V2.png"
+        alt="Logo"
+        className="w-8 h-8 object-contain"
+      />
+      <span className="text-2xl font-bold ml-2">
+        Bloom<span className="text-[#46AA72]">Queue</span>
+      </span>
+
+      
     </a>
 
     <ul className="hidden md:flex space-x-8 text-sm font-medium">
       {navLinks.map((link) => (
         <li key={link.name}>
-          <a href={link.href} className="hover:text-blue-600 transition">
+          <a href={link.href} className="hover:text-green-600 transition">
             {link.name}
           </a>
         </li>
@@ -59,7 +68,7 @@ const Navbar = () => {
 
 
       {user && (
-        <a href={`/dashboard/${user.uid}`} className="hover:text-blue-600 transition">
+        <a href={`/dashboard/${user.uid}`} className="hover:text-green-600 transition">
           Dashboard
         </a>
       )}
