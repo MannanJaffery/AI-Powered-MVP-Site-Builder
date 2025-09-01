@@ -11,6 +11,7 @@ import { addDoc , collection } from 'firebase/firestore';
 import { db ,auth } from '../firebase';
 import usePlanData from '../hook/useplandata';
 import { useNavigate } from 'react-router-dom';
+import useUsername from '../services/getcurrentusername';
 
 
 
@@ -19,6 +20,7 @@ const PreviewandEdit = () => {
   const navigate = useNavigate();
 
 
+  const user = auth.currentUser;
 
 
 
@@ -178,6 +180,13 @@ const handlePublish = async ()=> {
 
 
 const handlePublishButton = ()=>{
+
+  if(!user){
+    alert("Log In and update Plan to continue");
+    return;
+  }
+
+
   setShowtermspopup(true);
 }
 

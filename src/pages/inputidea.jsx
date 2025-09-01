@@ -91,10 +91,8 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
     navigate(`/${username}/${inputData.name}/preview+edit`,{
 
       state:{
-
         productName: inputData.name,
         aiResponse: result,
-
       }
 
     });
@@ -114,9 +112,9 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
   if(loading) return <Loader />
 
 
-  return (<div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-purple-50 font-sans overflow-x-hidden">
+  return (<div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-green-50 font-sans overflow-x-hidden">
   {/* Animated Header */}
-  <header className="bg-white/90 backdrop-blur-sm border-b border-purple-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+  <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
     <div className="px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
         <h1 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight flex items-center">
@@ -138,9 +136,9 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
         {/* Card with subtle effects */}
         <div className="bg-white rounded-xl shadow-sm border border-purple-100/50 overflow-hidden transition-all duration-300 hover:shadow-md">
           {/* Card header */}
-          <div className="bg-gradient-to-r from-purple-50 to-white p-6 border-b border-purple-100/50">
+          <div className="bg-gradient-to-r from-green-50 to-white p-6 border-b border-purple-100/50">
             <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 flex items-center">
-              <span className="text-purple-500 mr-2">🖋️</span>
+              <span className="text-green-500 mr-2">🖋️</span>
               Content Strategy Generator
             </h2>
             <p className="text-sm text-slate-500 mt-1">
@@ -154,12 +152,12 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
             <div className="mb-6 animate-fadeInLeft">
               <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center">
                 <span>Product Name</span>
-                <span className="text-purple-500 ml-1">*</span>
+                <span className="text-green-500 ml-1">*</span>
               </label>
               <input
                 type="text"
                 required
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm placeholder-slate-400 hover:border-purple-300"
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-1 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-sm placeholder-slate-400 hover:border-purple-300"
                 placeholder="Enter product name"
                 value={inputData.name}
                 onChange={(e) => setInputData({ ...inputData, name: e.target.value })}
@@ -170,11 +168,11 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
             <div className="mb-8 animate-fadeInLeft">
               <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center">
                 <span>Product Description</span>
-                <span className="text-purple-500 ml-1">*</span>
+                <span className="text-green-500 ml-1">*</span>
               </label>
               <textarea
                 required
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-sm resize-none placeholder-slate-400 hover:border-purple-300"
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-1 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-sm resize-none placeholder-slate-400 hover:border-purple-300"
                 rows={5}
                 placeholder="Describe key features, benefits, and unique value proposition..."
                 value={inputData.description}
@@ -191,7 +189,7 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
                 type="submit"
                 disabled={loading || !inputData.name || !inputData.description}
                 className={`relative overflow-hidden px-6 sm:px-8 py-3.5 rounded-lg font-medium text-sm w-full sm:w-auto transition-all duration-200 shadow-sm flex items-center justify-center gap-2
-                  ${loading ? "bg-slate-100 text-slate-500 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-purple-200 hover:shadow-md hover:-translate-y-0.5"}`}
+                  ${loading ? "bg-slate-100 text-slate-500 cursor-not-allowed" : "bg-[#46AA72] text-white shadow-green-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer"}`}
                 onClick={handleSubmit}
               >
                 {loading ? (

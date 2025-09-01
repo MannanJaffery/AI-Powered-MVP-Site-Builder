@@ -1,5 +1,9 @@
 import { Edit3, Type, List, Save, X, Star , HelpCircle } from 'lucide-react';
 
+
+import { auth } from '../firebase';
+
+
 const Sidebar = ({
   editmaintitle,
   seteditmaintitle,
@@ -18,6 +22,14 @@ const Sidebar = ({
   setWhyuseLine,
   setWhyUsePoints
 }) => {
+
+
+
+  const user = auth.currentUser;
+
+
+
+
   const handleBenefitChange = (index, field, value) => {
     const updated = [...benefits];
     updated[index][field] = value;
@@ -141,8 +153,9 @@ const removeWhyUsePoint = (index) => {
         </section>
 
 
+{user && (<>
 
-        <section>
+<section>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <Star className="w-4 h-4 text-gray-600" />
@@ -197,6 +210,8 @@ const removeWhyUsePoint = (index) => {
         </section>
 
 
+
+        
         {/* Why Use */}
 <section>
   <div className="flex items-center justify-between mb-4">
@@ -312,6 +327,11 @@ const removeWhyUsePoint = (index) => {
             ))}
           </div>
         </section>
+
+</>)}
+        
+
+
 
 
         {/* Save Button */}
