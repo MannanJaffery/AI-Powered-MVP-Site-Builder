@@ -20,6 +20,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { getFunctions , httpsCallable } from 'firebase/functions';
 import { app } from '../firebase';
+import { auth } from "../firebase";
 
 
 export default function MainContent({
@@ -40,6 +41,7 @@ export default function MainContent({
   pageid,
 }) {
 
+const user = auth.currentUser;
 
 
 
@@ -181,7 +183,12 @@ const handleSubscribeConnectedAccount = async () => {
       </section>
 
       {/* Features Section */}
-      <section className={`py-20 bg-gray-50 ${!showsidebar ? 'section1':'' }`}>
+<section
+  className={`py-20 bg-gray-50 ${(!showsidebar && user) ? "section1" : ""} ${
+    !user ? "blur-md pointer-events-none select-none" : ""
+  }`}
+>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -227,8 +234,8 @@ const handleSubscribeConnectedAccount = async () => {
 
       {/* Why Use Section */}
 <section
-  className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20 ${
-    !showsidebar ? "section2" : ""
+  className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20${(!showsidebar && user) ? "section1" : ""} ${
+    !user ? "blur-md pointer-events-none select-none" : ""
   }`}
 >
   <div className="max-w-6xl mx-auto text-center">
@@ -274,7 +281,9 @@ const handleSubscribeConnectedAccount = async () => {
 
 
       {/* CTA Section */}
-      <section className={`w-full bg-white py-20 px-4 sm:px-6 ${!showsidebar ? 'section3':'' } `}>
+      <section className={`w-full bg-white py-20 px-4 sm:px-6 ${(!showsidebar && user) ? "section1" : ""} ${
+    !user ? "blur-md pointer-events-none select-none" : ""
+  } `}>
         <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-12 border border-gray-200/50 shadow-sm">
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">

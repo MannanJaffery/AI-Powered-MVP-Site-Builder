@@ -61,7 +61,7 @@ function App() {
 
             <Route path="/change-password" element={
               <ProtectedRoute>
-              <Changepassword/>
+              <Changepassword />
               </ProtectedRoute>
               }/>
 
@@ -72,9 +72,9 @@ function App() {
               }/>
 
               <Route path="/:username/:productname/preview+edit" element={
-              <ProtectedRoute>
+
               <PreviewandEdit/>
-              </ProtectedRoute>
+
               }/>
 
 

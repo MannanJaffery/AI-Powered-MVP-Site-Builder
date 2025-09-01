@@ -21,6 +21,8 @@ import Loader from '../components/loading';
 import { getFunctions , httpsCallable } from 'firebase/functions';
 import { app } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import useUsername from '../services/getcurrentusername';
 
 
 
@@ -97,10 +99,18 @@ const testimonials = [
 
 const LandingPage = () => {
 
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+const {username}=useUsername();
+
 
 
   const navigate = useNavigate();
   const auth = useAuth();
+
+
+  const [description,setDescription]= useState('');
+
+
 
   const handleSubscribe = async (type) => { // subscription logic from the backend , it will handle the monthly and all time subscription
   try {
@@ -112,6 +122,31 @@ const LandingPage = () => {
     console.error("Error creating checkout session:", error);
   }
 };
+
+
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const generateProductName =async () =>{
+  try {
+  
+const prompt = `Generate a catchy product name based on this description: "${description}".
+Rules:
+- The name must be only 2 to 3 words.
+- Use normal title-style words (no hyphens, no underscores, no numbers).
+- Return only ONE name, nothing else.`;
+
+    const result = await model.generateContent(prompt);
+
+  
+    let name = result.response.text().trim();
+
+    name = name.replace(/\s+/g, "-").toLowerCase();
+
+    return name;
+  } catch (error) {
+    console.error("Error generating product name:", error);
+    return "default-product";
+  }
+}
 
 
 
@@ -152,10 +187,76 @@ return () => clearInterval(interval);
 
 
 
-
-
-
 const { currentUser } = useAuth();
+
+
+const handleSubmit= async ()=>{
+const name=await generateProductName(description);
+
+  const prompt_product = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:
+{
+ "heading": "(Describe what the product actually is, not just the name , 5 to 6 words only , unique )",
+ "subheading": "(Provide a bit more detail explaining the heading ,at least 15 words )",
+ "why_use": {
+   "line": "(A one-line summary of the main benefit , atleast 15 words )",
+   "points": [
+     "(First reason , at least 20 words)",
+     "(Second reason , at least 20 words)",
+     "(Third reason , at least 20 words)",
+     "(Fourth reason , at least 20 words)"
+   ]
+ },
+ "features_and_benefits": [
+   "(Feature 1 , short and clear)",
+   "(Feature 2, short and clear)",
+   "(Feature 3, short and clear)"
+ ],
+ "features_explanation": [
+   "(Explanation for feature 1 , at least 20 words)",
+   "(Explanation for feature 2 , at least 20 words)",
+   "(Explanation for feature 3 , at least 20 words)"
+ ]
+}
+ 
+Use the product name and description below to generate the required content:
+PRODUCT NAME: ${name}
+PRODUCT DESCRIPTION: ${description}`;
+
+
+  if(description.trim()!==""){
+
+    try{
+
+    const result = await model.generateContent(prompt_product);
+    const response = await result.response;
+    const text = await response.text();
+    
+    console.log("Text of response of AI:", text);
+
+     navigate(`/${username}/${name}/preview+edit`,{
+
+      state:{
+        productName:name,
+        aiResponse: text,
+      }
+
+    });
+    }catch(err){
+      console.log("error:",err);
+    }
+    console.log("The description is:" , description);
+
+    console.log("The AI generated Name is" , name);
+
+
+
+    setDescription("");
+  }
+
+
+}
+
+
 
 const handleResendVerification = async () => {
   if (currentUser) {
@@ -251,12 +352,16 @@ return (
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
                   <Zap className="w-5 h-5 text-[#90C1CA]/60" />
                 </div>
+
                 <input
                   type="text"
-                  placeholder="Enter your MVP idea to get started..."
+                  value={description}
+                  onChange={(e)=> setDescription(e.target.value)}
+                  placeholder="Enter description of your idea to get started..."
                   className="w-full h-14 pl-12 pr-4 bg-transparent text-white placeholder-white/50 text-lg font-medium
                              focus:outline-none rounded-xl transition-all duration-300"
                 />
+
               </div>
               
               {/* Launch button */}
@@ -265,8 +370,10 @@ return (
                                hover:shadow-lg hover:shadow-[#90C1CA]/25 
                                transform hover:scale-[1.02] transition-all duration-300 ease-out
                                focus:outline-none focus:ring-2 focus:ring-[#90C1CA]/50 focus:ring-offset-2 focus:ring-offset-[#003F2F]
-                               sm:min-w-[180px] whitespace-nowrap flex items-center justify-center gap-2">
-                <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                               sm:min-w-[180px] whitespace-nowrap flex items-center justify-center gap-2"
+                               onClick={handleSubmit}>
+                <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"
+                />
                 <span>Instant Launch</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </button>

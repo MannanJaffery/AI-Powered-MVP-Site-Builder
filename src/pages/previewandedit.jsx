@@ -11,14 +11,13 @@ import { addDoc , collection } from 'firebase/firestore';
 import { db ,auth } from '../firebase';
 import usePlanData from '../hook/useplandata';
 import { useNavigate } from 'react-router-dom';
-import useUsername from '../services/getcurrentusername';
-
 
 
 
 const PreviewandEdit = () => {
 
   const navigate = useNavigate();
+
 
 
 
@@ -86,7 +85,6 @@ useEffect(() => {
         parsedResponse = aiResponse;
         console.log(parsedResponse);
       } else {
-
         const cleanedResponse = aiResponse
           .replace(/```json\n?/g, '')
           .replace(/```\n?/g, '')
