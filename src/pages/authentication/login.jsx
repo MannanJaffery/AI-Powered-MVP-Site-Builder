@@ -198,7 +198,7 @@ const handleGoogleSignIn = async () => {
   <button
     type="submit"
     disabled={loading}
-    className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800 font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
+    className="w-full bg-[#46AA72] text-white py-2 rounded-lg hover:bg-[hsl(146,42%,57%)] font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
   >
     {loading ? "Logging in..." : "Continue"}
   </button>
@@ -209,14 +209,14 @@ const handleGoogleSignIn = async () => {
     No account ? {" "}
     <a
       href="/register"
-      className="text-purple-600 hover:underline font-medium"
+      className="text-[#46AA72] hover:underline font-medium"
     >
       Sign up
     </a>
   </div>
   <a
     href="/forget-password"
-    className="text-purple-600 hover:underline font-medium"
+    className="text-[#46AA72] hover:underline font-medium"
   >
     Forgot password?
   </a>

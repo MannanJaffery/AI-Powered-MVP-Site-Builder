@@ -53,8 +53,8 @@ export default function ForgotPasswordPage() {
         
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 max-w-sm mx-auto">
           <div className="flex items-center justify-center gap-2">
-            <Mail className="w-4 h-4 text-purple-600" />
-            <span className="font-semibold text-purple-700 break-all text-sm">{email}</span>
+            <Mail className="w-4 h-4 text-[#46AA72]" />
+            <span className="font-semibold text-green-700 break-all text-sm">{email}</span>
           </div>
         </div>
 
@@ -71,11 +71,11 @@ export default function ForgotPasswordPage() {
       <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-2xl p-4 max-w-sm mx-auto">
         <div className="flex items-start gap-3">
           <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-            <Shield className="w-4 h-4 text-purple-600" />
+            <Shield className="w-4 h-4 text-green-600" />
           </div>
           <div className="text-left">
-            <p className="text-sm font-semibold text-purple-900 mb-1">Security Notice</p>
-            <p className="text-xs text-purple-700 leading-relaxed">
+            <p className="text-sm font-semibold text-slate-900 mb-1">Security Notice</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
               This link expires in <span className="font-semibold">15 minutes</span> for your protection. 
               You can request a new one anytime from the login page.
             </p>
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
       {/* Action Button */}
       <button
         onClick={handleBackToLogin}
-        className="w-full bg-gradient-to-r from-purple-700 to-purple-800 hover:from-purple-800 hover:to-purple-900 text-white py-3.5 px-6 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl focus:ring-4 focus:ring-purple-300 focus:outline-none flex items-center justify-center gap-3 group max-w-sm mx-auto"
+        className="w-full bg-[#46AA72] hover:bg-[hsl(146,42%,57%)] text-white py-3.5 px-6 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl focus:ring-4 focus:ring-purple-300 focus:outline-none flex items-center justify-center gap-3 group max-w-sm mx-auto"
       >
         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform duration-200" />
         <span>Back to Login</span>
@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
       <div className="pt-2">
         <p className="text-xs text-gray-500 max-w-sm mx-auto">
           Still having trouble? Contact our{" "}
-          <button className="text-purple-600 hover:text-purple-700 font-medium underline underline-offset-2 hover:underline-offset-4 transition-all duration-200">
+          <button className="text-green-800 hover:text-green-700 font-medium underline underline-offset-2 hover:underline-offset-4 transition-all duration-200">
             support team
           </button>
         </p>
@@ -107,8 +107,8 @@ export default function ForgotPasswordPage() {
         ) : (
           <>
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail className="w-8 h-8 text-purple-700" />
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Mail className="w-8 h-8 text-[#46AA72]" />
               </div>
               <h2 className="text-3xl font-bold text-gray-800 mb-2">Forgot Password?</h2>
               <p className="text-gray-600">Enter your email to receive a reset link.</p>
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white/50"
+                    className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none bg-white/50"
                     placeholder="Enter your email"
                     required
                   />
@@ -143,7 +143,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-purple-700 hover:bg-purple-800 disabled:bg-purple-400 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-purple-300 focus:outline-none flex items-center justify-center gap-2"
+                className="w-full bg-[#46AA72] hover:bg-[hsl(146,42%,57%)] disabled:bg-green-400 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-purple-300 focus:outline-none flex items-center justify-center gap-2"
               >
                 {isLoading ? (
                   <>
@@ -164,7 +164,7 @@ export default function ForgotPasswordPage() {
                 Remember your password?{' '}
                 <button
                   onClick={handleBackToLogin}
-                  className="text-purple-700 hover:text-purple-800 font-semibold underline transition-colors duration-200"
+                  className="text-[#46AA72] hover:text-[hsl(146,42%,57%)] font-semibold underline transition-colors duration-200"
                 >
                   Back to Login
                 </button>

@@ -66,9 +66,9 @@ function App() {
               }/>
 
             <Route path="/input-idea" element={
-              <ProtectedRoute>
+       
               <InputIdea/>
-              </ProtectedRoute>
+            
               }/>
 
               <Route path="/:username/:productname/preview+edit" element={

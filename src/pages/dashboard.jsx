@@ -172,7 +172,7 @@ const handlestripelinking = async ()=>{
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex">
-        {/* Professional Sidebar */}
+       
         
 <div 
   className={`w-72 bg-white flex flex-col h-screen shadow-sm border-r border-slate-200 fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
@@ -423,7 +423,8 @@ const handlestripelinking = async ()=>{
     </div>
 
     {/* Button */}
-    <button className="text-slate-400 hover:text-slate-600 transition-colors">
+    <button className="text-slate-400 hover:text-slate-600 transition-colors" 
+    onClick={handleaccountsettings}>
       <svg
         className="w-5 h-5"
         fill="none"

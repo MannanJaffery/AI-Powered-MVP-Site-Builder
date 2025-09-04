@@ -83,7 +83,7 @@ useEffect(() => {
   if (aiResponse) {
     try {
    
-      if (typeof aiResponse === 'object') {
+      if (typeof aiResponse === 'object'){
         parsedResponse = aiResponse;
         console.log(parsedResponse);
       } else {
@@ -198,7 +198,7 @@ return (
 
 <div className='flex min-h-screen'>
 
-{!showsidebar && !preview && (
+{!showsidebar && !preview && user && (
 <Generated_Page_Nav 
 makesidebarshow = {setshowsidebar}
 setPreview = {setPreview}

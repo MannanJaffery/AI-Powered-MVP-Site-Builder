@@ -244,8 +244,8 @@ const handleEmailRegister = async (e) => {
           className={`w-full py-2 rounded-lg font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed
             ${
               isloading
-                ? "bg-purple-300 text-white"
-                : "bg-purple-800 text-white hover:bg-purple-700"
+                ? "bg-green-500 text-white"
+                : "bg-[#46AA72] text-white hover:bg-[hsl(146,42%,57%)]"
             }`}
         >
           {isloading ? (
@@ -262,7 +262,7 @@ const handleEmailRegister = async (e) => {
 
     <div className="text-center text-sm text-gray-600 mt-6">
       Already have an account?{" "}
-      <a href="/login" className="text-blue-600 hover:underline font-medium">
+      <a href="/login" className="text-[#46AA72] hover:underline font-medium">
         Sign in
       </a>
     </div>

@@ -1,5 +1,6 @@
 
 import { animate_scroll_section1 , animate_scroll_section2 , animate_scroll_section3 } from "../animations/Landing_animations";
+import { useNavigate } from "react-router-dom";
 
 import { 
   EyeOff, 
@@ -42,15 +43,14 @@ export default function MainContent({
 }) {
 
 const user = auth.currentUser;
-
+const navigate = useNavigate();
 
 
   useEffect(()=>{
+
     console.log("page id from main content component:",pageid);
 
-
   },[pageid])
-
 
         useEffect(()=>{
           animate_scroll_section1(".section1");
@@ -182,12 +182,48 @@ const handleSubscribeConnectedAccount = async () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
+
+      {!user && (
+  <div className="bg-[#F0F6FB] border border-[#D6E4F0] text-center py-8 px-6 mb-8 rounded-2xl shadow-sm">
+    <h2 className="text-2xl font-bold text-[#003F2F]">
+      Your waitlist is ready — now unlock the full experience!
+    </h2>
+    <p className="text-gray-700 mt-3 text-lg">
+      Sign up to preview your full page and see how it converts.
+    </p>
+
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+      <button
+        className="bg-[#46AA72] text-white w-64 px-6 py-3 rounded-xl font-semibold hover:bg-[#3d9564] transition"
+        onClick={() => navigate("/register")}
+      >
+        Create Free Account
+      </button>
+      <p className="text-gray-700">
+        Already have an account?{" "}
+        <button
+          onClick={() => navigate("/login")}
+          className="text-[#003F2F] font-medium hover:underline"
+        >
+          Log In
+        </button>
+      </p>
+    </div>
+  </div>
+)}
+
+
+
       {/* Features Section */}
 <section
   className={`py-20 bg-gray-50 ${(!showsidebar && user) ? "section1" : ""} ${
     !user ? "blur-md pointer-events-none select-none" : ""
   }`}
 >
+
+
+
+  
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">

@@ -324,22 +324,22 @@ return (
 
       {/* Landing Content */}
       <div className='flex flex-col items-center justify-center px-4 relative z-10'>
-        
-        <h1 className="flex flex-wrap justify-center mb-8 p-4 text-5xl font-bold text-center relative text-white">
-          Validate and Monetize Your 
-          <span id="changer" className="text-[#90C1CA] relative inline-block will-change-transform ml-2">
-            MVP 
-          </span>
-          <span className="hidden lg:inline-block w-full"></span>     
-          <span className="ml-[0.25rem] lg:ml-0">
-              &nbsp;in Record Time
-          </span>
-        </h1>
+  <h1 className="flex flex-wrap justify-center mb-8 p-4 
+  text-4xl sm:text-4xl lg:text-5xl font-bold 
+  text-center relative text-white">
+  Email Waitlists Aren’t Enough.
+  <span className="hidden lg:inline-block w-full"></span>
+  <span className="text-[
+#90C1CA] ml-2">
+    Find Out Who Will Actually Pay before <br />  you build.
+  </span>
+</h1>
 
         {/* Subtitle */}
         <p className="text-xl text-white/80 text-center max-w-2xl mb-12 leading-relaxed">
-         Validate your idea faster with our AI-powered platform — waitlist for updates or get early subscribers.
-          <span className="text-[#90C1CA]"> No coding required.</span>
+         Collecting emails is easy. Capturing buyer demand is what sets you apart. BloomQueue helps you do both — so you know who truly wants your product before you build.
+          <span className="text-[
+#90C1CA]"> No coding required.</span>
         </p>
 
         {/* Premium Input Section */}
@@ -374,7 +374,7 @@ return (
                                onClick={handleSubmit}>
                 <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"
                 />
-                <span>Instant Launch</span>
+                <span>Launch Your Idea</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </div>
@@ -391,11 +391,11 @@ return (
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#90C1CA]"></div>
-            <span>Validate in under a minute</span>
+            <span>Waitlist in under 30 secs</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-blue-400"></div>
-            <span>Waitlist & paid early access</span>
+            <span>Gauge demand from real buyers, not just email clicks </span>
           </div>
         </div>
 </div>
@@ -441,7 +441,7 @@ return (
         {/* Secondary CTA */}
         <div className="mt-12">
           <button className="text-white/70 hover:text-[#90C1CA] text-sm font-medium transition-colors duration-300 flex items-center gap-2 group">
-            <span>See how it works</span>
+            <span onClick={()=>navigate("/input-idea")}>See how it works</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
         </div>
@@ -549,7 +549,7 @@ return (
             <div>
               <h3 className="text-xl font-semibold text-gray-800">Launch Quickly</h3>
               <p className="text-gray-600">
-                Skip the long dev cycles and get a functional MVP in days, not months.
+                Launch quickly with proof — know who will actually pay before you build.
               </p>
             </div>
           </div>

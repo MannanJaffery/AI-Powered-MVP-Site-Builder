@@ -224,7 +224,7 @@ const AccountSettings = ({ plandata, handlegoogledelete, handleDelete }) => {
       </div>
       <div>
         <p className="text-xs text-slate-500">Current Plan</p>
-        <p className="text-sm font-medium text-slate-700">{plandata.planType}</p>
+        <p className="text-sm font-medium text-slate-700">{plandata.planType === 'onetime' ? "Lifetime":plandata.planType}</p>
       </div>
     </div>
 
