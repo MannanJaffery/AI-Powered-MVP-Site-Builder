@@ -117,12 +117,17 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
   <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
     <div className="px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight flex items-center">
-          <span className="text-purple-500 mr-2 animate-pulse">✨</span>
-          Content Strategy Assistant
-        </h1>
+        <div className="flex">
+          <img src="./Bloomqueue_Logo_V2.png"
+            alt="Logo"
+            className="w-8 h-8 object-contain"
+          />
+          <span className="text-2xl font-bold ml-2">
+            Bloom<span className="text-[#46AA72]">Queue</span>
+          </span>
+          </div>
         <div className="hidden sm:block">
-          <span className="text-xs font-medium bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
+          <span className="text-xs font-medium bg-green-100 text-green-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
             BETA
           </span>
         </div>
@@ -139,7 +144,7 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
           <div className="bg-gradient-to-r from-green-50 to-white p-6 border-b border-purple-100/50">
             <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 flex items-center">
               <span className="text-green-500 mr-2">🖋️</span>
-              Content Strategy Generator
+              Waitlist Page Generator
             </h2>
             <p className="text-sm text-slate-500 mt-1">
               Create a comprehensive content strategy for your product
@@ -195,11 +200,11 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
                 {loading ? (
                   <>
                     <span className="animate-spin">🔄</span>
-                    <span>Generating Strategy...</span>
+                    <span>Launching Page...</span>
                   </>
                 ) : (
                   <>
-                    <span>Generate Strategy</span>
+                    <span>Launch Page</span>
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </>
                 )}

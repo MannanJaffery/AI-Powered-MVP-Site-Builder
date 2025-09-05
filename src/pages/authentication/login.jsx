@@ -110,7 +110,7 @@ const handleGoogleSignIn = async () => {
       <div className=" w-[430px] h-[510px] max-w-md p-6 bg-white shadow-lg rounded-2xl">
         
         <h2 className="text-xl font-semibold text-center mb-1">
-          Sign in to Build Landing Page Now
+          Sign In to Build Your Waitlist Now
         </h2>
         <p className="text-sm text-gray-500 text-center mb-6">
           Welcome back! Please sign in to continue

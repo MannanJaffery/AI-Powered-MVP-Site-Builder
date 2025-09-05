@@ -331,7 +331,7 @@ return (
   <span className="hidden lg:inline-block w-full"></span>
   <span className="text-[
 #90C1CA] ml-2">
-    Find Out Who Will Actually Pay before <br />  you build.
+    Find Out Who Will Actually Pay Before <br />  You Build.
   </span>
 </h1>
 

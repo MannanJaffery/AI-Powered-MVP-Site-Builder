@@ -192,13 +192,15 @@ const handleSubscribeConnectedAccount = async () => {
       Sign up to preview your full page and see how it converts.
     </p>
 
-    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+    <div className="mt-6 flex flex-col  justify-center items-center gap-4">
       <button
         className="bg-[#46AA72] text-white w-64 px-6 py-3 rounded-xl font-semibold hover:bg-[#3d9564] transition"
         onClick={() => navigate("/register")}
       >
         Create Free Account
       </button>
+
+      
       <p className="text-gray-700">
         Already have an account?{" "}
         <button
