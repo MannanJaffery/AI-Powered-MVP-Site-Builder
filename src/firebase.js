@@ -8,7 +8,7 @@ import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
-  authDomain: "bloomqueue.com",
+  authDomain: "ai-powered-mvp-builder.firebaseapp.com",
   projectId: "ai-powered-mvp-builder",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: "327636782437",
