@@ -510,7 +510,13 @@ const handlestripelinking = async ()=>{
                   </p>
                   <Link
                     to="/input-idea"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 
+bg-gradient-to-r from-[#46AA72] to-[#90C1CA] 
+text-white px-8 py-4 rounded-xl 
+hover:from-[#3d9462] hover:to-[#7db3bb] 
+transition-all duration-200 font-medium 
+shadow-lg hover:shadow-xl 
+transform hover:-translate-y-0.5"
                   >
                     <Plus size={20} />
                     Create Your First Project
