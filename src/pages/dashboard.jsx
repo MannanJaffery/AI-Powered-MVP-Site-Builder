@@ -567,17 +567,17 @@ transform hover:-translate-y-0.5"
                           <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl">
                             <LinkIcon size={14} className="text-slate-400 flex-shrink-0" />
                             <a
-                              href={`https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
+                              href={`https://bloomqueue.com/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-[#46AA72] hover:text-[hsl(146,42%,57%)] flex-1 truncate text-sm font-medium"
                             >
-                              {`mvp-go-seven.vercel.app/${username}/${product.productName}`}
+                              {`bloomqueue.com/${username}/${product.productName}`}
                             </a>
                             <button
                               onClick={() =>
                                 handleCopy(
-                                  `https://mvp-go-seven.vercel.app/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`,
+                                  `https://bloomqueue.com/${encodeURIComponent(username)}/${encodeURIComponent(product.productName)}`,
                                   product.id
                                 )
                               }

@@ -28,6 +28,9 @@ const ProductPage = () => {
   const [pageId, setPageId] = useState(null);
 
 
+
+
+
   
 
 
@@ -150,6 +153,7 @@ const ProductPage = () => {
         whyuseline={pageData?.whyuseline}
         whyusepoints={pageData?.whyusepoints}
         pageid={pageId}
+        isPreview={false}
       />
 
       {showPopup && (

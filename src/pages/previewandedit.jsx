@@ -301,6 +301,7 @@ handlePublishButton={handlePublishButton}
   featuresexplanation = {featuresexplanation}
   whyuseline={whyuseline}
   whyusepoints={whyusepoints}
+  isPreview={true}
 />
 </div>
     </>

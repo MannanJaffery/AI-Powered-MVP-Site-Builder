@@ -40,6 +40,7 @@ export default function MainContent({
   whyuseline,
   whyusepoints,
   pageid,
+  isPreview,
 }) {
 
 const user = auth.currentUser;
@@ -183,7 +184,7 @@ const handleSubscribeConnectedAccount = async () => {
       </section>
 
 
-      {!user && (
+      {!user && isPreview && (
   <div className="bg-[#F0F6FB] border border-[#D6E4F0] text-center py-8 px-6 mb-8 rounded-2xl shadow-sm">
     <h2 className="text-2xl font-bold text-[#003F2F]">
       Your waitlist is ready — now unlock the full experience!
@@ -219,7 +220,7 @@ const handleSubscribeConnectedAccount = async () => {
       {/* Features Section */}
 <section
   className={`py-20 bg-gray-50 ${(!showsidebar && user) ? "section1" : ""} ${
-    !user ? "blur-md pointer-events-none select-none" : ""
+    !user && isPreview ? "blur-md pointer-events-none select-none" : ""
   }`}
 >
 
@@ -273,7 +274,7 @@ const handleSubscribeConnectedAccount = async () => {
       {/* Why Use Section */}
 <section
   className={`w-full bg-[#F9F9FA] py-20 px-6 md:px-20${(!showsidebar && user) ? "section1" : ""} ${
-    !user ? "blur-md pointer-events-none select-none" : ""
+    !user && isPreview ? "blur-md pointer-events-none select-none" : ""
   }`}
 >
   <div className="max-w-6xl mx-auto text-center">
@@ -320,7 +321,7 @@ const handleSubscribeConnectedAccount = async () => {
 
       {/* CTA Section */}
       <section className={`w-full bg-white py-20 px-4 sm:px-6 ${(!showsidebar && user) ? "section1" : ""} ${
-    !user ? "blur-md pointer-events-none select-none" : ""
+    !user && isPreview ? "blur-md pointer-events-none select-none" : ""
   } `}>
         <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-12 border border-gray-200/50 shadow-sm">
           <div className="text-center mb-10">
