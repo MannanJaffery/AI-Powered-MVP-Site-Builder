@@ -7,9 +7,9 @@ const Footer = () => {
         
         {/* Brand Info */}
         <div>
-          <h2 className="text-2xl font-bold text-white">MVPBuilder</h2>
+          <h2 className="text-2xl font-bold text-white">BloomQueue</h2>
           <p className="text-sm mt-2 text-gray-400">
-            Launch your MVP faster than ever. Validate ideas before writing code.
+            Validate the actual paying users before even building your product.
           </p>
         </div>
 
