@@ -86,7 +86,7 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
 
 
   if(result){
-
+  
     setAIResponse(result);
     navigate(`/${username}/${inputData.name}/preview+edit`,{
 

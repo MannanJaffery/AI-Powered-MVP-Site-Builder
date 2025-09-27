@@ -188,9 +188,10 @@ return () => clearInterval(interval);
 
 
 const { currentUser } = useAuth();
-
+const [buttonloading , setButtonLoading] = useState(false);
 
 const handleSubmit= async ()=>{
+      setButtonLoading(true);  
 const name=await generateProductName(description);
 
   const prompt_product = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:
@@ -243,6 +244,9 @@ PRODUCT DESCRIPTION: ${description}`;
     });
     }catch(err){
       console.log("error:",err);
+    }
+    finally{
+      setButtonLoading(false);
     }
     console.log("The description is:" , description);
 
@@ -365,18 +369,50 @@ return (
               </div>
               
               {/* Launch button */}
-              <button className="group relative h-14 px-8 bg-gradient-to-r from-[#90C1CA] to-[#46AA72] 
-                               text-[#003F2F] font-bold text-lg rounded-xl
-                               hover:shadow-lg hover:shadow-[#90C1CA]/25 
-                               transform hover:scale-[1.02] transition-all duration-300 ease-out
-                               focus:outline-none focus:ring-2 focus:ring-[#90C1CA]/50 focus:ring-offset-2 focus:ring-offset-[#003F2F]
-                               sm:min-w-[180px] whitespace-nowrap flex items-center justify-center gap-2"
-                               onClick={handleSubmit}>
-                <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"
-                />
-                <span>Launch Your Idea</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
+<button
+  className="group relative h-14 px-8 bg-gradient-to-r from-[#90C1CA] to-[#46AA72] 
+             text-[#003F2F] font-bold text-lg rounded-xl
+             hover:shadow-lg hover:shadow-[#90C1CA]/25 
+             transform hover:scale-[1.02] transition-all duration-300 ease-out
+             focus:outline-none focus:ring-2 focus:ring-[#90C1CA]/50 focus:ring-offset-2 focus:ring-offset-[#003F2F]
+             sm:min-w-[180px] whitespace-nowrap flex items-center justify-center gap-2"
+  onClick={handleSubmit}
+  // disabled={loading}
+>
+ {buttonloading ? (
+  <div className="flex items-center gap-3">
+    {/* Cool orbital loader with rocket */}
+    <div className="relative w-5 h-5">
+      {/* Outer orbit ring */}
+      <div className="absolute inset-0 border-2 border-transparent border-t-[#003F2F] rounded-full animate-spin [animation-duration:2s]"></div>
+      {/* Inner orbit ring */}
+      <div className="absolute inset-1 border-2 border-transparent border-b-[#46AA72] rounded-full animate-spin [animation-duration:1.2s] [animation-direction:reverse]"></div>
+      {/* Center rocket with pulse */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Rocket className="w-3 h-3 text-[#003F2F] animate-pulse" />
+      </div>
+      {/* Trailing particles */}
+      <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-[#46AA72] rounded-full animate-ping [animation-delay:0.5s]" style={{transform: 'translate(-50%, -50%) translateX(-8px)'}}></div>
+      <div className="absolute top-1/2 left-1/2 w-0.5 h-0.5 bg-[#003F2F] rounded-full animate-ping [animation-delay:1s]" style={{transform: 'translate(-50%, -50%) translateX(-10px)'}}></div>
+    </div>
+    <span>Launch Your Idea</span>
+    <div className="relative w-4 h-4">
+      {/* Animated arrow with trail effect */}
+      <ArrowRight className="w-4 h-4 animate-pulse" />
+      <div className="absolute inset-0 w-4 h-4 opacity-30">
+        <ArrowRight className="w-4 h-4 animate-ping" />
+      </div>
+    </div>
+  </div>
+) : (
+  <>
+    <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+    <span>Launch Your Idea</span>
+    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+  </>
+)}
+</button>
+
             </div>
             
             {/* Glowing effect */}
