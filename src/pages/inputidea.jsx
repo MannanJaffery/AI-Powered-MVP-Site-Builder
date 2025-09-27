@@ -142,13 +142,14 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
         <div className="bg-white rounded-xl shadow-sm border border-purple-100/50 overflow-hidden transition-all duration-300 hover:shadow-md">
           {/* Card header */}
           <div className="bg-gradient-to-r from-green-50 to-white p-6 border-b border-purple-100/50">
-            <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 flex items-center">
-              <span className="text-green-500 mr-2">🖋️</span>
-              Waitlist Page Generator
-            </h2>
-            <p className="text-sm text-slate-500 mt-1">
-              Create a comprehensive content strategy for your product
-            </p>
+           <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 flex items-center">
+  <span className="text-green-500 mr-2">🖋️</span>
+  Tell us what you’re building
+</h2>
+<p className="text-sm text-slate-500 mt-1">
+  We'll generate a high-converting waitlist page in seconds — crafted to attract real interest and validate demand. Not just placeholder fluff.
+</p>
+
           </div>
 
           {/* Form content */}
@@ -220,8 +221,8 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
         {/* Help text */}
         <div className="mt-6 text-center animate-fadeIn">
           <p className="text-xs text-slate-500 flex items-center justify-center">
-            <span className="mr-1">❓</span>
-            Need help? Our AI will analyze your product and generate a complete strategy
+            <span className="mr-1">💡</span>
+            From idea to validation — our AI transforms your concept into a compelling waitlist.
           </p>
         </div>
       </div>

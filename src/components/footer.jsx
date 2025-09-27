@@ -23,7 +23,7 @@ const Footer = () => {
             <li><a href="#signup" className="hover:text-white">Sign Up</a></li>
             <li>
               <a 
-                href="/terms.pdf" 
+                href="BloomQueue_Terms_of_Service.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="hover:text-white"
