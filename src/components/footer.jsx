@@ -63,7 +63,7 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} MVPBuilder. All rights reserved.
+        &copy; {new Date().getFullYear()} BloomQueue. All rights reserved.
       </div>
     </footer>
   );
