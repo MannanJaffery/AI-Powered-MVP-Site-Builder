@@ -1,0 +1,418 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { useState } from "react";
+import { Loader2, Search, TrendingUp, Users, DollarSign, Target, Shield, Zap, Globe, Award, ExternalLink, AlertTriangle, Info, Sparkles } from "lucide-react";
+import Navbar from "../../components/navbar";
+
+const CompetitorFinder = () => {
+  const [idea, setIdea] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+
+  const prompt = `
+<Role>
+You are an Expert Market Research Analyst with 20+ years of experience in competitive intelligence, market mapping, and strategic positioning. You provide comprehensive competitor analysis for startups and businesses.
+</Role>
+
+<Context>
+Understanding the competitive landscape is crucial for startup success. You help founders identify direct and indirect competitors, understand market positioning, and discover strategic opportunities and threats.
+</Context>
+
+<Instructions>
+When a user submits a business idea, analyze the competitive landscape:
+
+1. Identify 5-8 main competitors (mix of direct and indirect)
+2. For each competitor provide:
+   - Company name
+   - Brief description (1-2 sentences)
+   - Market position (Leader/Challenger/Niche)
+   - Strengths (2-3 points)
+   - Weaknesses (2-3 points)
+   - Estimated funding/revenue stage
+   - Website URL (if known, or "N/A")
+3. Provide market insights:
+   - Market maturity level
+   - Market size estimate
+   - Key trends
+   - Entry barriers
+4. Strategic recommendations:
+   - Differentiation opportunities
+   - Potential threats
+   - Strategic positioning advice
+
+Return ONLY valid JSON without any markdown formatting or code blocks.
+</Instructions>
+
+<Output_Format>
+{
+  "idea_summary": "string",
+  "market_overview": {
+    "market_maturity": "Emerging/Growing/Mature/Saturated",
+    "estimated_market_size": "string",
+    "key_trends": ["string", "string", "string"]
+  },
+  "competitors": [
+    {
+      "name": "string",
+      "description": "string",
+      "market_position": "Market Leader/Strong Challenger/Emerging Player/Niche Player",
+      "strengths": ["string", "string"],
+      "weaknesses": ["string", "string"],
+      "funding_stage": "string",
+      "website": "string or N/A"
+    }
+  ],
+  "strategic_insights": {
+    "differentiation_opportunities": ["string", "string", "string"],
+    "potential_threats": ["string", "string"],
+    "positioning_advice": "string"
+  }
+}
+</Output_Format>
+`;
+
+  const handleAnalysis = async () => {
+    if (!idea.trim()) {
+      setError("Please enter your business idea first!");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+
+      const fullPrompt = `${prompt}\n\n<User_Idea>\n${idea}\n</User_Idea>`;
+      const response = await model.generateContent(fullPrompt);
+      const text = response.response.text();
+      
+      let cleanedText = text.trim();
+      cleanedText = cleanedText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+      
+      const parsedResult = JSON.parse(cleanedText);
+      setResult(parsedResult);
+    } catch (err) {
+      console.error("Analysis error:", err);
+      setError("Failed to analyze competitors. Please check your API key and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getPositionColor = (position) => {
+    if (position.includes("Leader")) return "#46AA72";
+    if (position.includes("Challenger")) return "#90C1CA";
+    if (position.includes("Emerging")) return "#f59e0b";
+    return "#003F2F";
+  };
+
+  const getPositionBadge = (position) => {
+    if (position.includes("Leader")) return { icon: Award, color: "#46AA72" };
+    if (position.includes("Challenger")) return { icon: TrendingUp, color: "#90C1CA" };
+    if (position.includes("Emerging")) return { icon: Sparkles, color: "#f59e0b" };
+    return { icon: Target, color: "#003F2F" };
+  };
+
+  const getMaturityColor = (maturity) => {
+    if (maturity === "Emerging") return "#46AA72";
+    if (maturity === "Growing") return "#90C1CA";
+    if (maturity === "Mature") return "#f59e0b";
+    return "#ef4444";
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
+        <Navbar />
+      <div className="max-w-7xl mx-auto mt-12">
+        {/* Header */}
+        <div className="text-center mb-12">
+
+          <h1 className="text-5xl font-bold mb-4" style={{ color: '#003F2F' }}>
+            Competitor Intelligence
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Discover your competition, understand the market landscape, and find your strategic advantage
+          </p>
+        </div>
+
+        {/* Input Section */}
+        {!result && (
+          <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8" style={{ borderTop: '6px solid #46AA72' }}>
+            <label className="block text-2xl font-semibold mb-4" style={{ color: '#003F2F' }}>
+              Describe Your Business Idea
+            </label>
+            <textarea
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              placeholder="Enter your business idea or industry... Include details about your product, target market, and key features."
+              className="w-full h-48 p-6 border-2 rounded-2xl text-lg focus:outline-none transition-all"
+              style={{ 
+                borderColor: '#90C1CA',
+                backgroundColor: '#F7F8F3'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#46AA72'}
+              onBlur={(e) => e.target.style.borderColor = '#90C1CA'}
+            />
+            
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                <p className="text-red-700 font-medium">{error}</p>
+              </div>
+            )}
+
+            <button
+              onClick={handleAnalysis}
+              disabled={loading}
+              className="mt-6 w-full py-5 rounded-2xl text-white font-bold text-xl transition-all transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+              style={{ backgroundColor: '#46AA72' }}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                  Analyzing Market...
+                </>
+              ) : (
+                <>
+                  <Search className="w-6 h-6" />
+                  Find Competitors
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* Results Section */}
+        {result && (
+          <div className="space-y-8 animate-fadeIn">
+            {/* Summary Card */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8" style={{ borderTop: '6px solid #003F2F' }}>
+              <h2 className="text-3xl font-bold mb-4" style={{ color: '#003F2F' }}>
+                Market Analysis
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed">{result.idea_summary}</p>
+            </div>
+
+            {/* Market Overview */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-white rounded-2xl shadow-xl p-6" style={{ borderTop: '4px solid #46AA72' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#F7F8F3' }}>
+                    <TrendingUp className="w-6 h-6" style={{ color: '#46AA72' }} />
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#003F2F' }}>Market Maturity</h3>
+                </div>
+                <p className="text-2xl font-bold" style={{ color: getMaturityColor(result.market_overview.market_maturity) }}>
+                  {result.market_overview.market_maturity}
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl p-6" style={{ borderTop: '4px solid #90C1CA' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#F7F8F3' }}>
+                    <Globe className="w-6 h-6" style={{ color: '#90C1CA' }} />
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#003F2F' }}>Market Size</h3>
+                </div>
+                <p className="text-xl font-semibold text-gray-700">
+                  {result.market_overview.estimated_market_size}
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl p-6" style={{ borderTop: '4px solid #003F2F' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#F7F8F3' }}>
+                    <Zap className="w-6 h-6" style={{ color: '#003F2F' }} />
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#003F2F' }}>Key Trends</h3>
+                </div>
+                <p className="text-xl font-semibold text-gray-700">
+                  {result.market_overview.key_trends.length} Active Trends
+                </p>
+              </div>
+            </div>
+
+            {/* Key Trends */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8" style={{ borderTop: '6px solid #90C1CA' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: '#003F2F' }}>
+                Key Market Trends
+              </h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                {result.market_overview.key_trends.map((trend, index) => (
+                  <div key={index} className="p-4 rounded-xl flex items-start gap-3" style={{ backgroundColor: '#F7F8F3' }}>
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ backgroundColor: '#46AA72' }}>
+                      {index + 1}
+                    </div>
+                    <p className="text-gray-700 leading-relaxed">{trend}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Competitors */}
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold" style={{ color: '#003F2F' }}>
+                Competitor Landscape ({result.competitors.length} Companies)
+              </h2>
+              
+              <div className="grid gap-6">
+                {result.competitors.map((competitor, index) => {
+                  const badge = getPositionBadge(competitor.market_position);
+                  const BadgeIcon = badge.icon;
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all"
+                      style={{ borderLeft: `6px solid ${getPositionColor(competitor.market_position)}` }}
+                    >
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-2xl font-bold" style={{ color: '#003F2F' }}>
+                              {competitor.name}
+                            </h3>
+                            {competitor.website !== "N/A" && (
+                              <a 
+                                href={competitor.website.startsWith('http') ? competitor.website : `https://${competitor.website}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
+                              >
+                                <ExternalLink className="w-5 h-5" />
+                              </a>
+                            )}
+                          </div>
+                          <p className="text-gray-600 mb-3">{competitor.description}</p>
+                          
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full" style={{ backgroundColor: '#F7F8F3' }}>
+                              <BadgeIcon className="w-4 h-4" style={{ color: badge.color }} />
+                              <span className="text-sm font-semibold" style={{ color: badge.color }}>
+                                {competitor.market_position}
+                              </span>
+                            </div>
+                            <div className="px-3 py-1 rounded-full text-sm font-medium text-gray-700" style={{ backgroundColor: '#F7F8F3' }}>
+                              <DollarSign className="w-3 h-3 inline mr-1" />
+                              {competitor.funding_stage}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Shield className="w-5 h-5" style={{ color: '#46AA72' }} />
+                            <h4 className="font-bold text-lg" style={{ color: '#003F2F' }}>Strengths</h4>
+                          </div>
+                          <ul className="space-y-2">
+                            {competitor.strengths.map((strength, i) => (
+                              <li key={i} className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#46AA72' }}></div>
+                                <span className="text-gray-700">{strength}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <AlertTriangle className="w-5 h-5" style={{ color: '#f59e0b' }} />
+                            <h4 className="font-bold text-lg" style={{ color: '#003F2F' }}>Weaknesses</h4>
+                          </div>
+                          <ul className="space-y-2">
+                            {competitor.weaknesses.map((weakness, i) => (
+                              <li key={i} className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#f59e0b' }}></div>
+                                <span className="text-gray-700">{weakness}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Strategic Insights */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Differentiation Opportunities */}
+              <div className="bg-white rounded-2xl shadow-xl p-6" style={{ borderTop: '4px solid #46AA72' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <Target className="w-6 h-6" style={{ color: '#46AA72' }} />
+                  <h3 className="text-xl font-bold" style={{ color: '#003F2F' }}>
+                    Differentiation Opportunities
+                  </h3>
+                </div>
+                <ul className="space-y-3">
+                  {result.strategic_insights.differentiation_opportunities.map((opp, i) => (
+                    <li key={i} className="p-3 rounded-lg" style={{ backgroundColor: '#F7F8F3' }}>
+                      <div className="flex items-start gap-2">
+                        <Sparkles className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#46AA72' }} />
+                        <span className="text-gray-700">{opp}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Potential Threats */}
+              <div className="bg-white rounded-2xl shadow-xl p-6" style={{ borderTop: '4px solid #ef4444' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <AlertTriangle className="w-6 h-6 text-red-500" />
+                  <h3 className="text-xl font-bold" style={{ color: '#003F2F' }}>
+                    Potential Threats
+                  </h3>
+                </div>
+                <ul className="space-y-3">
+                  {result.strategic_insights.potential_threats.map((threat, i) => (
+                    <li key={i} className="p-3 rounded-lg bg-red-50">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-500" />
+                        <span className="text-gray-700">{threat}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Positioning Advice */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8" style={{ borderTop: '6px solid #003F2F' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <Info className="w-8 h-8" style={{ color: '#46AA72' }} />
+                <h2 className="text-2xl font-bold" style={{ color: '#003F2F' }}>
+                  Strategic Positioning Advice
+                </h2>
+              </div>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                {result.strategic_insights.positioning_advice}
+              </p>
+            </div>
+
+            {/* Try Again Button */}
+            <button
+              onClick={() => {
+                setResult(null);
+                setIdea("");
+                setError(null);
+              }}
+              className="w-full py-5 rounded-2xl text-white font-bold text-xl transition-all transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3"
+              style={{ backgroundColor: '#003F2F' }}
+            >
+              <Search className="w-6 h-6" />
+              Analyze Another Idea
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default CompetitorFinder;

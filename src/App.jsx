@@ -15,6 +15,9 @@ import Subscribers from "./pages/subscribers";
 import { ProductsProvider } from "./context/productsContext";
 import Changepassword from "./pages/authentication/changepassword";
 
+import Scoring_Tool from "./pages/tools/scoring_tools";
+import CompetitorFinder from "./pages/tools/competitor_finder";
+import MarketSizeEstimator from "./pages/tools/market_size_estimator";
 
 
 
@@ -82,6 +85,13 @@ function App() {
               <ProductPage/>
               
               }/>
+
+
+              <Route path="/idea-validator" element={<Scoring_Tool/>}/>
+              <Route path="/competetor-findeder" element={<CompetitorFinder/>}/>
+              <Route path="/market-size-estimate" element={<MarketSizeEstimator/>}/>
+
+
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
