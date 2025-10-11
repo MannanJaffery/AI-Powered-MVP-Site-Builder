@@ -3,13 +3,14 @@ import { useState } from "react";
 import React from 'react';
 import { Loader2, TrendingUp, Globe, DollarSign, Target, BarChart3, Users, Zap, Lock, MapPin, Lightbulb, ArrowRight, PieChart } from "lucide-react";
 import Navbar from "../../components/navbar";
-
+import { useNavigate } from "react-router-dom";
 const MarketSizeEstimator = () => {
   const [idea, setIdea] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
+    
   const prompt = `
 <Role>
 You are a Senior Market Research Analyst with 20+ years of experience in startup valuation, market intelligence, and financial forecasting. Your task is to estimate the market size for a given business idea using logical assumptions, credible frameworks, and data-backed reasoning.
@@ -141,9 +142,28 @@ Return ONLY valid JSON with this structure:
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto">
-        <Navbar />
+        <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+    <div className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between">
+        <div className="flex cursor-pointer" onClick={()=>navigate('/')}>
+          <img src="./Bloomqueue_Logo_V2.png"
+            alt="Logo"
+            className="w-8 h-8 object-contain"
+          />
+          <span className="text-2xl font-bold ml-2">
+            Bloom<span className="text-[#46AA72]">Queue</span>
+          </span>
+          </div>
+        <div className="hidden sm:block">
+          <span className="text-xs font-medium bg-green-100 text-green-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
+            BETA
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
         {/* Header */}
         <div className="text-center mb-12 mt-12">
 

@@ -88,7 +88,7 @@ function App() {
 
 
               <Route path="/idea-validator" element={<Scoring_Tool/>}/>
-              <Route path="/competetor-findeder" element={<CompetitorFinder/>}/>
+              <Route path="/competetor-finder" element={<CompetitorFinder/>}/>
               <Route path="/market-size-estimate" element={<MarketSizeEstimator/>}/>
 
 

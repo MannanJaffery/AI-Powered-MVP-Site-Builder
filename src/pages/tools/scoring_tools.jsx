@@ -4,6 +4,7 @@ import React from 'react';
 import { Loader2, TrendingUp, AlertCircle, CheckCircle2, XCircle, Lightbulb, Target, DollarSign, Users, Shield, Rocket, Wrench, UserCheck } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import Navbar from "../../components/navbar";
+import { useNavigate } from "react-router-dom";
 
 const Scoring_Tool = () => {
   const [idea, setIdea] = useState("");
@@ -107,6 +108,8 @@ Return ONLY valid JSON without any markdown formatting or code blocks:
 }
 </Output_Format>
 `;
+const navigate = useNavigate();
+
 
   const categoryIcons = {
     "Problem Validity": AlertCircle,
@@ -179,8 +182,29 @@ Return ONLY valid JSON without any markdown formatting or code blocks:
   })) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
-        <Navbar />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+        <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+    <div className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between">
+        <div className="flex cursor-pointer" onClick={()=>navigate('/')}>
+          <img src="./Bloomqueue_Logo_V2.png"
+            alt="Logo"
+            className="w-8 h-8 object-contain"
+          />
+          <span className="text-2xl font-bold ml-2">
+            Bloom<span className="text-[#46AA72]">Queue</span>
+          </span>
+          </div>
+        <div className="hidden sm:block">
+          <span className="text-xs font-medium bg-green-100 text-green-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
+            BETA
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  
       <div className="max-w-6xl mx-auto mt-12">
         {/* Header */}
         <div className="text-center mb-12">

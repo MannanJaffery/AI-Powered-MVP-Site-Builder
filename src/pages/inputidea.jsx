@@ -117,7 +117,7 @@ PRODUCT DESCRIPTION: ${inputData.description}`;
   <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
     <div className="px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
-        <div className="flex">
+        <div className="flex cursor-pointer" onClick={()=>navigate('/')}>
           <img src="./Bloomqueue_Logo_V2.png"
             alt="Logo"
             className="w-8 h-8 object-contain"
