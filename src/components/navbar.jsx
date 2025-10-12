@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X , ChevronDown} from "lucide-react";
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [openTools, setOpenTools] = useState(false);
+
+
 
   const navLinks = [
     { name: "Features", href: "#features" },
@@ -56,6 +60,9 @@ const Navbar = () => {
             </li>
           ))}
 
+
+    
+
           {user && (
             <a
               href={`/dashboard/${user.uid}`}
@@ -64,6 +71,74 @@ const Navbar = () => {
               Dashboard
             </a>
           )}
+          
+<li className="relative">
+      {/* Button to toggle dropdown */}
+      <button
+        onClick={() => setOpenTools(!openTools)}
+        className="flex items-center hover:text-green-600 transition text-sm font-medium"
+      >
+        Tools
+        <ChevronDown
+          size={16}
+          className={`ml-1 transition-transform duration-300 ${
+            openTools ? "rotate-180 text-green-600" : ""
+          }`}
+        />
+      </button>
+
+      {/* Dropdown Menu */}
+      {openTools && (
+        <ul
+          className="absolute right-0 mt-3 w-60 rounded-xl bg-white/95 backdrop-blur-lg shadow-lg 
+                     p-4 space-y-3 border border-gray-100 animate-dropdown"
+        >
+          <li>
+            <a
+              href="/idea-validator"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Idea Ranker
+            </a>
+          </li>
+          <li>
+            <a
+              href="/competitor-finder"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Competitor Finder
+            </a>
+          </li>
+          <li>
+            <a
+              href="/market-size-estimate"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Market Size Estimator
+            </a>
+          </li>
+        </ul>
+      )}
+
+      <style jsx>{`
+        @keyframes dropdownFade {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-dropdown {
+          animation: dropdownFade 0.25s ease-out;
+        }
+      `}</style>
+    </li>
+
+
+
         </ul>
 
         {/* Desktop Auth Button */}
@@ -110,6 +185,7 @@ const Navbar = () => {
                 </li>
               ))}
 
+
               {user && (
                 <li>
                   <a
@@ -121,6 +197,68 @@ const Navbar = () => {
                   </a>
                 </li>
               )}
+
+               <li className="border-t border-gray-100 pt-3">
+     
+      <button
+        onClick={() => setOpenTools(!openTools)}
+        className="w-full flex items-center justify-between text-gray-800 font-semibold hover:text-green-600 transition"
+      >
+        <span>Tools</span>
+        <ChevronDown
+          size={18}
+          className={`transition-transform duration-300 ${
+            openTools ? "rotate-180 text-green-600" : ""
+          }`}
+        />
+      </button>
+{openTools && (
+  <ul
+    className="mt-3 pl-3 space-y-3 p-4 animate-fade"
+  >
+    <li>
+      <a
+        href="/idea-validator"
+        className="block text-gray-700 font-medium hover:text-green-600 transition"
+      >
+        Idea Ranker
+      </a>
+    </li>
+    <li>
+      <a
+        href="/competitor-finder"
+        className="block text-gray-700 font-medium hover:text-green-600 transition"
+      >
+        Competitor Finder
+      </a>
+    </li>
+    <li>
+      <a
+        href="/market-size-estimate"
+        className="block text-gray-700 font-medium hover:text-green-600 transition"
+      >
+        Market Size Estimator
+      </a>
+    </li>
+  </ul>
+)}
+
+<style jsx>{`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade {
+    animation: fadeIn 0.25s ease-out;
+  }
+`}</style>
+</li>
 
               <li>
                 {user ? (

@@ -152,7 +152,7 @@ Return ONLY valid JSON without any markdown formatting or code blocks.
         <div className="text-center mb-12">
 
           <h1 className="text-5xl font-bold mb-4" style={{ color: '#003F2F' }}>
-            Competitor Intelligence
+            Competitor Finder
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover your competition, understand the market landscape, and find your strategic advantage

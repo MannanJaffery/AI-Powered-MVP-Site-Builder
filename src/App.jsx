@@ -79,8 +79,7 @@ function App() {
               <PreviewandEdit/>
 
               }/>
-
-
+              
               <Route path="/:username/:productname" element={
               <ProductPage/>
               
@@ -88,7 +87,7 @@ function App() {
 
 
               <Route path="/idea-validator" element={<Scoring_Tool/>}/>
-              <Route path="/competetor-finder" element={<CompetitorFinder/>}/>
+              <Route path="/competitor-finder" element={<CompetitorFinder/>}/>
               <Route path="/market-size-estimate" element={<MarketSizeEstimator/>}/>
 
 

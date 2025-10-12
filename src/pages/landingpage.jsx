@@ -286,7 +286,7 @@ if(loading) return <Loader />
 return (
 <>
 
-
+<div className='overflow-x-hidden'>
 {
   currentUser &&
   !currentUser.emailVerified &&
@@ -315,12 +315,12 @@ return (
 
 
   {/* Navbar */}
-<div className="z-10 relative w-full bg-white">
+<div className="z-10 relative w-full bg-white ">
   <Navbar />
 </div>
 
 
-<div className="relative z-0 w-full pt-32 pb-8 bg-[#003F2F] min-h-screen">
+<div className="relative z-0 w-full pt-32 pb-8 bg-[#003F2F] min-h-screen ">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-[#90C1CA]/20 via-transparent to-[#46AA72]/10"></div>
@@ -838,7 +838,7 @@ return (
 
 
     <Footer />
-
+</div>
 </>
 )
 };

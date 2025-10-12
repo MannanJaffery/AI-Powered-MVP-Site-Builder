@@ -212,10 +212,10 @@ const navigate = useNavigate();
             <Lightbulb className="w-12 h-12" style={{ color: '#46AA72' }} />
           </div> */}
           <h1 className="text-5xl font-bold mb-4" style={{ color: '#003F2F' }}>
-            Brutal Business Validator
+            Idea Ranker
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Get a ruthless, evidence-based evaluation of your startup idea from a seasoned VC perspective
+            Get a professional, venture-capital-level analysis of your startup idea — grounded in real-world data and investor logic.
           </p>
         </div>
 
