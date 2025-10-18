@@ -265,6 +265,80 @@ const navigate = useNavigate();
           </div>
         )}
 
+
+        {/* About / Explanation Section */}
+{!result && (
+  <section className="max-w-6xl mx-auto mt-16 bg-white rounded-3xl shadow-2xl p-10 border-t-4 border-[#46AA72]">
+    <h2 className="text-3xl font-bold text-[#003F2F] text-center mb-6">
+      What You’ll Get from the Idea Ranker
+    </h2>
+
+    <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-10 leading-relaxed">
+      The <span className="text-[#46AA72] font-semibold">BloomQueue Idea Ranker</span> gives you a complete, venture-capital-grade analysis of your startup idea.
+      It doesn’t just rate your concept — it breaks it down into actionable insights, visual feedback, and next steps to help you refine your business model.
+    </p>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Summary Card */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🧾 Summary Card</h3>
+        <p className="text-gray-600">
+          A quick, professional overview of your startup idea — written in investor-style tone.
+        </p>
+      </div>
+
+      {/* Score Overview */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">📊 Score Overview</h3>
+        <p className="text-gray-600">
+          Each critical category (market fit, innovation, scalability, etc.) is scored individually.
+        </p>
+      </div>
+
+      {/* Total Score */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🏆 Total Score</h3>
+        <p className="text-gray-600">
+          Your idea gets a final 100-point rating, combining all weighted factors into one score.
+        </p>
+      </div>
+
+      {/* Verdict */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🧭 Verdict Card</h3>
+        <p className="text-gray-600">
+          A summarized verdict: whether your idea <span className="font-semibold">shows promise</span>, needs work, or is investor-ready.
+        </p>
+      </div>
+
+      {/* Score Distribution */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">📈 Score Distribution</h3>
+        <p className="text-gray-600">
+          A visual chart showing how your idea performs across different evaluation categories.
+        </p>
+      </div>
+
+      {/* Detailed Analysis */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🔍 Detailed Analysis</h3>
+        <p className="text-gray-600">
+          Deep insights into what makes your idea strong — and what might hold it back from scaling.
+        </p>
+      </div>
+
+      {/* Next Steps */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all sm:col-span-2 lg:col-span-3">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🚀 Next Steps</h3>
+        <p className="text-gray-600">
+          Actionable recommendations to move forward — from improving your pitch to validating market demand.
+        </p>
+      </div>
+    </div>
+  </section>
+)}
+
+
         {/* Results Section */}
         {result && (
           <div className="space-y-8 animate-fadeIn">

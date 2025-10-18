@@ -205,6 +205,82 @@ Return ONLY valid JSON without any markdown formatting or code blocks.
           </div>
         )}
 
+
+        {/* About / Explanation Section */}
+{!result && (
+  <section className="max-w-6xl mx-auto mt-16 bg-white rounded-3xl shadow-2xl p-10 border-t-4 border-[#46AA72]">
+    <h2 className="text-3xl font-bold text-[#003F2F] text-center mb-6">
+      What You’ll Get from the Competitor Finder
+    </h2>
+
+    <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-10 leading-relaxed">
+      The <span className="text-[#46AA72] font-semibold">BloomQueue Competitor Finder</span> identifies, analyzes, and positions your startup idea within its competitive landscape. 
+      It provides detailed intelligence on existing players, emerging threats, and market opportunities — all in one professional report.
+    </p>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Summary Card */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🧾 Summary Card</h3>
+        <p className="text-gray-600">
+          A concise overview of your idea’s position and competitive standing in the market.
+        </p>
+      </div>
+
+      {/* Market Overview */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🌍 Market Overview</h3>
+        <p className="text-gray-600">
+          A snapshot of your industry’s current landscape — market size, growth rate, and competitive density.
+        </p>
+      </div>
+
+      {/* Key Trends */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">📈 Key Trends</h3>
+        <p className="text-gray-600">
+          Identifies emerging technologies, customer shifts, and macro trends shaping your competition.
+        </p>
+      </div>
+
+      {/* Competitors */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🏢 Competitors</h3>
+        <p className="text-gray-600">
+          Lists and analyzes both direct and indirect competitors — including their products, pricing, and positioning.
+        </p>
+      </div>
+
+      {/* Strategic Insights & Opportunities */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">💡 Strategic Insights & Opportunities</h3>
+        <p className="text-gray-600">
+          Highlights untapped market gaps, differentiation angles, and innovation opportunities.
+        </p>
+      </div>
+
+      {/* Potential Threats */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">⚠️ Potential Threats</h3>
+        <p className="text-gray-600">
+          Flags competitive risks, saturation indicators, and potential disruptions that could impact your idea.
+        </p>
+      </div>
+
+      {/* Positioning Advice */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all sm:col-span-2 lg:col-span-3">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🎯 Positioning Advice</h3>
+        <p className="text-gray-600">
+          Actionable guidance on how to position your startup effectively — from brand differentiation to go-to-market strategy.
+        </p>
+      </div>
+    </div>
+  </section>
+)}
+
+
+
+
         {/* Results Section */}
         {result && (
           <div className="space-y-8 animate-fadeIn">

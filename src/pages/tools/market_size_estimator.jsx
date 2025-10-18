@@ -221,6 +221,78 @@ Return ONLY valid JSON with this structure:
           </div>
         )}
 
+        {/* About / Explanation Section */}
+{!result && (
+  <section className="max-w-6xl mx-auto mt-16 bg-white rounded-3xl shadow-2xl p-10 border-t-4 border-[#46AA72]">
+    <h2 className="text-3xl font-bold text-[#003F2F] text-center mb-6">
+      What You’ll Get from the Market Size Estimator
+    </h2>
+
+    <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-10 leading-relaxed">
+      The <span className="text-[#46AA72] font-semibold">BloomQueue Market Size Estimator</span> transforms your product or idea into data-driven market intelligence. 
+      It provides detailed segmentation, real-world metrics, and actionable insights to help you understand your market’s true potential.
+    </p>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Summary Card */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🧾 Summary Card</h3>
+        <p className="text-gray-600">
+          A high-level overview summarizing your total market opportunity and key findings.
+        </p>
+      </div>
+
+      {/* Market Segments */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🪞 Market Segments</h3>
+        <p className="text-gray-600">
+          Breaks down your market into distinct segments based on demographics, geography, or behavior.
+        </p>
+      </div>
+
+      {/* TAM SAM SOM */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">📏 TAM • SAM • SOM</h3>
+        <p className="text-gray-600">
+          Calculates <span className="font-semibold">Total Addressable Market</span>, <span className="font-semibold">Serviceable Available Market</span>, and <span className="font-semibold">Serviceable Obtainable Market</span> — giving a precise market scope.
+        </p>
+      </div>
+
+      {/* Market Insights */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">💡 Market Insights</h3>
+        <p className="text-gray-600">
+          Key insights about customer needs, growth potential, and industry attractiveness.
+        </p>
+      </div>
+
+      {/* Trends & Drivers */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">📈 Trends & Drivers</h3>
+        <p className="text-gray-600">
+          Emerging patterns and forces shaping the market — from technology to consumer behavior.
+        </p>
+      </div>
+
+      {/* Barriers & Statistics */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🚧 Barriers & Statistics</h3>
+        <p className="text-gray-600">
+          Identifies entry challenges, competition intensity, and supporting quantitative data.
+        </p>
+      </div>
+
+      {/* Strategic Recommendations */}
+      <div className="bg-green-50 border border-green-100 rounded-2xl p-6 hover:shadow-md transition-all sm:col-span-2 lg:col-span-3">
+        <h3 className="text-xl font-semibold text-[#003F2F] mb-2">🧭 Strategic Recommendations</h3>
+        <p className="text-gray-600">
+          Tailored guidance on positioning, targeting, and expansion strategies to help you capture the right market share.
+        </p>
+      </div>
+    </div>
+  </section>
+)}
+
         {/* Results Section */}
         {result && (
           <div className="space-y-8 animate-fadeIn">

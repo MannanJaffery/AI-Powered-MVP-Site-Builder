@@ -1,9 +1,12 @@
 import { Twitter, Linkedin, Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  
   return (
     <footer className="bg-gray-900 text-gray-300 px-6 py-10 md:px-20">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
         
         {/* Brand Info */}
         <div>
@@ -11,6 +14,37 @@ const Footer = () => {
           <p className="text-sm mt-2 text-gray-400">
             Validate the actual paying users before even building your product.
           </p>
+        </div>
+
+        {/* Tools */}
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-4">Tools</h3>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <button 
+                onClick={() => navigate('/idea-validator')} 
+                className="hover:text-white text-left"
+              >
+                Idea Ranker
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/competitor-finder')} 
+                className="hover:text-white text-left"
+              >
+                Competitor Finder
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/market-size-estimate')} 
+                className="hover:text-white text-left"
+              >
+                Market Size Estimator
+              </button>
+            </li>
+          </ul>
         </div>
 
         {/* Navigation Links */}
