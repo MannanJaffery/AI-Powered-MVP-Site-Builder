@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
 import React from 'react';
-import { Loader2, TrendingUp, AlertCircle, CheckCircle2, XCircle, Lightbulb, Target, DollarSign, Users, Shield, Rocket, Wrench, UserCheck } from "lucide-react";
+import { Loader2, TrendingUp, AlertCircle, CheckCircle2, XCircle, Lightbulb, Target, DollarSign, Users, Shield, Rocket, Wrench, UserCheck,ChevronDown } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
+
 import { useNavigate } from "react-router-dom";
 
 const Scoring_Tool = () => {
@@ -11,7 +12,7 @@ const Scoring_Tool = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-
+  const [openTools, setOpenTools] = useState(false);
   const prompt = `
 <Role>
 You are The Brutal Business Idea Validator — a ruthless venture capitalist with 25+ years of experience who has seen thousands of startups fail. You provide harsh, evidence-based evaluations of startup ideas. Your goal is to expose fatal flaws and identify only the rare concepts with real potential.
@@ -195,6 +196,79 @@ const navigate = useNavigate();
             Bloom<span className="text-[#46AA72]">Queue</span>
           </span>
           </div>
+
+          <ul className="hidden md:flex space-x-8 text-sm font-medium">
+              <li>
+              <a href='/' className="hover:text-green-600 transition">
+                Home
+              </a>
+            </li>
+                     
+<li className="relative">
+      {/* Button to toggle dropdown */}
+      <button
+        onClick={() => setOpenTools(!openTools)}
+        className="flex items-center hover:text-green-600 transition text-sm font-medium"
+      >
+        Tools
+        <ChevronDown
+          size={16}
+          className={`ml-1 transition-transform duration-300 ${
+            openTools ? "rotate-180 text-green-600" : ""
+          }`}
+        />
+      </button>
+
+      {/* Dropdown Menu */}
+      {openTools && (
+        <ul
+          className="absolute right-0 mt-3 w-60 rounded-xl bg-white/95 backdrop-blur-lg shadow-lg 
+                     p-4 space-y-3 border border-gray-100 animate-dropdown"
+        >
+          <li>
+            <a
+              href="/idea-validator"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Idea Ranker
+            </a>
+          </li>
+          <li>
+            <a
+              href="/competitor-finder"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Competitor Finder
+            </a>
+          </li>
+          <li>
+            <a
+              href="/market-size-estimate"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Market Size Estimator
+            </a>
+          </li>
+        </ul>
+      )}
+
+      <style jsx>{`
+        @keyframes dropdownFade {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-dropdown {
+          animation: dropdownFade 0.25s ease-out;
+        }
+      `}</style>
+    </li>
+          </ul>
         <div className="hidden sm:block">
           <span className="text-xs font-medium bg-green-100 text-green-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
             BETA
@@ -488,6 +562,12 @@ const navigate = useNavigate();
           </div>
         )}
       </div>
+
+        <div className="mt-4">
+          <Footer />
+        </div>  
+
+
     </div>
   );
 };

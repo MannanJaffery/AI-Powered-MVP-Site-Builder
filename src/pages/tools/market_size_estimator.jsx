@@ -1,14 +1,18 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
 import React from 'react';
-import { Loader2, TrendingUp, Globe, DollarSign, Target, BarChart3, Users, Zap, Lock, MapPin, Lightbulb, ArrowRight, PieChart } from "lucide-react";
-import Navbar from "../../components/navbar";
+import { Loader2, TrendingUp, Globe, DollarSign, Target, BarChart3, Users, Zap, Lock, MapPin, Lightbulb, ArrowRight, PieChart,ChevronDown } from "lucide-react";
+import Footer from "../../components/footer";
+
 import { useNavigate } from "react-router-dom";
 const MarketSizeEstimator = () => {
   const [idea, setIdea] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+
+
+    const [openTools, setOpenTools] = useState(false);
     const navigate = useNavigate();
     
   const prompt = `
@@ -144,7 +148,7 @@ Return ONLY valid JSON with this structure:
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto">
-        <header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+<header className="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
     <div className="px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
         <div className="flex cursor-pointer" onClick={()=>navigate('/')}>
@@ -156,6 +160,79 @@ Return ONLY valid JSON with this structure:
             Bloom<span className="text-[#46AA72]">Queue</span>
           </span>
           </div>
+
+          <ul className="hidden md:flex space-x-8 text-sm font-medium">
+              <li>
+              <a href='/' className="hover:text-green-600 transition">
+                Home
+              </a>
+            </li>
+                     
+<li className="relative">
+      {/* Button to toggle dropdown */}
+      <button
+        onClick={() => setOpenTools(!openTools)}
+        className="flex items-center hover:text-green-600 transition text-sm font-medium"
+      >
+        Tools
+        <ChevronDown
+          size={16}
+          className={`ml-1 transition-transform duration-300 ${
+            openTools ? "rotate-180 text-green-600" : ""
+          }`}
+        />
+      </button>
+
+      {/* Dropdown Menu */}
+      {openTools && (
+        <ul
+          className="absolute right-0 mt-3 w-60 rounded-xl bg-white/95 backdrop-blur-lg shadow-lg 
+                     p-4 space-y-3 border border-gray-100 animate-dropdown"
+        >
+          <li>
+            <a
+              href="/idea-validator"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Idea Ranker
+            </a>
+          </li>
+          <li>
+            <a
+              href="/competitor-finder"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Competitor Finder
+            </a>
+          </li>
+          <li>
+            <a
+              href="/market-size-estimate"
+              className="block text-gray-800 font-medium hover:text-green-600 transition"
+            >
+              Market Size Estimator
+            </a>
+          </li>
+        </ul>
+      )}
+
+      <style jsx>{`
+        @keyframes dropdownFade {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-dropdown {
+          animation: dropdownFade 0.25s ease-out;
+        }
+      `}</style>
+    </li>
+          </ul>
         <div className="hidden sm:block">
           <span className="text-xs font-medium bg-green-100 text-green-800 px-2.5 py-1 rounded-full transition-all hover:bg-purple-200">
             BETA
@@ -164,6 +241,8 @@ Return ONLY valid JSON with this structure:
       </div>
     </div>
   </header>
+
+
         {/* Header */}
         <div className="text-center mb-12 mt-12">
 
@@ -571,6 +650,13 @@ Return ONLY valid JSON with this structure:
           </div>
         )}
       </div>
+
+        <div className="mt-4">
+          <Footer />
+        </div>
+
+
+
     </div>
   );
 };
