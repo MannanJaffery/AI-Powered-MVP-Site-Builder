@@ -125,6 +125,7 @@ const {username}=useUsername();
 
 
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" }); 
+
 const generateProductName =async () =>{
   try {
   
@@ -191,7 +192,8 @@ const { currentUser } = useAuth();
 const [buttonloading , setButtonLoading] = useState(false);
 
 const handleSubmit= async ()=>{
-      setButtonLoading(true);  
+      setButtonLoading(true); 
+
 const name=await generateProductName(description);
 
   const prompt_product = `You are required to extract structured data from the provided product information. Do not include any explanations, comments, or extra words. Your output must be strictly and only the following in **valid JSON format**:

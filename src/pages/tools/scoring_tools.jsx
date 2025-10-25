@@ -6,13 +6,20 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recha
 import Footer from "../../components/footer";
 
 import { useNavigate } from "react-router-dom";
+import { handleAIResponse } from "../../utils/aipreviewedit";
+import useUsername from "../../services/getcurrentusername";
+import Loader from "../../components/loading";
+
 
 const Scoring_Tool = () => {
-  const [idea, setIdea] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [openTools, setOpenTools] = useState(false);
+
+  const [buttonLoading ,setButtonLoading ] = useState(false);
+
   const prompt = `
 <Role>
 You are The Brutal Business Idea Validator — a ruthless venture capitalist with 25+ years of experience who has seen thousands of startups fail. You provide harsh, evidence-based evaluations of startup ideas. Your goal is to expose fatal flaws and identify only the rare concepts with real potential.
@@ -124,8 +131,14 @@ const navigate = useNavigate();
     "Founder-Market Fit": UserCheck
   };
 
+
+const {username} = useUsername();
+ const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+
+
   const handleValidation = async () => {
-    if (!idea.trim()) {
+    if (!description.trim()) {
       setError("Please enter your business idea first!");
       return;
     }
@@ -135,10 +148,8 @@ const navigate = useNavigate();
     setResult(null);
 
     try {
-      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
-      const fullPrompt = `${prompt}\n\n<User_Idea>\n${idea}\n</User_Idea>`;
+     
+      const fullPrompt = `${prompt}\n\n<User_Idea>\n${description}\n</User_Idea>`;
       const response = await model.generateContent(fullPrompt);
       const text = response.response.text();
       
@@ -155,6 +166,19 @@ const navigate = useNavigate();
       setLoading(false);
     }
   };
+  
+  const handlewaitlist = async ()=>{
+
+
+ handleAIResponse({
+      description,
+      model,
+      navigate,
+      username,
+      setButtonLoading,
+    });
+    
+  }
 
   const getVerdictColor = (verdict) => {
     if (verdict.includes("FAIL")) return "text-red-600";
@@ -300,8 +324,8 @@ const navigate = useNavigate();
               Describe Your Business Idea
             </label>
             <textarea
-              value={idea}
-              onChange={(e) => setIdea(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter your startup idea here... Be specific about the problem you're solving, your target market, and your solution."
               className="w-full h-48 p-6 border-2 rounded-2xl text-lg focus:outline-none transition-all"
               style={{ 
@@ -547,18 +571,40 @@ const navigate = useNavigate();
             </div>
 
             {/* Try Again Button */}
-            <button
-              onClick={() => {
-                setResult(null);
-                setIdea("");
-                setError(null);
-              }}
-              className="w-full py-5 rounded-2xl text-white font-bold text-xl transition-all transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3"
-              style={{ backgroundColor: '#003F2F' }}
-            >
-              <Lightbulb className="w-6 h-6" />
-              Validate Another Idea
-            </button>
+
+<div className="flex flex-col sm:flex-row gap-4 mt-8 w-full max-w-md mx-auto">
+  {/* Primary Button */}
+  <button
+    onClick={handlewaitlist}
+    disabled={buttonLoading}
+    className={`flex-1 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md
+      ${
+        buttonLoading
+          ? "bg-[#003F2F]/70 cursor-not-allowed text-white"
+          : "bg-gradient-to-r from-[#005C44] to-[#008C6F] text-white hover:shadow-xl hover:scale-[1.02]"
+      }`}
+  >
+    {buttonLoading ? (
+      <div className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    ) : (
+      "Generate Waitlist"
+    )}
+  </button>
+
+  {/* Secondary Button */}
+  <button
+    onClick={() => {
+      setResult(null);
+      setDescription("");
+      setError(null);
+    }}
+    className="flex-1 px-1 py-4 rounded-xl font-semibold text-lg text-[#003F2F] bg-white border border-[#003F2F] transition-all duration-300 flex items-center justify-center gap-2 hover:bg-[#eef9f6] hover:shadow-md"
+  >
+    <Lightbulb className="w-5 h-5" />
+    Validate Another Idea
+  </button>
+</div>
+
           </div>
         )}
       </div>
