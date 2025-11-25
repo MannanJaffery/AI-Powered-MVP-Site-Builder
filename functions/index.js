@@ -10,11 +10,11 @@ if (isLocal) require("dotenv").config();
 
             const successUrl = isLocal
         ? "http://localhost:5173/success"
-        : "https://mvp-go-seven.vercel.app/success";
+        : "https://bloomqueue.com/success";
 
       const cancelUrl = isLocal
         ? "http://localhost:5173/cancel"
-        : "https://mvp-go-seven.vercel.app/cancel";
+        : "https://bloomqueue.com/cancel";
 
 
         const linkingurl = isLocal
